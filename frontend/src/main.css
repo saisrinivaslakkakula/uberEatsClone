@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Uber Move Text';
+  src: url("//db.onlinewebfonts.com/t/11469c307f0de6481e3a04cc5d54ae93.eot");
+}
+
 :root {
   font-size: 16px;
 }
@@ -10,7 +15,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Uber Move Text';
 }
 
 .container {
@@ -27,7 +32,55 @@ header .logo h1 span {
   font-weight: 600;
 }
 
+header .hamburger-menu {
+  color: black;
+}
+
+header .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+header .searchBar {
+  margin-left: auto;
+}
+
+header .header-option {
+  font-family: 'Uber Move Text';
+  padding: 2vh;
+  margin: 2vh;
+  font-size: 1.2rem;
+  background-color: #f0f0f0;
+  color: black;
+  border-radius: 500px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+header .header-option svg {
+  margin-right: 1rem;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+header .currentDetails,
+header .searchBar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 footer{
+  /*font-family: 'Uber Move Text';*/
   padding: 5vh;
   background-color: black;
 }
@@ -77,43 +130,7 @@ footer p {
   padding: 5vh;
 }
 
-header .container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
 
-header .searchBar {
-  margin-left: auto;
-}
-
-header .header-option {
-  padding-left: 5rem;
-  letter-spacing: 0.6px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-header .header-option svg {
-  margin-right: 1rem;
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-}
-
-header .currentDetails,
-header .searchBar {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
 
 .options {
   padding: 1.2rem 0;
