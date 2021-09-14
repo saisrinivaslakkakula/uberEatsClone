@@ -32,9 +32,15 @@ header .logo h1 span {
   font-weight: 600;
 }
 
-header .hamburger-menu {
-  color: black;
+.logo h1 {
+  font-weight: 300;
 }
+
+.logo h1 span {
+  color: #06c167;
+  font-weight: 600;
+}
+
 
 header .container {
   display: -webkit-box;
@@ -49,6 +55,92 @@ header .searchBar {
   margin-left: auto;
 }
 
+header .menu-bars{
+  /*margin-left: 2rem;*/
+  padding-top: 2rem;
+  margin-right: 1rem;
+  font-size: 2rem;
+  color: black;
+  /*background-color: white;*/
+
+}
+
+header .menu-bars-close{
+  margin-left: 10rem;
+  font-size: 2rem;
+  color: black;
+}
+header .menu-bars:hover{
+  color: black;
+}
+
+.nav-menu{
+  width: 300px;
+  height: 100vh;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  transition: 850ms;
+  list-style: none;
+}
+.nav-menu .nav-menu-items{
+  list-style: none;
+}
+.nav-menu.active{
+  left: 0;
+  transition: 350ms;
+  list-style: none;
+}
+ .nav-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  height: 60px;
+}
+
+.nav-text a{
+   color: black;
+   text-decoration: none;
+}
+
+.nav-text a:hover{
+  color: black;
+}
+ .nav-text button{
+  color:white;
+  background-color: black;
+  border-color: black;
+  border: black;
+  font-size: 1rem;
+  margin-top: 2rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+}
+
+ .nav-text button:hover{
+  background-color: #383837;
+  border-color: #383837;
+  border: black;
+}
+
+ .nav-text button:focus{
+  background-color: #383837;
+  border-color: #383837;
+  border: black;
+}
+
+ .navbar-toggle{
+  background-color: white;
+  width: 100%;
+  justify-content: start;
+}
 header .header-option {
   font-family: 'Uber Move Text';
   padding: 2vh;
@@ -63,6 +155,10 @@ header .header-option {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+ .header-sign-in-button{
+  text-decoration: none !important; 
 }
 
 header .header-option svg {
@@ -128,6 +224,41 @@ footer a:hover {
 footer p {
   color: white;
   padding: 5vh;
+}
+
+
+.login-container{
+  display: flex;
+ justify-content: center;
+ padding-top: 5rem;
+ padding-bottom: 3rem;
+}
+
+.form-center{
+  padding-top: 2rem;
+  padding-bottom: 5rem;
+}
+
+.form-center input{
+  margin-top: 1rem;
+}
+.form-center button{
+  margin-top: 1rem;
+}
+
+.form-center p{
+  margin-top: 1rem;
+}
+
+.form-center a{
+  margin-top: 1rem;
+  color: #06c167;
+  text-decoration: none;
+}
+.form-center a:hover{
+  margin-top: 1rem;
+  color: #06c167;
+  text-decoration: underline;
 }
 
 

@@ -1,11 +1,21 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import {BrowserRouter as Router, Switch,Route} from 'react-router-dom'
+import HomeScreen from "./screens/HomeScreen";
+import LoginScreen from "./screens/LoginScreen";
+import SignUpScreen from "./screens/SignUpScreen";
 function App() {
   return (
     <div className="App">
+      <Router>
       <Header/>
-      <h1> Welcome to Uber Eats..</h1>
+       <div className="container">
+          <Route path='/' component={HomeScreen} exact/>
+          <Route path='/login' component={LoginScreen}/>
+          <Route path='/signup' component={SignUpScreen}/>
+       </div> 
       <Footer/>
+      </Router>
     </div>
   );
 }

@@ -1,18 +1,20 @@
 import React from 'react'
-import * as FaIcons from 'react-icons/fa'
+import SideBar from './SideBar'
+import { Link } from 'react-router-dom'
 const Header = () => {
     return (
         <header>
+            
             <div className="container header">
-                <div className='menu-bars'> <FaIcons.FaBars/></div>
+                 <SideBar/>
                 <div className="logo">
-                    <h1>Uber <span>Eats</span></h1>
+                    <Link style={{ textDecoration: 'none', color:'black' }} to="/"><h1>Uber <span>Eats</span></h1></Link>
                 </div>
                 <div className="searchBar">
-                    
+                <Link style={{ textDecoration: 'none', color:'black' }} to="/login">
                     <div className="header-option">
-                        <span>Sign in</span>
-                    </div>
+                        <a><span className="header-sign-in-button">Sign in</span> </a>
+                    </div></Link>
                 </div>
             </div>
         </header>
