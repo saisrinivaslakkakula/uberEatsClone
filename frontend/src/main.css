@@ -20,7 +20,8 @@ body {
 
 .container {
   width: calc(100% - 120px);
-  margin: auto;
+  margin-left: auto;
+
 }
 
 header .logo h1 {
@@ -79,7 +80,6 @@ header .menu-bars:hover{
   height: 100vh;
   background-color: white;
   display: flex;
-  justify-content: center;
   position: fixed;
   top: 0;
   left: -100%;
@@ -88,6 +88,19 @@ header .menu-bars:hover{
 }
 .nav-menu .nav-menu-items{
   list-style: none;
+
+}
+
+.nav-menu-items li{
+  margin-top: 1rem;
+}
+
+.nav-menu-items p{
+  font-weight: bold;
+}
+.nav-menu-items span{
+  margin-left: 1rem;
+  
 }
 .nav-menu.active{
   left: 0;
@@ -173,6 +186,12 @@ header .searchBar {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+
+.userImg{
+  height: inherit;
+  width: 3rem;
+  border-radius: 50%;
 }
 
 footer{
