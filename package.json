@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./backend/index.js"
+    "start": "node ./backend/index.js",
+    "server": "nodemon ./backend/index.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\"  \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -25,5 +28,8 @@
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.12"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.1"
   }
 }

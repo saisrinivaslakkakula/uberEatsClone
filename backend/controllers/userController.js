@@ -46,9 +46,12 @@ const addUser = async(req,res)=>{
 
 const authUser= async(req,res) =>{
     const {email,password} = req.body 
+    console.log("hi")
     db.query("SELECT * FROM users WHERE email =?",[email], (err,result)=>{
         if(err){
-            throw new Error(err)
+            res.status(400).json({
+                message:err
+            })
         }
         if(result.length ===1){
             if(result[0].password === password){
@@ -62,11 +65,16 @@ const authUser= async(req,res) =>{
                 })
             }
             else{
-                res.send("Email or password doesn't match!")
+                
+                res.status(400).json({
+                    message:"Email Id/ Password doesn't match. Please try again."
+                })
             }
         }
         else{
-            res.send(" Email or password doesn't match!")
+            res.status(400).json({
+                message:"Email Id/ Password doesn't match. Please try again."
+            })
         }
          
 
