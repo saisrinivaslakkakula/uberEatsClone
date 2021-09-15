@@ -1,15 +1,13 @@
 const express = require('express')
-const bodyParser = require('body-parser')
 const app = express()
 app.use(express.json()) 
 const mysql = require('mysql')
-const db = mysql.createConnection({
-host     : 'ubereatsdb.ccz6fxp12byz.us-east-2.rds.amazonaws.com',
-  user     : 'admin',
-  password : 'mydatabase',
-  database:'ubereats'
-})
+const dotenv = require('dotenv')
+const db = require('./dbCon')
+const userRoutes = require('./Routes/userRoutes')
+const {notFound,errorHandler} = require('./middleware/errorHandlerMiddleware')
 
+dotenv.config()
 db.connect((err)=>{
     if(err){
         console.error(err.stack)
@@ -17,7 +15,13 @@ db.connect((err)=>{
     }
     console.log("Connected To DB "+db.threadId)
 })
-app.get('/allusers',(req,res)=>{
+app.use('/api/users',userRoutes)
+app.use(notFound)
+app.use(errorHandler)
+
+
+
+/*app.get('/allusers',(req,res)=>{
     let sql = 'SELECT * FROM users'
     db.query(sql,(err,result) =>{
         if(err) throw err;
@@ -25,16 +29,9 @@ app.get('/allusers',(req,res)=>{
         res.send(result)
 
     })
-}) 
+}) */
 
-app.post('/api/adduser',async(req,res)=>{
-    const{firstName,lastName,email,phone,password} = req.body
-    let sql = "INSERT INTO `users` (`firstName`, `lastName`, `email`, `password`, `phone`) VALUES ('"+firstName+"', '"+lastName+"','"+email+"','"+password+"',"+phone+" ) "
-    db.query(sql,(err,result)=>{
-        if(err) throw err;
-        res.send(result)
-    })
-})
+
 app.get('/',(req,res)=>{
     res.send("API Running...")
 })
