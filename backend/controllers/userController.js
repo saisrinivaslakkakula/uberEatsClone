@@ -2,9 +2,11 @@ const crypto = require('crypto')
 const generateToken = require('../utils/generateToken')
 const db = require('../dbCon')
 const addUser = async(req,res)=>{
-    const{firstName,lastName,email,phone,password} = req.body
+    const{firstName,lastName,email,phone,password,Street,City,State,Country,ZipCode} = req.body
+    //console.log(req.body)
     let id = crypto.createHash('sha256').update(email+firstName).digest('base64')
-    let sql = "INSERT INTO `users` (`id`,`firstName`, `lastName`, `email`, `password`, `phone`) VALUES ('"+id+"', '"+firstName+"', '"+lastName+"','"+email+"','"+password+"',"+phone+" ) "
+    let sql = "INSERT INTO `users` (`id`,`firstName`, `lastName`, `email`, `password`, `phone`, `street`, `city`, `state`,`country`,`zipcode`) VALUES ('"+id+"', '"+firstName+"', '"+lastName+"','"+email+"','"+password+"','"+phone+"','"+Street+"','"+City+"','"+State+"','"+Country+"','"+ZipCode+"' ) "
+    //console.log(sql)
     try { 
 
         db.query("SELECT * FROM users WHERE email =?",[email], (err,result)=>{
@@ -27,8 +29,15 @@ const addUser = async(req,res)=>{
                         })
                     }
                     res.status(201).json({
-                        name:firstName,
-                        email:email
+                        firstName:firstName,
+                        lastName:lastName,
+                        email:email,
+                        phone:phone,
+                        Street:Street,
+                        City:City,
+                        State:State,
+                        Country:Country
+
                     })
             
             })
@@ -46,7 +55,7 @@ const addUser = async(req,res)=>{
 
 const authUser= async(req,res) =>{
     const {email,password} = req.body 
-    console.log("hi")
+    //console.log("hi")
     db.query("SELECT * FROM users WHERE email =?",[email], (err,result)=>{
         if(err){
             res.status(400).json({
@@ -60,6 +69,12 @@ const authUser= async(req,res) =>{
                     firstName: result[0].firstName,
                     lastName: result[0].lastName,
                     email: result[0].email,
+                    phone:result[0].phone,
+                    Street:result[0].Street,
+                    City:result[0].City,
+                    State:result[0].State,
+                    Country:result[0].Country,
+                    ZipCoce:result[0].ZipCode,
                     token: generateToken(result[0].id),
 
                 })

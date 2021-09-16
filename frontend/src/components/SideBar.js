@@ -36,6 +36,14 @@ const SideBar = () => {
                     {userInfo ? 
                     <div className="nav-menu-items">
                         <div> <li> <img className="userImg" src="/images/defaultuser.jpeg"></img> {userInfo.firstName}</li></div>
+                        <p> 
+                            <li>
+                                <Link style={{ textDecoration: 'none', color:'black' }} to="/profile"> 
+                                <FaIcons.FaUserAlt/> <span> View Profile</span>
+                                </Link>
+                                 
+                            </li>
+                        </p>
                         <p> <li> <FaIcons.FaReceipt/> <span>Orders</span></li></p>
                         <p> <li> <BsIcons.BsWallet/> <span>Wallet</span></li></p>
                         <p> <li> <IoIcons.IoIosHelpBuoy/> <span>Help</span></li></p>

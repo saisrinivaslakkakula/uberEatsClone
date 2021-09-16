@@ -97,6 +97,7 @@ header .menu-bars:hover{
 
 .nav-menu-items p{
   font-weight: bold;
+  cursor: pointer;
 }
 .nav-menu-items span{
   margin-left: 1rem;
@@ -192,6 +193,27 @@ header .searchBar {
   height: inherit;
   width: 3rem;
   border-radius: 50%;
+}
+
+.userImg-enlarged{
+  height: 8rem;
+  width: 8rem;
+  padding: unset;
+  margin: unset;
+  border-radius: 50%;
+}
+
+.input-border{
+  width: 80% !important;
+}
+
+.update-profile{
+  margin: 2rem;
+}
+
+.update-profile-button{
+  display: flex;
+  justify-content: center;
 }
 
 footer{
