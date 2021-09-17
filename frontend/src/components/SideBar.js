@@ -48,7 +48,7 @@ const SideBar = () => {
                         <p> <li> <BsIcons.BsWallet/> <span>Wallet</span></li></p>
                         <p> <li> <IoIcons.IoIosHelpBuoy/> <span>Help</span></li></p>
                         <p> <li> <IoIcons.IoMdPricetag/> <span>Promotions</span></li></p>
-                        <p style={{'color':'#757575'}}> <li onClick={logoutHandler}> 
+                        <p onClick={showSidebar} style={{'color':'#757575'}}> <li onClick={logoutHandler}> 
                             Sign out
                             </li></p>
                     </div>
@@ -56,7 +56,7 @@ const SideBar = () => {
                     :
                         <div>
                             <li className='nav-text'>
-                                <Link to="/login"> <button > Sign In</button></Link>
+                                <Link to="/login"> <button onClick={showSidebar}> Sign In</button></Link>
                             </li>
                             <li className='nav-text'>
                                 <Link to="#"><a> Add your restaurant</a></Link>

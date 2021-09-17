@@ -1,4 +1,4 @@
-import {USER_LOGIN_REQUEST,USER_LOGIN_SUCCESS,USER_LOGIN_FAIL, USER_LOGOUT, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_DETAILS_FAIL} from '../constants/userConstants'
+import {USER_LOGIN_REQUEST,USER_LOGIN_SUCCESS,USER_LOGIN_FAIL, USER_LOGOUT, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_DETAILS_FAIL, USER_PROFILE_UPDATE_REQUEST, USER_PROFILE_UPDATE_SUCCESS, USER_PROFILE_UPDATE_FAIL} from '../constants/userConstants'
 import axios from 'axios'
 
 export const login = (email,password) => async(dispatch) =>{
@@ -40,7 +40,7 @@ export const register = (firstName,lastName,email, password,phone,Street,City,St
         }
         //console.log(config)
         const {data} = await axios.post('/api/users/adduser',{firstName,lastName,email, password,phone,Street,City,State,Country,ZipCode},config)
-        console.log(data)
+        //console.log(data)
          dispatch({
             type : USER_REGISTER_SUCCESS,
             payload:data,
@@ -89,6 +89,37 @@ export const getUserDetails = (id) => async(dispatch,getState) =>{
         }) 
     }
 }
+
+export const updateUserProfile = (user) => async(dispatch,getState) =>{
+    try {
+        dispatch({
+            type:USER_PROFILE_UPDATE_REQUEST
+        })
+     
+        const {userLogin} = getState()
+        const {userInfo} = userLogin
+        const config = {
+            headers: {
+                'Content-Type':'application/json',
+                Authorization: `Bearer ${userInfo.token}`,
+            }
+        }
+        const {data} = await axios.put(`/api/users/profile`,user,config)
+         dispatch({
+            type : USER_PROFILE_UPDATE_SUCCESS,
+            payload:data,
+        })
+       
+        
+    } catch (error) {
+
+         dispatch({
+            type:USER_PROFILE_UPDATE_FAIL,
+            payload:error.response && error.response.data.message ? error.response.data.message: error.message
+        }) 
+    }
+}
+
 
 export const logout = () =>(dispatch)=>{
     localStorage.removeItem('userInfo')

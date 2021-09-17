@@ -8,7 +8,7 @@ const Loader = () => {
             height : '100px',
             display: 'block',
         }}>
-            <span className='sr-only'> Loading...</span>
+           
         </Spinner>
         
     )
