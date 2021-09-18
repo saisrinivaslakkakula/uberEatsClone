@@ -19,13 +19,16 @@ const Profile = ({ history }) => {
     const [image, setImage] = useState('')
     const [message, setMessage] = useState(null)
     const dispatch = useDispatch()
+
     const userDetails = useSelector(state => state.userDetails)
     const { user, loading, error } = userDetails
+
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
+    
     const userUpdateProfile = useSelector(state => state.userUpdateProfile)
-    const { userupdateDetails } = userUpdateProfile
-    const [success,setSuccess] = useState('')
+    const { success } = userUpdateProfile
+
     useEffect(() => {
         
         if (!userInfo) {
@@ -51,7 +54,7 @@ const Profile = ({ history }) => {
             }
         }
         
-    }, [dispatch, history, user, loading, error, userInfo,userupdateDetails])
+    }, [dispatch, history, user, loading, error, userInfo])
 
     const submitHandler = (e)=>{
         e.preventDefault()
@@ -67,7 +70,7 @@ const Profile = ({ history }) => {
             ZipCode
         }
         dispatch(updateUserProfile(userobj))
-        setSuccess("Success!")
+
     }
 
     return (

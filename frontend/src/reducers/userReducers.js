@@ -49,13 +49,13 @@ const userDetailsReducer = (state = {user:{}},action) =>{
 
 }
 
-const userUpdateProfileReducer = (state = {userupdateDetails:{}},action) =>{
+const userUpdateProfileReducer = (state = {},action) =>{
 
     switch(action.type){
         case USER_PROFILE_UPDATE_REQUEST:
             return({...state,loading:true})
         case USER_PROFILE_UPDATE_SUCCESS:
-            return({loading:false,user:action.payload})
+            return({loading:false,success:true,user:action.payload})
         case USER_PROFILE_UPDATE_FAIL:
             return({loading:false, error:action.payload})
         default:
