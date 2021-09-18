@@ -10,12 +10,12 @@ const HomeScreen = () => {
     const { user, loading, error } = userDetails
     const dispatch = useDispatch()
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         if(userInfo){
             dispatch(getUserDetails('profile'))
             
         }
-    },[userInfo,dispatch])
+    },[userInfo,dispatch])*/
 
 
     return (
@@ -23,7 +23,7 @@ const HomeScreen = () => {
             {userInfo
             ?
             <div style={{margin:'10rem'}}>
-                <h1 > Hello {user.firstName},</h1>
+                <h1 > Hello {userInfo.firstName},</h1>
                 <h1 > Welcome to Uber Eats. </h1>
             </div>
             

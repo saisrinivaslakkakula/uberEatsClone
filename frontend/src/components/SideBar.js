@@ -21,12 +21,12 @@ const SideBar = () => {
         dispatch(logout())
     }
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         if(userInfo){
             dispatch(getUserDetails('profile'))
             
         }
-    },[userInfo,dispatch])
+    },[userInfo,dispatch])*/
 
     return (
         <div>
@@ -43,10 +43,10 @@ const SideBar = () => {
                     </li>
                     {userInfo ? 
                     <div className="nav-menu-items">
-                        {user.image !== "null"?
-                            <div> <li> <img className="userImg" src={user.image}></img> {user.firstName}</li></div>
+                        {userInfo.image && userInfo.image!=="null"?
+                            <div> <li> <img className="userImg" src={userInfo.image}></img> {userInfo.firstName}</li></div>
                         :
-                        <div> <li> <img className="userImg" src="/images/defaultuser.jpeg"></img> {user.firstName}</li></div>
+                        <div> <li> <img className="userImg" src="/images/defaultuser.jpeg"></img> {userInfo.firstName}</li></div>
                         }
                         
                         <p> 
