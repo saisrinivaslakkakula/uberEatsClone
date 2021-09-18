@@ -2,11 +2,13 @@ const crypto = require('crypto')
 const generateToken = require('../utils/generateToken')
 const db = require('../dbCon')
 const addUser = async (req, res) => {
-    const { firstName, lastName, email, phone, password, Street, City, State, Country, ZipCode } = req.body
+    const { firstName, lastName, email, phone, password, Street, City, State, Country, ZipCode, image } = req.body
     //console.log(req.body)
     let id = crypto.createHash('sha256').update(email + firstName).digest('base64')
-    let sql = "INSERT INTO `users` (`id`,`firstName`, `lastName`, `email`, `password`, `phone`, `street`, `city`, `state`,`country`,`zipcode`) VALUES ('" + id + "', '" + firstName + "', '" + lastName + "','" + email + "','" + password + "','" + phone + "','" + Street + "','" + City + "','" + State + "','" + Country + "','" + ZipCode + "' ) "
-    //console.log(sql)
+    let sql = "INSERT INTO `users` (`id`,`firstName`, `lastName`, `email`, `password`, `phone`, `street`, `city`, `state`,`country`,`zipcode`, `photo_path`) VALUES ('" + id + "', '" + firstName + "', '" + lastName + "','" + email + "','" + password + "','" + phone + "','" + Street + "','" + City + "','" + State + "','" + Country + "','" + ZipCode +"','"+image+"' ) "
+
+   // let sql = "INSERT INTO `users` (`id`,`firstName`, `lastName`, `email`, `password`, `phone`, `street`, `city`, `state`,`country`,`zipcode`,`photo_path`) \
+   //                         VALUES ('?','?','?','?','?','?','?','?','?','?','?','?' )"
     try {
 
         db.query("SELECT * FROM users WHERE email =?", [email], (err, result) => {
@@ -22,23 +24,43 @@ const addUser = async (req, res) => {
                 })
             }
             else {
-                db.query(sql, (err, result) => {
+                const queryparams = [
+                        id,
+                        firstName,
+                        lastName,
+                        email,
+                        password,
+                        phone,
+                        Street,
+                        City,
+                        Country,
+                        ZipCode,
+                        image
+
+
+                ]
+                db.query(sql, queryparams,(err, result) => {
                     if (err) {
                         res.status(500).json({
-                            message: " Internal Server Error"
+                            message: " Internal Server Error:"+err
                         })
                     }
-                    res.status(201).json({
-                        firstName: firstName,
-                        lastName: lastName,
-                        email: email,
-                        phone: phone,
-                        Street: Street,
-                        City: City,
-                        State: State,
-                        Country: Country
+                    else{
 
-                    })
+                        res.status(201).json({
+                            firstName: firstName,
+                            lastName: lastName,
+                            email: email,
+                            phone: phone,
+                            Street: Street,
+                            City: City,
+                            State: State,
+                            Country: Country
+    
+                        })
+
+                    }
+
 
                 })
 
@@ -75,6 +97,7 @@ const authUser = async (req, res) => {
                     State: result[0].State,
                     Country: result[0].Country,
                     ZipCoce: result[0].ZipCode,
+                    image:result[0].photo_path,
                     token: generateToken(result[0].id),
 
                 })
@@ -116,6 +139,7 @@ const getUserProfile = async (req, res) => {
                     State: result[0].state,
                     Country: result[0].country,
                     ZipCode: result[0].zipcode,
+                    image:result[0].photo_path
 
                 })
             }

@@ -16,6 +16,7 @@ const Profile = ({ history }) => {
     const [State, setState] = useState('')
     const [Country, setCountry] = useState('')
     const [ZipCode, setZipCode] = useState('')
+    const [image, setImage] = useState('')
     const [message, setMessage] = useState(null)
     const dispatch = useDispatch()
     const userDetails = useSelector(state => state.userDetails)
@@ -45,6 +46,8 @@ const Profile = ({ history }) => {
                 setState(user.State)
                 setCountry(user.Country)
                 setZipCode(user.ZipCode)
+                setImage(user.image)
+                
             }
         }
         

@@ -1,24 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import * as FaIcons from 'react-icons/fa'
 import * as AiIcons from 'react-icons/ai'
 import * as BsIcons from 'react-icons/bs'
 import * as IoIcons from 'react-icons/io'
 import { useSelector, useDispatch } from 'react-redux'
-import { logout } from '../actions/userActions'
+import { logout,getUserDetails } from '../actions/userActions'
 const SideBar = () => {
     const [sidebar, setSidebar] = useState()
     const showSidebar = () => {
         setSidebar(!sidebar)
     }
     const userLogin = useSelector(state => state.userLogin)
-    const dispatch = useDispatch()
     const { userInfo } = userLogin
-    
-    
+    const dispatch = useDispatch()
     const logoutHandler = () => {
         dispatch(logout())
     }
+
 
     return (
         <div>
@@ -35,7 +34,12 @@ const SideBar = () => {
                     </li>
                     {userInfo ? 
                     <div className="nav-menu-items">
+                        {userInfo.image !== "null"?
+                            <div> <li> <img className="userImg" src={userInfo.image}></img> {userInfo.firstName}</li></div>
+                        :
                         <div> <li> <img className="userImg" src="/images/defaultuser.jpeg"></img> {userInfo.firstName}</li></div>
+                        }
+                        
                         <p> 
                             <li>
                                 <Link style={{ textDecoration: 'none', color:'black' }} to="/profile"> 
