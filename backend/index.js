@@ -7,6 +7,8 @@ const dotenv = require('dotenv')
 const db = require('./dbCon')
 const userRoutes = require('./Routes/userRoutes')
 const uploadRoutes = require('./Routes/uploadRoutes')
+const adminRoutes = require('./Routes/adminRoutes')
+const restaurantRoutes = require('./Routes/restaurantRoutes')
 const {notFound,errorHandler} = require('./middleware/errorHandlerMiddleware')
 
 dotenv.config()
@@ -19,7 +21,8 @@ db.connect((err)=>{
 })
 app.use('/api/users',userRoutes)
 app.use('/api/upload',uploadRoutes)
-
+app.use('/api/admin',adminRoutes)
+app.use('/api/restaurant',restaurantRoutes)
 app.use('/uploads',express.static(path.join(__dirname,'../','/uploads')))
 
 app.use(notFound)

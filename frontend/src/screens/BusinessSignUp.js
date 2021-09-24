@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { register } from '../actions/userActions'
-import { Modal, Button } from 'react-bootstrap'
-import ReactCrop from 'react-image-crop'
+import { register } from '../actions/adminActions'
 import axios from 'axios'
 
-const SignUpScreen = ({ location, history }) => {
+const BusinessSignUp = ({ location, history }) => {
+
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -27,12 +26,12 @@ const SignUpScreen = ({ location, history }) => {
     const [uploading, setUploading] = useState(false)
     const [src, selectPhoto] = useState(null) // select Photo as blob
     const [photoFile, selectPhotoFile] = useState(null) // select photo as file to get the name
-    const redirect = location.search ? location.search.split("=")[1] : '/'
+    const redirect = location.search ? location.search.split("=")[1] : '/adminHome'
     const [errorMessage, setErrorMessage] = useState(null)
     const [countriesData, setCountriesData] = useState(null)
     const dispatch = useDispatch()
-    const userRegister = useSelector(state => state.userRegister)
-    const { userInfo, loading, error } = userRegister
+    const adminRegister = useSelector(state => state.adminRegister)
+    const { userInfo, loading, error } = adminRegister
     const [blobResult, setBlobResult] = useState(null)
     const [crop, setCrop] = useState({
         aspect: 1 / 1, width: 125,
@@ -40,54 +39,11 @@ const SignUpScreen = ({ location, history }) => {
 
     });
 
-    const setCountries = async ()=>{
-        const countriesAPIResult = await axios.get("https://restcountries.eu/rest/v2/all")
-        const {data} = countriesAPIResult
-        setCountriesData(data)
-    }
-
-    const getCroppedImg = async (e) => {
-        e.preventDefault()
-
-        const canvas = document.createElement('canvas')
-        const scaleX = image.naturalWidth / image.width
-        const scaleY = image.naturalHeight / image.height
-        canvas.width = crop.width;
-        canvas.height = crop.height;
-        const ctx = canvas.getContext('2d');
-        //console.log(crop)
-        ctx.drawImage(
-            image,
-            crop.x * scaleX,
-            crop.y * scaleY,
-            crop.width * scaleX,
-            crop.height * scaleY,
-            0,
-            0,
-            crop.width,
-            crop.height
-        )
-        const base64Image = canvas.toDataURL('image/jpeg')
-        setResult(base64Image)
-
-        canvas.toBlob(blob => {
-            setBlobResult(blob)
-        })
-        handleClose()
-        //uploadHandler(e)
-
-    }
-
-    const handleClose = () => setShow(false)
-    const handleShow = () => setShow(true)
-
     useEffect(() => {
         if (userInfo) {
             history.push(redirect)
         }
-        setCountries()
     }, [history, userInfo, redirect])
-
 
     const handleFileUpload = async (e) => { // get file form <input Tag>
         e.preventDefault()
@@ -119,7 +75,7 @@ const SignUpScreen = ({ location, history }) => {
         if (password !== confirmPassword)
             setMessage("Passwords Do Not Match")
         else {
-            dispatch(register(firstName, lastName, email, password, phone, Street, City, State, Country, ZipCode, image))
+            dispatch(register(firstName, lastName, email, password, phone, image))
         }
 
 
@@ -141,7 +97,7 @@ const SignUpScreen = ({ location, history }) => {
                 <div className="col-md-4"></div>
                 <div className="col-md-6">
                     <form className="form-center" onSubmit={submitHandler}>
-                        
+
                         {loading && <Loader></Loader>}
                         <div className="form-group">
                             <input type="text" name="firstName" className="form-control pad" required onChange={(e) => setFirstName(e.target.value)} placeholder="First Name"></input>
@@ -150,24 +106,6 @@ const SignUpScreen = ({ location, history }) => {
                             <input type="password" name="password" className="form-control pad" required onChange={(e) => setPassword(e.target.value)} placeholder="Password"></input>
                             <input type="password" name="confirmPassword" className="form-control pad" required onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password"></input>
                             <input type="tel" name="phone" className="form-control pad" required onChange={(e) => setPhone(e.target.value)} placeholder="Phone Number"></input>
-                            <input type="text" name="Street" className="form-control pad" required onChange={(e) => setStreet(e.target.value)} placeholder="Street Name, Appt/Suite number"></input>
-                            <input type="text" name="City" className="form-control pad" required onChange={(e) => setCity(e.target.value)} placeholder="City"></input>
-                            <input type="text" name="State" className="form-control pad" required onChange={(e) => setState(e.target.value)} placeholder="State"></input>
-                            {countriesData
-                            ?
-                            <select className="form-control my-3" name="Country" placeholder="Country" onChange={(e) => setCountry(e.target.value)}>
-                                <option>
-                                    Country
-                                </option>
-                                {countriesData.map(x => <option value={x.name}> {x.name}</option>
-                                )
-                                }
-                            </select>
-                            :
-                            <input type="text" name="Country" className="form-control pad" required onChange={(e) => setCountry(e.target.value)} placeholder="Country"></input>
-                            }
-                            
-                            <input type="text" name="ZipCode" className="form-control pad" required onChange={(e) => setZipCode(e.target.value)} placeholder="ZipCode"></input>
                             <p>
                                 Upload Photo &nbsp;
                                 <input type="file" accept="image/*" className="form-control-file" placeholder="Upload Photo" onChange={handleFileUpload} />
@@ -178,19 +116,15 @@ const SignUpScreen = ({ location, history }) => {
                                 {error && <Message variant='danger'>{error}</Message>}
                                 <button class="btn btn-secondary" type="submit">Sign Up</button>
                             </div>
-                            <p> Already User? <span>
-                                <Link to="/login"><a> Sign In</a></Link>
+                            <p> Already Existing Restauraunt Owner? <span>
+                                <Link to="/login">Sign In</Link>
                             </span> </p>
                         </div>
                     </form>
                 </div>
             </div>
-
-
-
-
         </div>
     )
 }
 
-export default SignUpScreen
+export default BusinessSignUp

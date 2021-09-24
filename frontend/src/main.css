@@ -216,6 +216,17 @@ header .searchBar {
   justify-content: center;
 }
 
+.adminHomePageMessage{
+    margin:  2rem;
+}
+
+.adminHomePageMessage .card{
+  margin:  2rem;
+  display: flex;
+  justify-content: center;
+}
+
+
 footer{
   /*font-family: 'Uber Move Text';*/
   padding: 5vh;

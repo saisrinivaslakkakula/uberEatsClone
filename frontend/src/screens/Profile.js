@@ -8,6 +8,7 @@ const Profile = ({ history }) => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
+    const [image, setImage] = useState(null)
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [phone, setPhone] = useState('')
@@ -16,7 +17,6 @@ const Profile = ({ history }) => {
     const [State, setState] = useState('')
     const [Country, setCountry] = useState('')
     const [ZipCode, setZipCode] = useState('')
-    const [image, setImage] = useState('')
     const [message, setMessage] = useState(null)
     const dispatch = useDispatch()
 
@@ -82,7 +82,12 @@ const Profile = ({ history }) => {
             <form className="form-center" onSubmit={submitHandler}>
             <div className="row py-2">
                 <div className="col-md-3">
+                    {image?
+                    <img className="userImg-enlarged" src={image}></img>
+                    :
                     <img className="userImg-enlarged" src="/images/defaultuser.jpeg"></img>
+                    }
+                    
                 </div>
                 <div className="col-md-9">
                     <div className="row py-2">
@@ -108,10 +113,7 @@ const Profile = ({ history }) => {
 
                     </div>
                 </div>
-            </div>
-
-
-            
+            </div>    
                 <div className="row">
                     <div className="col-md-3">
                         <label>Full Name</label>

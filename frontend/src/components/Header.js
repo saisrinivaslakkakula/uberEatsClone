@@ -6,6 +6,8 @@ const Header = () => {
 
     const userLogin = useSelector(state=>state.userLogin)
     const {userInfo} = userLogin
+    const adminLogin = useSelector(state=>state.adminLogin)
+    const {adminInfo} = adminLogin
     return (
         <header>
             
@@ -14,7 +16,7 @@ const Header = () => {
                 <div className="logo">
                     <Link style={{ textDecoration: 'none', color:'black' }} to="/"><h1>Uber <span>Eats</span></h1></Link>
                 </div>
-                {!userInfo&&
+                {!(userInfo || adminInfo) &&
                 <div className="searchBar">
                 <Link style={{ textDecoration: 'none', color:'black' }} to="/login">
                     <div className="header-option">

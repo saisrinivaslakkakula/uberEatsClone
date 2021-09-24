@@ -1,0 +1,10 @@
+const express = require('express')
+const router = express.Router()
+const protect = require('../middleware/authMiddleware')
+const {getAdminProfile} = require('../controllers/adminController')
+const {addRestaurant,getRestaurantProfile,getRestaurantProfileforAdmin,getUserProfile,updateUserProfile} = require('../controllers/restaurantController')
+router.route('/add').post(protect,addRestaurant)
+//router.post('/login',authUser)
+router.post('/profile',getRestaurantProfile)
+router.post('/profileadm',getRestaurantProfileforAdmin)
+module.exports = router
