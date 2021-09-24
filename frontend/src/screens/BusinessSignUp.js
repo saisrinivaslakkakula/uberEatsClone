@@ -85,7 +85,7 @@ const BusinessSignUp = ({ location, history }) => {
         <div>
             <div className="login-container">
                 <div className="logo">
-                    <h1>Uber <span>Eats</span></h1>
+                <h1>Uber <span>Eats</span> | Business</h1>
                 </div>
             </div>
             <div className="row">
@@ -117,7 +117,7 @@ const BusinessSignUp = ({ location, history }) => {
                                 <button class="btn btn-secondary" type="submit">Sign Up</button>
                             </div>
                             <p> Already Existing Restauraunt Owner? <span>
-                                <Link to="/login">Sign In</Link>
+                                <Link to="/business-login">Sign In</Link>
                             </span> </p>
                         </div>
                     </form>

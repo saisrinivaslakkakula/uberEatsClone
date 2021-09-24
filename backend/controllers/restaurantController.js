@@ -206,8 +206,10 @@ const getRestaurantProfileforAdmin = async (req, res) => {
             })
         }
         else {
-            res.status(401)
-            throw new Error("Error 404 - Not Found")
+            res.status(401).json({
+                "message:":"Restaurant Not Found!"
+            })
+            
         }
     })
 

@@ -32,7 +32,7 @@ const AdminLogin = ({location,history}) => {
             <div>
             <div className="login-container">
                 <div className="logo">
-                    <h1>Uber <span>Eats</span></h1>
+                    <h1>Uber <span>Eats</span> | Business</h1>
                 </div>
             </div>
             <div className="row">
@@ -54,7 +54,7 @@ const AdminLogin = ({location,history}) => {
                                 <button  class="btn btn-secondary" type="submit">Sign In</button>
                             </div>
                             <p> New to Uber Eats? <span> 
-                                <Link to="/signup"><a>Create an account</a></Link>
+                                <Link to="/business-signup"><a>Create an account</a></Link>
                                 </span> </p>
                         </div>
                     </form>

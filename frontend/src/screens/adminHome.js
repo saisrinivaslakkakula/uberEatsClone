@@ -1,30 +1,64 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { useSelector,useDispatch } from 'react-redux'
-import {getRestaurantDetailsforAdmin} from '../actions/restaurantActions'
+import { useSelector, useDispatch } from 'react-redux'
+import { getRestaurantDetailsforAdmin } from '../actions/restaurantActions'
 const AdminHome = ({ history }) => {
 
     const adminLogin = useSelector(state => state.adminLogin)
     let { adminInfo, restaurantInfo, loading, error } = adminLogin
     const restaurantDetails = useSelector(state => state.restaurantDetails)
     const { user } = restaurantDetails
-    restaurantInfo =user
+    restaurantInfo = user
     const dispatch = useDispatch()
     useEffect(() => {
 
         if (!adminInfo) {
             history.push("/")
         }
-        if(!restaurantInfo){
+        if (!restaurantInfo) {
             dispatch(getRestaurantDetailsforAdmin(adminInfo._id))
         }
-    }, [history, adminInfo,restaurantInfo])
+    }, [history, adminInfo, restaurantInfo])
     return (
-        <div className="container adminHomePageMessage">
+        <div className=" adminHomePageMessage">
             {restaurantInfo ?
-                <div style={{ margin: '1rem' }}>
-                    <h3> {restaurantInfo.rest_name}</h3>
-                </div>
+                (
+                    <div className="row">
+                        <div className="col-md-4 text-center">
+                            <div className="ubereats-card">
+                                <img src="images/admin_home_restaurant_card_image.jpeg" alt="Avatar" style={{ width: "100%" }} />
+                                <div className="body">
+                                    <h4><b>Manage Restaurant</b></h4>
+                                    <p>Add/Update you restaurant timings, photos, address, phone etc..</p>
+                                    <button className="btn btn-success">GO</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-md-4 text-center">
+                            <div className="ubereats-card">
+                                <img src="images/admin_home_manage_menu_card_image.jpeg" alt="Avatar" style={{ width: "100%" }} />
+                                <div className="body">
+                                    <h4><b>Manage Menu</b></h4>
+                                    <p>Add/Update your menu items, photos, ingredients, availability etc..</p>
+                                    <button className="btn btn-success">GO</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-md-4 text-center">
+                            <div className="ubereats-card">
+                                <img src="images/admin_home_manage_profile_card_image.png" alt="Avatar" style={{ width: "100%" }} />
+                                <div className="body">
+                                    <h4><b>Manage Profile</b></h4>
+                                    <p>Add/Update profile details like phone number, email, password etc..</p>
+                                    <button className="btn btn-success">GO</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                )
                 :
                 <div style={{ margin: '1rem' }}>
                     <h1 > Hello {adminInfo.firstName},</h1>
@@ -43,4 +77,4 @@ const AdminHome = ({ history }) => {
     )
 }
 
-            export default AdminHome
+export default AdminHome
