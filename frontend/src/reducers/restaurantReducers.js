@@ -41,7 +41,7 @@ const restaurantDetailsReducer = (state = {restaurant:{}},action) =>{
         case REST_DETAILS_REQUEST:
             return({...state,loading:true})
         case REST_DETAILS_SUCCESS:
-            return({loading:false,user:action.payload})
+            return({loading:false,restaurantDetails:action.payload})
         case REST_DETAILS_FAIL:
             return({loading:false, error:action.payload})
         default:

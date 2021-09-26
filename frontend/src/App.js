@@ -9,6 +9,8 @@ import Profile from "./screens/Profile";
 import BusinessSignUp from "./screens/BusinessSignUp";
 import AdminLogin from "./screens/adminLogin";
 import AddBusiness from "./screens/AddBusiness";
+import ManageMenu from "./screens/ManageMenu";
+import AddMenuItem from "./screens/AddMenuItem";
 function App() {
   return (
     <div className="App">
@@ -23,6 +25,9 @@ function App() {
           <Route path='/adminHome' component={AdminHome}/>
           <Route path='/signup' component={SignUpScreen}/>
           <Route path='/profile' component={Profile}/>
+          <Route path='/manageMenu' component={ManageMenu}/>
+          <Route path='/addMenuItem' component={AddMenuItem}/>
+          
        </div> 
       <Footer/>
       </Router>

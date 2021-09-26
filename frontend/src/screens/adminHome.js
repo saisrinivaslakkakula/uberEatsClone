@@ -30,7 +30,7 @@ const AdminHome = ({ history }) => {
                                 <div className="body">
                                     <h4><b>Manage Restaurant</b></h4>
                                     <p>Add/Update you restaurant timings, photos, address, phone etc..</p>
-                                    <button className="btn btn-success">GO</button>
+                                    <Link to="/manageRestaurant"><button className="btn btn-success">GO</button></Link>
                                 </div>
                             </div>
                         </div>
@@ -41,7 +41,7 @@ const AdminHome = ({ history }) => {
                                 <div className="body">
                                     <h4><b>Manage Menu</b></h4>
                                     <p>Add/Update your menu items, photos, ingredients, availability etc..</p>
-                                    <button className="btn btn-success">GO</button>
+                                    <Link to="/manageMenu"><button className="btn btn-success">GO</button></Link>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@ const AdminHome = ({ history }) => {
                                 <div className="body">
                                     <h4><b>Manage Profile</b></h4>
                                     <p>Add/Update profile details like phone number, email, password etc..</p>
-                                    <button className="btn btn-success">GO</button>
+                                    <Link to="/manageAdminProfile"><button className="btn btn-success">GO</button></Link>
                                 </div>
                             </div>
                         </div>

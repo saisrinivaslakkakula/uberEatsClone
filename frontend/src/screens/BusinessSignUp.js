@@ -12,13 +12,8 @@ const BusinessSignUp = ({ location, history }) => {
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
     const [phone, setPhone] = useState('')
-    const [Street, setStreet] = useState('')
-    const [City, setCity] = useState('')
-    const [State, setState] = useState('')
-    const [Country, setCountry] = useState('')
-    const [ZipCode, setZipCode] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [message, setMessage] = useState(null)
     const [Result, setResult] = useState(null)
     const [show, setShow] = useState(false)
@@ -27,17 +22,9 @@ const BusinessSignUp = ({ location, history }) => {
     const [src, selectPhoto] = useState(null) // select Photo as blob
     const [photoFile, selectPhotoFile] = useState(null) // select photo as file to get the name
     const redirect = location.search ? location.search.split("=")[1] : '/adminHome'
-    const [errorMessage, setErrorMessage] = useState(null)
-    const [countriesData, setCountriesData] = useState(null)
     const dispatch = useDispatch()
     const adminRegister = useSelector(state => state.adminRegister)
     const { userInfo, loading, error } = adminRegister
-    const [blobResult, setBlobResult] = useState(null)
-    const [crop, setCrop] = useState({
-        aspect: 1 / 1, width: 125,
-        height: 125,
-
-    });
 
     useEffect(() => {
         if (userInfo) {

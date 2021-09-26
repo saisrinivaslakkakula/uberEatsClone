@@ -249,6 +249,11 @@ header .searchBar {
   align-self: center;
 }
 
+.menu-add-item-button{
+  display: flex;
+  justify-content: end;
+}
+
 footer{
   /*font-family: 'Uber Move Text';*/
   padding: 5vh;

@@ -23,7 +23,7 @@ const AddBusiness = ({ history, location }) => {
     const [message, setMessage] = useState(null)
     const [rest_main_photo, setImage] = useState(null)
     const [uploading, setUploading] = useState(false)
-    const redirect = location.search ? location.search.split("=")[1] : '/'
+    const redirect = location.search ? location.search.split("=")[1] : '/business-login'
     const [errorMessage, setErrorMessage] = useState(null)
     const [checked, setChecked] = useState(false);
     const [rest_open_day_from, setOpenDayFrom] = useState(false);
@@ -32,14 +32,9 @@ const AddBusiness = ({ history, location }) => {
     const [rest_open_time_to, setOpenTimeTo] = useState(false);
     const [rest_desc,setDescription] = useState("")
     const dispatch = useDispatch()
-    const userRegister = useSelector(state => state.userRegister)
-    const { userInfo, loading, error } = userRegister
-    const [crop, setCrop] = useState({
-        aspect: 1 / 1, width: 125,
-        height: 125,
-
-    });
-
+    const adminRegister = useSelector(state => state.adminLogin)
+    const { adminInfo, loading, error } = adminRegister
+    
     const generate_series = () => {
         const dt = new Date(1970, 0, 1);
         const rc = [];
@@ -53,12 +48,12 @@ const AddBusiness = ({ history, location }) => {
     const Hours = generate_series()
     
     useEffect(() => {
-        /*if (userInfo) {
+        if (!adminInfo) {
             history.push(redirect)
-        }*/
+        }
         
        
-    }, [history, userInfo, redirect])
+    }, [history, adminInfo, redirect])
 
     const handleFileUpload = async (e) => { // get file form <input Tag>
         e.preventDefault()
