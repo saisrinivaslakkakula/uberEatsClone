@@ -24,13 +24,13 @@ const BusinessSignUp = ({ location, history }) => {
     const redirect = location.search ? location.search.split("=")[1] : '/adminHome'
     const dispatch = useDispatch()
     const adminRegister = useSelector(state => state.adminRegister)
-    const { userInfo, loading, error } = adminRegister
+    const { adminInfo, loading, error } = adminRegister
 
     useEffect(() => {
-        if (userInfo) {
+        if (adminInfo) {
             history.push(redirect)
         }
-    }, [history, userInfo, redirect])
+    }, [history, adminInfo, redirect])
 
     const handleFileUpload = async (e) => { // get file form <input Tag>
         e.preventDefault()

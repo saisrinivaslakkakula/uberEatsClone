@@ -311,4 +311,32 @@ const addmenuItem = async (req, res) => {
 
 }
 
-module.exports = { addRestaurant, getRestaurantProfile, getRestaurantProfileforAdmin,addmenuItem }
+
+const getMenuByRestaurant = async (req, res) => {
+
+    let sql = "SELECT * FROM menu WHERE rest_id ='" + req.params.id + "'"
+   console.log(sql)
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw new Error(err)
+        }
+        if (result.length >= 1) {
+            //console.log(result[0])
+            res.send({
+                result
+            })
+        }
+        else {
+            res.status(401).json({
+                "message:": "No Menu Items / Restaurant not Found!"
+            })
+
+        }
+    })
+
+
+
+}
+
+
+module.exports = { addRestaurant, getRestaurantProfile, getRestaurantProfileforAdmin,addmenuItem,getMenuByRestaurant }

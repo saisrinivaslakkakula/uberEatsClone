@@ -1,11 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const protect = require('../middleware/authMiddleware')
-const {getAdminProfile} = require('../controllers/adminController')
-const {addRestaurant,getRestaurantProfile,getRestaurantProfileforAdmin,addmenuItem} = require('../controllers/restaurantController')
+const {addRestaurant,getRestaurantProfile,getRestaurantProfileforAdmin,addmenuItem,getMenuByRestaurant} = require('../controllers/restaurantController')
 router.route('/add').post(protect,addRestaurant)
 router.route('/additem').post(protect,addmenuItem)
-//router.post('/login',authUser)
 router.post('/profile',getRestaurantProfile)
 router.post('/profileadm',getRestaurantProfileforAdmin)
+router.get('/:id',getMenuByRestaurant)
 module.exports = router

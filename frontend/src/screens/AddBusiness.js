@@ -32,8 +32,10 @@ const AddBusiness = ({ history, location }) => {
     const [rest_open_time_to, setOpenTimeTo] = useState(false);
     const [rest_desc,setDescription] = useState("")
     const dispatch = useDispatch()
-    const adminRegister = useSelector(state => state.adminLogin)
-    const { adminInfo, loading, error } = adminRegister
+    const adminLogin = useSelector(state => state.adminLogin)
+    const { adminInfo } = adminLogin
+    const restaurantRegister = useSelector(state => state.restaurantRegister)
+    const { restaurantInfo, loading, error } = restaurantRegister
     
     const generate_series = () => {
         const dt = new Date(1970, 0, 1);
@@ -51,9 +53,12 @@ const AddBusiness = ({ history, location }) => {
         if (!adminInfo) {
             history.push(redirect)
         }
+        if(restaurantInfo){
+            history.push('/adminHome')
+        }
         
        
-    }, [history, adminInfo, redirect])
+    }, [history, adminInfo, restaurantInfo,redirect])
 
     const handleFileUpload = async (e) => { // get file form <input Tag>
         e.preventDefault()

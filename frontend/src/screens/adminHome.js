@@ -4,26 +4,29 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getRestaurantDetailsforAdmin } from '../actions/restaurantActions'
 const AdminHome = ({ history }) => {
 
-    const adminLogin = useSelector(state => state.adminLogin)
-    let { adminInfo, restaurantInfo, loading, error } = adminLogin
-    const restaurantDetails = useSelector(state => state.restaurantDetails)
-    const { user } = restaurantDetails
-    restaurantInfo = user
+    const adminLoginRes = useSelector(state => state.adminLogin)
+    let { adminInfo, restaurantInfo, loading, error } = adminLoginRes
+    const restaurantDetailsRes = useSelector(state => state.restaurantDetails)
+    const { restaurantDetails } = restaurantDetailsRes
+    restaurantInfo = restaurantDetails
     const dispatch = useDispatch()
     useEffect(() => {
 
         if (!adminInfo) {
-            history.push("/")
+            history.push("/business-login")
         }
         if (!restaurantInfo) {
             dispatch(getRestaurantDetailsforAdmin(adminInfo._id))
+            //restaurantInfo = adminLoginRes.restaurantInfo
         }
+        
     }, [history, adminInfo, restaurantInfo])
     return (
         <div className=" adminHomePageMessage">
             {restaurantInfo ?
                 (
                     <div className="row">
+                        <h2 className="my-4">{restaurantInfo.rest_name}</h2>
                         <div className="col-md-4 text-center">
                             <div className="ubereats-card">
                                 <img src="images/admin_home_restaurant_card_image.jpeg" alt="Avatar" style={{ width: "100%" }} />

@@ -1,6 +1,28 @@
-import React from 'react'
+import React , { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-const ManageMenu = () => {
+import {clearaddmenuItem,getMenuDetails} from '../actions/menuActions'
+const ManageMenu = ({history,location}) => {
+    const redirect = location.search ? location.search.split("=")[1] : '/business-login'
+    const dispatch = useDispatch()
+    const adminLogin = useSelector(state => state.adminLogin)
+    const { adminInfo, restaurantInfo } = adminLogin
+    const addMenuState = useSelector(state => state.restaurantMenuAdd)
+    const {loading,error,menuInfo} = addMenuState
+
+    useEffect(() => {
+        if (!adminInfo) {
+            history.push(redirect)
+        }
+            dispatch(getMenuDetails('C6KuBfV2bRjRUP5DPPT/HQKj0eCm7BpwXFttQ93d0mQ='))
+            dispatch(clearaddmenuItem())
+            
+
+        
+
+
+    }, [history, adminInfo, redirect])
+
     return (
         <div className="container">
             <div className="menu-add-item-button">

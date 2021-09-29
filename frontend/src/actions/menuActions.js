@@ -1,23 +1,17 @@
-import { MENU_ADD_FAIL, MENU_ADD_REQUEST, MENU_ADD_SUCCESS, MENU_DETAILS_FAIL, MENU_DETAILS_REQUEST, MENU_DETAILS_SUCCESS } from "../constants/menuConstants"
+import { MENU_ADD_CLEAR, MENU_ADD_FAIL, MENU_ADD_REQUEST, MENU_ADD_SUCCESS, MENU_DETAILS_FAIL, MENU_DETAILS_REQUEST, MENU_DETAILS_SUCCESS, MENU_GET_BY_ID_FAIL, MENU_GET_BY_ID_REQUEST, MENU_GET_BY_ID_SUCCESS } from "../constants/menuConstants"
 import axios from "axios"
 export const getMenuDetails = (id) => async(dispatch,getState) =>{
     try {
         dispatch({
-            type:MENU_DETAILS_REQUEST
+            type:MENU_GET_BY_ID_REQUEST
         })
      
-        const {userLogin} = getState()
-        const {userInfo} = userLogin
-        const config = {
-            headers: {
-                'Content-Type':'application/json',
-                Authorization: `Bearer ${userInfo.token}`,
-            }
-        }
-        const {data} = await axios.get(`/api/users/${id}`,config)
+        let uri = '/api/restaurant/'+encodeURIComponent(id)
+        console.log(uri)
+        const {data} = await axios.get(uri)
         console.log(data)
          dispatch({
-            type : MENU_DETAILS_SUCCESS,
+            type : MENU_GET_BY_ID_SUCCESS,
             payload:data,
         })
        
@@ -25,7 +19,7 @@ export const getMenuDetails = (id) => async(dispatch,getState) =>{
     } catch (error) {
 
          dispatch({
-            type:MENU_DETAILS_FAIL,
+            type:MENU_GET_BY_ID_FAIL,
             payload:error.response && error.response.data.message ? error.response.data.message: error.message
         }) 
     }
@@ -60,4 +54,10 @@ export const addmenuItem = (rest_id,item_name,item_category,item_type,item_photo
             payload:error.response && error.response.data.message ? error.response.data.message: error.message
         }) 
     }
+}
+
+export const clearaddmenuItem = () => async(dispatch) =>{
+    dispatch({
+        type:MENU_ADD_CLEAR
+    })
 }

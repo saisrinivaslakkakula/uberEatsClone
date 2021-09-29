@@ -5,12 +5,12 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import axios from 'axios'
 import { addmenuItem } from '../actions/menuActions'
+import {getRestaurantDetailsforAdmin} from '../actions/restaurantActions'
 const AddMenuItem = ({ history, location }) => {
     const [item_name, setItemName] = useState('')
     const [item_category, setItemCategory] = useState('')
     const [item_type, setItemType] = useState('')
     const [item_desc, setDescription] = useState('')
-    const [rest_id, setRestaurantId] = useState('')
     const [uploading, setUploading] = useState(false)
     const [item_photo_path, setPhotoPath] = useState(null) // select Photo as blob
     const [message, setMessage] = useState(null) // select photo as file to get the name
@@ -18,6 +18,9 @@ const AddMenuItem = ({ history, location }) => {
     const dispatch = useDispatch()
     const adminLogin = useSelector(state => state.adminLogin)
     const { adminInfo, restaurantInfo } = adminLogin
+    const restaurantInfoRes = useSelector(state => state.restaurantDetails)
+    const {restaurantDetails} = restaurantInfoRes
+    const [rest_id, setRestID] = useState('')
     const addMenuState = useSelector(state => state.restaurantMenuAdd)
     const {loading,error,menuInfo} = addMenuState
     const handleFileUpload = async (e) => { // get file form <input Tag>
@@ -55,13 +58,16 @@ const AddMenuItem = ({ history, location }) => {
         if (!adminInfo) {
             history.push(redirect)
         }
-        else {
-            setRestaurantId(restaurantInfo.rest_id)
+        if(!restaurantDetails) {
+            dispatch(getRestaurantDetailsforAdmin(adminInfo._id))
+        }
+        else{
+                setRestID(restaurantDetails.rest_id)
         }
         
 
 
-    }, [history, adminInfo, restaurantInfo, redirect])
+    }, [history, adminInfo, restaurantDetails, redirect])
     return (
         <div className="container">
 

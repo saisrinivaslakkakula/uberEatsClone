@@ -49,6 +49,7 @@ const addAdmin = async (req, res) => {
                             lastName: lastName,
                             email: email,
                             phone: phone,
+                            token: generateToken( id),
     
                         })
 

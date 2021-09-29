@@ -21,7 +21,6 @@ export const login = (email,password) => async(dispatch) =>{
         localStorage.setItem('adminInfo',JSON.stringify(data)) 
         
     } catch (error) {
-
          dispatch({
             type:ADMIN_LOGIN_FAIL,
             payload:error.response && error.response.data.message ? error.response.data.message: error.message
