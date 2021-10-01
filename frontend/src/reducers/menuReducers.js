@@ -41,7 +41,7 @@ const getMenuByRestaurant = (state = {},action) =>{
         case MENU_GET_BY_ID_REQUEST:
             return({loading:true})
         case MENU_GET_BY_ID_SUCCESS:
-            return({loading:false,menuInfo:action.payload})
+            return({loading:false,menu:action.payload})
         case MENU_GET_BY_ID_FAIL:
             return({loading:false, error:action.payload})
         default:

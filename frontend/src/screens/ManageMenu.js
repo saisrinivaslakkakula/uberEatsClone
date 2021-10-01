@@ -9,29 +9,29 @@ const ManageMenu = ({history,location}) => {
     const { adminInfo, restaurantInfo } = adminLogin
     const addMenuState = useSelector(state => state.restaurantMenuAdd)
     const {loading,error,menuInfo} = addMenuState
-
+    const restaurantMenu = useSelector(state => state.restaurantMenu)
+    const {menu} = restaurantMenu
+    console.log((menu))
     useEffect(() => {
         if (!adminInfo) {
             history.push(redirect)
         }
+        if(!menu)
             dispatch(getMenuDetails('C6KuBfV2bRjRUP5DPPT/HQKj0eCm7BpwXFttQ93d0mQ='))
-            dispatch(clearaddmenuItem())
+        dispatch(clearaddmenuItem())
             
-
-        
-
-
-    }, [history, adminInfo, redirect])
+    }, [history, adminInfo, redirect,menu])
 
     return (
         <div className="container">
             <div className="menu-add-item-button">
                 <p><Link to="/addMenuItem"><button className="btn btn-success"><b>+ Add Menu Item</b></button></Link></p>
             </div>
+            {menu?
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col"></th>
+                        <th>Image</th>
                         <th scope="col">Item Name</th>
                         <th scope="col">Category</th>
                         <th scope="col">Type</th>
@@ -39,13 +39,19 @@ const ManageMenu = ({history,location}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
+                    {menu.map(x=>(
+                        <tr>
+                        <td>{x.item_photo_path}</td>
+                        <td scope="row">{x.item_name}</td>
+                        <td>{x.item_category}</td>
+                        <td>{x.item_type}</td>
+                        <td>Edit Delete</td>
                     </tr>
-                    <tr>
+                    ))}
+                    
+                   
+
+                    {/*<tr>
                         <th scope="row">2</th>
                         <td>Jacob</td>
                         <td>Thornton</td>
@@ -56,9 +62,11 @@ const ManageMenu = ({history,location}) => {
                         <td>Larry</td>
                         <td>the Bird</td>
                         <td>@twitter</td>
-                    </tr>
+                    </tr>*/}
                 </tbody>
             </table>
+            :
+            (<h4>no Items in the Menu. Click on Add Menu Item to add your Menu Items</h4>)}
         </div>
     )
 }

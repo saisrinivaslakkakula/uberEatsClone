@@ -322,9 +322,8 @@ const getMenuByRestaurant = async (req, res) => {
         }
         if (result.length >= 1) {
             //console.log(result[0])
-            res.send({
-                result
-            })
+            res.send(
+                result)
         }
         else {
             res.status(401).json({
@@ -338,5 +337,131 @@ const getMenuByRestaurant = async (req, res) => {
 
 }
 
+const updateMenuItem = async (req, res) => {
 
-module.exports = { addRestaurant, getRestaurantProfile, getRestaurantProfileforAdmin,addmenuItem,getMenuByRestaurant }
+
+    if (req.userAuth) {
+        //console.log(req.body)
+        db.query("SELECT * FROM menu WHERE item_id =?", [req.body.item_id], (err, result) => {
+            if (err) {
+                res.status(500).json({
+                    message: " Internal Server Error "+err
+                })
+            }
+
+            let sql = "UPDATE `menu` SET \
+            `item_name`= ? ,\
+            `item_category` = ?  ,\
+            `item_type`= ? ,\
+            `item_photo_path` = ?  ,\
+            `item_desc`= ? \
+            WHERE (`item_id` = ?)"
+
+            console.log(sql)
+            let paramsArray = [req.body.item_name,
+            req.body.item_category,
+            req.body.item_type,
+            req.body.item_photo_path,
+            req.body.item_desc,
+            req.body.item_id
+            ]
+            db.query(sql, paramsArray, (err, result) => {
+                if (err) {
+                    res.status(500).json({
+                        message: " Internal Server Error. Please Try again Later. "+err
+                    })
+                }
+                else {
+                    res.json({
+                    message:"Update Success"
+
+                })
+                }
+
+            })
+
+        })
+
+
+    }
+    else {
+        res.status(401).json({
+            message: " User Not Found!"
+        })
+    }
+
+
+
+}
+
+
+const deleteMenuItem = async (req, res) => {
+
+
+    if (req.userAuth) {
+        //console.log(req.body)
+        db.query("SELECT * FROM menu WHERE item_id =?", [req.params.id], (err, result) => {
+            if (err) {
+                res.status(500).json({
+                    message: " Internal Server Error "+err
+                })
+            }
+
+            let sql = "DELETE FROM `menu` \
+            WHERE (`item_id` = ?)"
+            //console.log(req.params.id)
+            db.query(sql, req.params.id, (err, result) => {
+                if (err) {
+                    res.status(500).json({
+                        message: " Internal Server Error. Please Try again Later. "+err
+                    })
+                }
+                else {
+                    res.json({
+                    message:"Delete Success"
+
+                })
+                }
+
+            })
+
+        })
+
+
+    }
+    else {
+        res.status(401).json({
+            message: " User Not Found!"
+        })
+    }
+
+
+
+}
+
+const getItemDetails = async (req, res) => {
+
+    let sql = "SELECT * FROM menu WHERE item_id ='" + req.params.id + "'"
+   //console.log(sql)
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw new Error(err)
+        }
+        if (result.length >= 1) {
+            //console.log(result[0])
+            res.json(
+                result[0])
+        }
+        else {
+            res.status(401).json({
+                "message:": "Item Not Found"
+            })
+
+        }
+    })
+
+
+
+}
+
+module.exports = { addRestaurant, getRestaurantProfile, getRestaurantProfileforAdmin,addmenuItem,getMenuByRestaurant,updateMenuItem,getItemDetails,deleteMenuItem}

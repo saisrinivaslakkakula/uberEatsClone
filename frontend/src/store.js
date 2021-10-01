@@ -20,7 +20,7 @@ const reducer = combineReducers({
     restaurantDetails:restaurantDetailsReducer,
     restaurantLogin : restaurantLoginReducer,
     restaurantMenuAdd : menuAddItemsReducer,
-    restrauntMenu:getMenuByRestaurant,
+    restaurantMenu:getMenuByRestaurant,
 
 })
 
