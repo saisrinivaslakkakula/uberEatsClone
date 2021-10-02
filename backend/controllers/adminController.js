@@ -87,9 +87,9 @@ const authAdmin = async (req, res) => {
                     email: result[0].email,
                     phone: result[0].phone,
                     restraunt_id:result[0].rest_id,
-                    image:result[0].photo_path,
+                    image:result[0].photoPath,
                     token: generateToken(result[0].admin_id),
-
+                    
                 })
             }
             else {
@@ -125,7 +125,7 @@ const getAdminProfile = async (req, res) => {
                     lastName: result[0].lastName,
                     email: result[0].email,
                     phone: result[0].phone,
-                    image:result[0].photo_path
+                    image:result[0].photo_path,
 
                 })
             }

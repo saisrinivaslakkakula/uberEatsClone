@@ -59,7 +59,7 @@ export const register = (firstName,lastName,email, password,phone,image) => asyn
     }
 }
 
-export const getUserDetails = (id) => async(dispatch,getState) =>{
+export const getAdminDetails = (id) => async(dispatch,getState) =>{
     try {
         dispatch({
             type:ADMIN_DETAILS_REQUEST

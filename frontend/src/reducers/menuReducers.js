@@ -1,4 +1,4 @@
-import { MENU_ADD_CLEAR, MENU_ADD_FAIL, MENU_ADD_REQUEST, MENU_ADD_SUCCESS, MENU_DETAILS_FAIL, MENU_DETAILS_REQUEST, MENU_DETAILS_SUCCESS, MENU_GET_BY_ID_FAIL, MENU_GET_BY_ID_REQUEST, MENU_GET_BY_ID_SUCCESS } from "../constants/menuConstants"
+import { MENU_ADD_CLEAR, MENU_ADD_FAIL, MENU_ADD_REQUEST, MENU_ADD_SUCCESS, MENU_DELETE_FAIL, MENU_DELETE_REQUEST, MENU_DELETE_SUCCESS, MENU_DETAILS_FAIL, MENU_DETAILS_REQUEST, MENU_DETAILS_SUCCESS, MENU_GET_BY_ID_FAIL, MENU_GET_BY_ID_REQUEST, MENU_GET_BY_ID_SUCCESS } from "../constants/menuConstants"
 
 
 const getItemsReducer = (state = {menu:{}},action) =>{
@@ -51,4 +51,20 @@ const getMenuByRestaurant = (state = {},action) =>{
 
 }
 
-export {getItemsReducer,menuAddItemsReducer,getMenuByRestaurant}
+const deleteMenuItemByIDReducer = (state = {},action) =>{
+
+    switch(action.type){
+        case MENU_DELETE_REQUEST:
+            return({loading:true})
+        case MENU_DELETE_SUCCESS:
+            return({loading:false,success:true})
+        case MENU_DELETE_FAIL:
+            return({loading:false, error:action.payload})
+        default:
+                return state
+
+    }
+
+}
+
+export {getItemsReducer,menuAddItemsReducer,getMenuByRestaurant,deleteMenuItemByIDReducer}

@@ -78,6 +78,7 @@ export const getRestaurantDetailsforAdmin = (admin_id) => async(dispatch,getStat
                 'Content-Type':'application/json',
             }
         }
+        console.log("ADMIN:"+admin_id)
         const {data} = await axios.post(`/api/restaurant/profileadm`,{admin_id},config)
          dispatch({
             type : REST_DETAILS_SUCCESS,

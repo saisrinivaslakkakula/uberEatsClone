@@ -15,10 +15,11 @@ const AdminHome = ({ history }) => {
         if (!adminInfo) {
             history.push("/business-login")
         }
-        if (!restaurantInfo) {
+        if (adminInfo && !restaurantInfo) {
             dispatch(getRestaurantDetailsforAdmin(adminInfo._id))
             //restaurantInfo = adminLoginRes.restaurantInfo
         }
+        
         
     }, [history, adminInfo, restaurantInfo])
     return (
@@ -64,11 +65,16 @@ const AdminHome = ({ history }) => {
                 )
                 :
                 <div style={{ margin: '1rem' }}>
+                    {adminInfo?
                     <h1 > Hello {adminInfo.firstName},</h1>
+                    :
+                    <h1 > Hello,</h1>
+                    }
+                    
                     <h1 > Welcome to Uber Eats Business Page. </h1>
 
-                    <div className="card">
-                        <div class="card-body">
+                    <div className="ubereats-card">
+                        <div class="body">
                             <h5 class="card-title">Oops! Nothing here!</h5>
                             <p class="card-text"> Today is the day to help Bon Appetites! Add your restraunt to our listing.</p>
                             <Link to={"/addBusiness"}><button className="btn btn-success"><b>Get Started</b></button></Link>

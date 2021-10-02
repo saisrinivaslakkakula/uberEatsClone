@@ -132,7 +132,6 @@ const AddMenuItem = ({ history, location }) => {
                                 (
                                    <>
                                     <Message variant='danger'>{error}</Message> 
-                                    <button class="btn btn-dark" type="submit">Add item</button>
                                     </>
                                 )
                                

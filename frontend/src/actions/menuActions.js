@@ -1,4 +1,4 @@
-import { MENU_ADD_CLEAR, MENU_ADD_FAIL, MENU_ADD_REQUEST, MENU_ADD_SUCCESS, MENU_DETAILS_FAIL, MENU_DETAILS_REQUEST, MENU_DETAILS_SUCCESS, MENU_GET_BY_ID_FAIL, MENU_GET_BY_ID_REQUEST, MENU_GET_BY_ID_SUCCESS } from "../constants/menuConstants"
+import { MENU_ADD_CLEAR, MENU_ADD_FAIL, MENU_ADD_REQUEST, MENU_ADD_SUCCESS, MENU_DELETE_FAIL, MENU_DELETE_REQUEST, MENU_DELETE_SUCCESS, MENU_DETAILS_FAIL, MENU_DETAILS_REQUEST, MENU_DETAILS_SUCCESS, MENU_GET_BY_ID_FAIL, MENU_GET_BY_ID_REQUEST, MENU_GET_BY_ID_SUCCESS } from "../constants/menuConstants"
 import axios from "axios"
 export const getMenuDetails = (id) => async(dispatch,getState) =>{
     try {
@@ -51,6 +51,40 @@ export const addmenuItem = (rest_id,item_name,item_category,item_type,item_photo
 
          dispatch({
             type:MENU_ADD_FAIL,
+            payload:error.response && error.response.data.message ? error.response.data.message: error.message
+        }) 
+    }
+}
+
+export const deleteMenuItemByItemID = (id) => async(dispatch,getState) =>{
+    try {
+        dispatch({
+            type:MENU_DELETE_REQUEST
+        })
+     
+        let uri = '/api/admin/deleteMenuItem/'+encodeURIComponent(id)
+        const {adminLogin} = getState()
+        const {adminInfo} = adminLogin
+        const config = {
+            headers: {
+                'Content-Type':'application/json',
+                Authorization: `Bearer ${adminInfo.token}`
+            }
+        }
+       await axios.delete(uri,config)
+        //console.log(data)
+         dispatch({
+            type : MENU_DELETE_SUCCESS,
+        })
+        dispatch({
+            type : MENU_GET_BY_ID_SUCCESS,
+        })
+       
+        
+    } catch (error) {
+
+         dispatch({
+            type:MENU_DELETE_FAIL,
             payload:error.response && error.response.data.message ? error.response.data.message: error.message
         }) 
     }

@@ -85,7 +85,7 @@ const addRestaurant = async (req, res) => {
                     db.query(sql, Queryparams, (err, result) => {
                         if (err) {
                             res.status(500).json({
-                                message: " Internal Server Error:" + err
+                                message: " Internal Server Error:"
                             })
                         }
                         else {
@@ -114,7 +114,7 @@ const addRestaurant = async (req, res) => {
                             }
                             else {
                                 res.status(500).json({
-                                    message: " Internal Server Error:" + err
+                                    message: " Internal Server Error:"
                                 })
                             }
                         }
@@ -315,7 +315,7 @@ const addmenuItem = async (req, res) => {
 const getMenuByRestaurant = async (req, res) => {
 
     let sql = "SELECT * FROM menu WHERE rest_id ='" + req.params.id + "'"
-   console.log(sql)
+   //console.log(sql)
     db.query(sql, (err, result) => {
         if (err) {
             throw new Error(err)

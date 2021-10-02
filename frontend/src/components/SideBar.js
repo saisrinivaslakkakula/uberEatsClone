@@ -53,14 +53,14 @@ const SideBar = ({location,history}) => {
     
                                 <p>
                                     <li>
-                                        <Link style={{ textDecoration: 'none', color: 'black' }} to="/profile">
+                                        <Link style={{ textDecoration: 'none', color: 'black' }} to="/adminProfile">
                                             <AllIcons.FaUserAlt /> <span> Your Profile</span>
                                         </Link>
     
                                     </li>
                                 </p>
-                                <p> <li> <AllIcons.BiEdit /> <span>Manage Restaurant</span></li></p>
-                                <p> <li> <AllIcons.MdRestaurantMenu /> <span>Edit Menu</span></li></p>
+                                <p>  <Link style={{ textDecoration: 'none', color: 'black' }} to="/manageRestaurant"> <AllIcons.BiEdit /> <span>Manage Restaurant</span></Link></p>
+                                <p> <Link style={{ textDecoration: 'none', color: 'black' }} to="/manageMenu"> <AllIcons.MdRestaurantMenu /> <span>Edit Menu</span></Link></p>
                                 <p> <li> <AllIcons.IoIosHelpBuoy /> <span>Previous orders</span></li></p>
                                 <p> <li> <AllIcons.IoMdPricetag /> <span>Edit Offers</span></li></p>
                                 <p onClick={showSidebar} style={{ 'color': '#757575' }}> <li onClick={logoutHandler}>
