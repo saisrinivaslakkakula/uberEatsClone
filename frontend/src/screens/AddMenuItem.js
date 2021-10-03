@@ -65,9 +65,17 @@ const AddMenuItem = ({ history, location }) => {
                 setRestID(restaurantDetails.rest_id)
         }
         
+        
+        if(menuInfo){
+            const timer = setTimeout(() => {
+                window.location.reload(false);
+              }, 1000);
+              return () => clearTimeout(timer);
+           
+           
+        }
 
-
-    }, [history, adminInfo, restaurantDetails, redirect])
+    }, [history, adminInfo, menuInfo,restaurantDetails, redirect])
     return (
         <div className="container">
 

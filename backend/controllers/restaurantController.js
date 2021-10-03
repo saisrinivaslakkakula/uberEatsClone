@@ -2,8 +2,9 @@ const crypto = require('crypto')
 const generateToken = require('../utils/generateToken')
 const db = require('../dbCon')
 const addRestaurant = async (req, res) => {
-    const { rest_name, rest_type, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode, rest_open_day_from, rest_open_day_to, rest_open_time_from, rest_open_time_to, rest_desc, rest_main_photo } = req.body
-    console.log(req.body)
+    let { rest_name, rest_type, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode, rest_open_day_from, rest_open_day_to, rest_open_time_from, rest_open_time_to, rest_desc, rest_main_photo, checked} = req.body
+    //console.log(req.body)
+
     let id = crypto.createHash('sha256').update(rest_email + rest_name).digest('base64')
     let sql = "INSERT INTO `restaurant` \
     ( `rest_id`, \
@@ -62,6 +63,12 @@ const addRestaurant = async (req, res) => {
                     })
                 }
                 else {
+
+                    if(checked){
+                        rest_open_day_from = "All Days"
+                        rest_open_day_to = "NA"
+                    }
+                     
                     const Queryparams = [
                         id,
                         rest_name,
@@ -85,7 +92,7 @@ const addRestaurant = async (req, res) => {
                     db.query(sql, Queryparams, (err, result) => {
                         if (err) {
                             res.status(500).json({
-                                message: " Internal Server Error:"
+                                message: " Internal Server Error:"+err
                             })
                         }
                         else {
@@ -138,6 +145,132 @@ const addRestaurant = async (req, res) => {
 
 }
 
+
+const updateRestaurant = async (req, res) => {
+    let { rest_id,rest_name, rest_type, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode, rest_open_day_from, rest_open_day_to, rest_open_time_from, rest_open_time_to, rest_desc, checked} = req.body
+    //console.log(req.body)
+    
+    let sql = "UPDATE `restaurant` SET\
+    `rest_name`=?, \
+    `rest_email`=?,\
+     `rest_phone`=?, \
+     `rest_street`=?, \
+     `rest_city`=?, \
+     `rest_state`=?, \
+     `rest_country`=?, \
+     `rest_zipcode`=?, \
+     `rest_type`=?, \
+     `rest_open_day_from`=?, \
+     `rest_open_day_to`=?, \
+     `rest_open_time_from`=?, \
+     `rest_open_time_to`=?, \
+     `admin_id`=?,\
+     `description`=?\
+     WHERE \
+     (\
+      `rest_id`=?\
+     );"
+
+    if (req.userAuth) {
+
+        try {
+
+            //console.log("!!!!!!!!"+rest_id)
+            db.query("SELECT * FROM restaurant WHERE rest_id =?", [rest_id], (err, result) => {
+                if (err) {
+                    res.status(500).json({
+                        message: " Internal Server Error"
+                    })
+                }
+
+                if (result && result.length === 0) {
+                    res.status(401).json({
+                        message: " Restaurant Not Found!"
+                    })
+                }
+                else {
+
+                    if(checked){
+                        rest_open_day_from = "All Days"
+                        rest_open_day_to = "NA"
+                    }
+                     
+                    const Queryparams = [
+                        rest_name,
+                        rest_email,
+                        rest_phone,
+                        rest_street,
+                        rest_city,
+                        rest_state,
+                        rest_country,
+                        rest_zipcode,
+                        rest_type,
+                        rest_open_day_from,
+                        rest_open_day_to,
+                        rest_open_time_from,
+                        rest_open_time_to,
+                        req.userId,
+                        rest_desc,
+                        rest_id
+
+                    ]
+                    //console.log(sql)
+                    db.query(sql, Queryparams, (err, result) => {
+                        if (err) {
+                            res.status(500).json({
+                                message: " Internal Server Error:"+err
+                            })
+                        }
+                        else {
+
+                            if (result) {
+                                res.status(201).json({
+                                    /*rest_id: id,
+                                    rest_name,
+                                    rest_email,
+                                    rest_phone,
+                                    rest_street,
+                                    rest_city,
+                                    rest_state,
+                                    rest_country,
+                                    rest_zipcode,
+                                    rest_type,
+                                    rest_open_day_from,
+                                    rest_open_day_to,
+                                    rest_open_time_from,
+                                    rest_open_time_to,
+                                    rest_main_photo,
+                                    admin_id: req.userId,
+                                    rest_desc*/
+                                    message:"Update Success!"
+
+                                })
+                            }
+                            else {
+                                res.status(500).json({
+                                    message: " Internal Server Error:"
+                                })
+                            }
+                        }
+
+
+                    })
+
+                }
+
+            })
+        } catch (error) {
+            throw new Error("Internal Server Error")
+
+        }
+    }
+    else {
+        throw new Error("Authentication Failed")
+    }
+
+
+
+}
 
 const getRestaurantProfile = async (req, res) => {
 
@@ -339,7 +472,7 @@ const getMenuByRestaurant = async (req, res) => {
 
 const updateMenuItem = async (req, res) => {
 
-
+    //console.log("sasdad!!!")
     if (req.userAuth) {
         //console.log(req.body)
         db.query("SELECT * FROM menu WHERE item_id =?", [req.body.item_id], (err, result) => {
@@ -348,37 +481,50 @@ const updateMenuItem = async (req, res) => {
                     message: " Internal Server Error "+err
                 })
             }
+            if(result.length !== 0){
 
-            let sql = "UPDATE `menu` SET \
-            `item_name`= ? ,\
-            `item_category` = ?  ,\
-            `item_type`= ? ,\
-            `item_photo_path` = ?  ,\
-            `item_desc`= ? \
-            WHERE (`item_id` = ?)"
-
-            console.log(sql)
-            let paramsArray = [req.body.item_name,
-            req.body.item_category,
-            req.body.item_type,
-            req.body.item_photo_path,
-            req.body.item_desc,
-            req.body.item_id
-            ]
-            db.query(sql, paramsArray, (err, result) => {
-                if (err) {
-                    res.status(500).json({
-                        message: " Internal Server Error. Please Try again Later. "+err
+                let sql = "UPDATE `menu` SET \
+                `item_name`= ? ,\
+                `item_category` = ?  ,\
+                `item_type`= ? ,\
+                `item_photo_path` = ?  ,\
+                `item_desc`= ? ,\
+                `item_price`= ? \
+                WHERE (`item_id` = ?)"
+    
+                //console.log(sql)
+                let paramsArray = [req.body.item_name,
+                req.body.item_category,
+                req.body.item_type,
+                req.body.item_photo_path,
+                req.body.item_desc,
+                req.body.item_price,
+                req.body.item_id
+                ]
+                //console.log(paramsArray)
+                db.query(sql, paramsArray, (err, result) => {
+                    if (err) {
+                        res.status(500).json({
+                            message: " Internal Server Error. Please Try again Later. "+err
+                        })
+                    }
+                    else {
+                        //console.log(result)
+                        res.json({
+                        message:"Update Success"
+    
                     })
-                }
-                else {
-                    res.json({
-                    message:"Update Success"
-
+                    }
+    
                 })
-                }
 
-            })
+            }
+            else{
+                res.status(401).json({
+                    message: " Menu Item Not Found!"
+                })
+            }
+
 
         })
 
@@ -386,7 +532,7 @@ const updateMenuItem = async (req, res) => {
     }
     else {
         res.status(401).json({
-            message: " User Not Found!"
+            message: " Unauthorized Access!"
         })
     }
 
@@ -464,4 +610,4 @@ const getItemDetails = async (req, res) => {
 
 }
 
-module.exports = { addRestaurant, getRestaurantProfile, getRestaurantProfileforAdmin,addmenuItem,getMenuByRestaurant,updateMenuItem,getItemDetails,deleteMenuItem}
+module.exports = { addRestaurant, updateRestaurant,getRestaurantProfile, getRestaurantProfileforAdmin,addmenuItem,getMenuByRestaurant,updateMenuItem,getItemDetails,deleteMenuItem}

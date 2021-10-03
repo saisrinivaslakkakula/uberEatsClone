@@ -52,6 +52,7 @@ const Footer = () => {
                 </div>
                 <div className="row">
                     <p> This Web Application is a cloned version of Uber Eats, developed as part of School project. The Design Copyrights belong to Uber Technologies Inc. &copy; </p>
+                    
                 </div>
 
             </div>

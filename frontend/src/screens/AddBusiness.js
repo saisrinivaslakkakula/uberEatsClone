@@ -87,7 +87,7 @@ const AddBusiness = ({ history, location }) => {
 
     const submitHandler = (e) => {
         e.preventDefault()
-            dispatch(register(rest_name, rest_type, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode,rest_open_day_from,rest_open_day_to,rest_open_time_from,rest_open_time_to,rest_desc,rest_main_photo))
+            dispatch(register(rest_name, rest_type, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode,rest_open_day_from,rest_open_day_to,rest_open_time_from,rest_open_time_to,rest_desc,rest_main_photo,checked))
     }
 
     return (

@@ -35,6 +35,22 @@ const restaurantRegisterReducer = (state = {},action) =>{
 
 }
 
+const restaurantUpdateReducer = (state = {},action) =>{
+
+    switch(action.type){
+        case REST_PROFILE_UPDATE_REQUEST:
+            return({loading:true})
+        case REST_PROFILE_UPDATE_SUCCESS:
+            return({loading:false,success:true})
+        case REST_PROFILE_UPDATE_FAIL:
+            return({loading:false, error:action.payload})
+        default:
+                return state
+
+    }
+
+}
+
 const restaurantDetailsReducer = (state = {restaurant:{}},action) =>{
 
     switch(action.type){
@@ -67,4 +83,4 @@ const restaurantUpdateProfileReducer = (state = {},action) =>{
 
 }
 
-export {restaurantLoginReducer,restaurantRegisterReducer,restaurantDetailsReducer,restaurantUpdateProfileReducer}
+export {restaurantLoginReducer,restaurantRegisterReducer,restaurantUpdateReducer,restaurantDetailsReducer,restaurantUpdateProfileReducer}

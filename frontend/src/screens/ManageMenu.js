@@ -72,7 +72,7 @@ const ManageMenu = ({history,location}) => {
                         <td>{x.item_category}</td>
                         <td>{x.item_type}</td>
                         <td>
-                           <p> <AiIcons.AiFillEdit className="mx-1" onClick={handleEdit}/> <FaIcons.FaTrashAlt className="mx-1" onClick={()=> handleDelete(x.item_id)}/> </p>
+                           <p> <Link to={`/editMenuItem/${encodeURI(x.item_id)}`}><AiIcons.AiFillEdit className="mx-1" /></Link> <FaIcons.FaTrashAlt style={{color:'red'}} className="mx-1" onClick={()=> handleDelete(x.item_id)}/> </p>
                         </td>
                     </tr>
                     ))}
