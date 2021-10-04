@@ -52,26 +52,24 @@ header .container {
           align-items: center;
 }
 
-header .searchBar {
+ .searchBar {
   margin-left: auto;
 }
 
-header .menu-bars{
+.menu-bars{
   /*margin-left: 2rem;*/
-  padding-top: 2rem;
-  margin-right: 1rem;
   font-size: 2rem;
   color: black;
   /*background-color: white;*/
 
 }
 
-header .menu-bars-close{
+.menu-bars-close{
   margin-left: 10rem;
   font-size: 2rem;
   color: black;
 }
-header .menu-bars:hover{
+.menu-bars:hover{
   color: black;
 }
 
@@ -155,6 +153,8 @@ header .menu-bars:hover{
   width: 100%;
   justify-content: start;
 }
+
+/*
 header .header-option {
   font-family: 'Uber Move Text';
   padding: 2vh;
@@ -188,6 +188,73 @@ header .searchBar {
   display: -ms-flexbox;
   display: flex;
 }
+*/
+
+.header{
+  margin: 25px;
+}
+.header-location{
+   border-radius: 2em;
+   height: 50px;
+   background-color: #f0f0f0;
+   border: none;
+  border-color: transparent;
+  padding: 5px;
+  margin-right: 1.5rem;
+}
+
+.header-location-after {
+  border-radius: 2em;
+  padding: 10px;
+  height: 50px;
+   background-color: #f0f0f0;
+   border: none;
+   outline: none;
+  border-color: transparent;
+}
+
+.header-search{
+  height: 50px;
+  background-color: #f0f0f0;
+  border: none;
+ border-color: transparent;
+ padding: 10px;
+ margin-right: 1.5rem;
+ color: black;
+}
+
+.header-search-after {
+ border-radius: 1em;
+ padding: 5px;
+  background-color: #f0f0f0;
+  border: none;
+  outline: none;
+ border-color: transparent;
+}
+
+.header-signIn{
+  height: 50px;
+  border-radius: 1.5em;
+  background-color: #f0f0f0;
+  text-decoration: none;
+  border: none;
+ border-color: transparent;
+ padding: 10px;
+ font-size: 1.2rem;
+ margin-right: 1.5rem;
+ color: black;
+}
+
+.cartbutton{
+  border-radius: 2em;
+  width: 60%;
+  height: 40px;
+  margin-top: 5px;
+  background-color: black;
+  color: white;
+}
+
+
 
 .userImg{
   height: inherit;

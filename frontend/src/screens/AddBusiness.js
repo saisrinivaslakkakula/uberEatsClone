@@ -25,6 +25,7 @@ const AddBusiness = ({ history, location }) => {
     const [uploading, setUploading] = useState(false)
     const redirect = location.search ? location.search.split("=")[1] : '/business-login'
     const [errorMessage, setErrorMessage] = useState(null)
+    const [rest_category,setCategory] = useState('')
     const [checked, setChecked] = useState(false);
     const [rest_open_day_from, setOpenDayFrom] = useState(false);
     const [rest_open_day_to, setOpenDayTo] = useState(false);
@@ -87,7 +88,7 @@ const AddBusiness = ({ history, location }) => {
 
     const submitHandler = (e) => {
         e.preventDefault()
-            dispatch(register(rest_name, rest_type, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode,rest_open_day_from,rest_open_day_to,rest_open_time_from,rest_open_time_to,rest_desc,rest_main_photo,checked))
+            dispatch(register(rest_name, rest_type, rest_category, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode,rest_open_day_from,rest_open_day_to,rest_open_time_from,rest_open_time_to,rest_desc,rest_main_photo,checked))
     }
 
     return (
@@ -115,6 +116,12 @@ const AddBusiness = ({ history, location }) => {
                                 <option value="pick-up"> Pick-Up</option>
                                 <option value="delivery"> Delivery</option>
                                 <option value="Both"> Pick-up + Delivery</option>
+                            </select>
+                            <select className="form-control my-3" name="category" placeholder="Restaurant category" onChange={(e) => setCategory(e.target.value)}>
+                                <option default value=""> Choose restaurant Category</option>
+                                <option value="Veg"> Veg</option>
+                                <option value="Vegan"> Vegan</option>
+                                <option value="Both"> non-Veg</option>
                             </select>
                             <input type="email" name="email" className="form-control pad" required onChange={(e) => setEmail(e.target.value)} placeholder="Enter Restaurant Email"></input>
                             <input type="tel" name="phone" className="form-control pad" required onChange={(e) => setPhone(e.target.value)} placeholder="Restaurant Phone Number"></input>

@@ -1,4 +1,4 @@
-import { REST_DETAILS_FAIL, REST_DETAILS_REQUEST, REST_DETAILS_SUCCESS, REST_LOGIN_FAIL, REST_LOGIN_REQUEST, REST_LOGIN_SUCCESS, REST_LOGOUT, REST_PROFILE_UPDATE_FAIL, REST_PROFILE_UPDATE_REQUEST, REST_PROFILE_UPDATE_SUCCESS, REST_REGISTER_FAIL, REST_REGISTER_REQUEST, REST_REGISTER_SUCCESS } from "../constants/restaurantConstants"
+import { REST_ALL_DETAILS_FAIL, REST_ALL_DETAILS_REQUEST, REST_ALL_DETAILS_SUCCESS, REST_DETAILS_FAIL, REST_DETAILS_REQUEST, REST_DETAILS_SUCCESS, REST_LOGIN_FAIL, REST_LOGIN_REQUEST, REST_LOGIN_SUCCESS, REST_LOGOUT, REST_PROFILE_UPDATE_FAIL, REST_PROFILE_UPDATE_REQUEST, REST_PROFILE_UPDATE_SUCCESS, REST_REGISTER_FAIL, REST_REGISTER_REQUEST, REST_REGISTER_SUCCESS } from "../constants/restaurantConstants"
 
 
 const restaurantLoginReducer = (state = {},action) =>{
@@ -83,4 +83,22 @@ const restaurantUpdateProfileReducer = (state = {},action) =>{
 
 }
 
-export {restaurantLoginReducer,restaurantRegisterReducer,restaurantUpdateReducer,restaurantDetailsReducer,restaurantUpdateProfileReducer}
+const getAllRestaurants = (state = {},action) =>{
+
+    switch(action.type){
+        case REST_ALL_DETAILS_REQUEST:
+            return({...state,loading:true})
+        case REST_ALL_DETAILS_SUCCESS:
+            return({loading:false,allRestaurants:action.payload})
+        case REST_ALL_DETAILS_FAIL:
+            return({loading:false, error:action.payload})
+        default:
+                return state
+
+    }
+
+}
+
+export {restaurantLoginReducer,restaurantRegisterReducer,
+    restaurantUpdateReducer,restaurantDetailsReducer,
+    restaurantUpdateProfileReducer, getAllRestaurants}

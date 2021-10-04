@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import  {composeWithDevTools} from 'redux-devtools-extension'
 import {userLoginReducer,userRegisterReducer,userDetailsReducer, userUpdateProfileReducer} from './reducers/userReducers'
 import {adminDetailsReducer,adminRegisterReducer,adminLoginReducer,adminUpdateProfileReducer} from './reducers/adminReducers'
-import {restaurantDetailsReducer,restaurantLoginReducer,restaurantRegisterReducer,restaurantUpdateProfileReducer} from './reducers/restaurantReducers'
+import {restaurantDetailsReducer,restaurantLoginReducer,restaurantRegisterReducer,restaurantUpdateProfileReducer,getAllRestaurants} from './reducers/restaurantReducers'
 import{menuAddItemsReducer,getMenuByRestaurant,deleteMenuItemByIDReducer,getMenuItemByItemId,updateMenuItemByIDReducer} from './reducers/menuReducers'
 const userInfoFromStorage = localStorage.getItem('userInfo')?JSON.parse(localStorage.getItem('userInfo')):null
 const adminInfoFromStorage = localStorage.getItem('adminInfo')?JSON.parse(localStorage.getItem('adminInfo')):null
@@ -23,6 +23,7 @@ const reducer = combineReducers({
     restaurantMenuAdd : menuAddItemsReducer,
     restaurantMenu:getMenuByRestaurant,
     restaurantMenuDeleteItem: deleteMenuItemByIDReducer,
+    allRestaurants: getAllRestaurants,
     menuItemDetail:getMenuItemByItemId,
     updateMenuItem:updateMenuItemByIDReducer
 

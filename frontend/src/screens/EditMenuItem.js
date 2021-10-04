@@ -26,11 +26,13 @@ const EditMenuItem = ({ history, match,location }) => {
             history.push('/business-login')
         }
         if (!menuItemDetails){
-            console.log("Enc:"+encodeURI(match.params.id))
+            alert("Getting")
             dispatch(getMenuItemByItemID(encodeURI(match.params.id)))
+            
         }
             
         else{
+            alert("Got")
             setItemName(menuItemDetails.item_name)
             setItemType(menuItemDetails.item_type)
             setItemCategory(menuItemDetails.item_category)
@@ -39,7 +41,7 @@ const EditMenuItem = ({ history, match,location }) => {
         }
         
 
-    }, [dispatch, history, adminInfo, menuItemDetails,success])
+    }, [dispatch, history, adminInfo, menuItemDetails])
 
     const submitHandler= (e)=>{
         //

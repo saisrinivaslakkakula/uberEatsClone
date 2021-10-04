@@ -2,7 +2,7 @@ const crypto = require('crypto')
 const generateToken = require('../utils/generateToken')
 const db = require('../dbCon')
 const addRestaurant = async (req, res) => {
-    let { rest_name, rest_type, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode, rest_open_day_from, rest_open_day_to, rest_open_time_from, rest_open_time_to, rest_desc, rest_main_photo, checked} = req.body
+    let { rest_name, rest_type, rest_category, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode, rest_open_day_from, rest_open_day_to, rest_open_time_from, rest_open_time_to, rest_desc, rest_main_photo, checked} = req.body
     //console.log(req.body)
 
     let id = crypto.createHash('sha256').update(rest_email + rest_name).digest('base64')
@@ -17,6 +17,7 @@ const addRestaurant = async (req, res) => {
      `rest_country`, \
      `rest_zipcode`, \
      `rest_type`, \
+     `rest_category`, \
      `rest_open_day_from`, \
      `rest_open_day_to`, \
      `rest_open_time_from`, \
@@ -30,6 +31,7 @@ const addRestaurant = async (req, res) => {
       ?, \
      ?, \
      ?,\
+      ?, \
       ?, \
       ?, \
       ?, \
@@ -80,6 +82,7 @@ const addRestaurant = async (req, res) => {
                         rest_country,
                         rest_zipcode,
                         rest_type,
+                        rest_category,
                         rest_open_day_from,
                         rest_open_day_to,
                         rest_open_time_from,
@@ -109,6 +112,7 @@ const addRestaurant = async (req, res) => {
                                     rest_country,
                                     rest_zipcode,
                                     rest_type,
+                                    rest_category,
                                     rest_open_day_from,
                                     rest_open_day_to,
                                     rest_open_time_from,
@@ -610,4 +614,30 @@ const getItemDetails = async (req, res) => {
 
 }
 
-module.exports = { addRestaurant, updateRestaurant,getRestaurantProfile, getRestaurantProfileforAdmin,addmenuItem,getMenuByRestaurant,updateMenuItem,getItemDetails,deleteMenuItem}
+const getAllRestaurants = async (req, res) => {
+
+    let sql = "SELECT * FROM restaurant"
+   //console.log(sql)
+    db.query(sql, (err, result) => {
+        if (err) {
+            res.status(500).json({
+                "message:": "Internal Server Error"
+            })
+        }
+    
+        else {
+            res.json(
+                {
+                    result
+                }
+                
+                )
+
+        }
+    })
+
+
+
+}
+
+module.exports = { addRestaurant, updateRestaurant,getRestaurantProfile, getAllRestaurants, getRestaurantProfileforAdmin,addmenuItem,getMenuByRestaurant,updateMenuItem,getItemDetails,deleteMenuItem}
