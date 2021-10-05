@@ -18,7 +18,7 @@ function App() {
     <div className="App">
       <Router>
       <Header/>
-       <div className="container">
+       <div className="container-fluid">
           <Route path='/' component={HomeScreen} exact/>
           <Route path='/login' component={LoginScreen}/>
           <Route path='/business-signup' component={BusinessSignUp}/>

@@ -254,7 +254,20 @@ header .searchBar {
   color: white;
 }
 
+.img-responsive {
+  width: 28vh;
+  height: 20vh;
+}
+.rest-card{
+  text-transform: capitalize;
+  text-decoration: none !important;
+  color: black;
+}
 
+.rest-card p{
+  text-decoration: none;
+  color: black;
+}
 
 .userImg{
   height: inherit;
