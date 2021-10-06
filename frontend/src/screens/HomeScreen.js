@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllRestaurants,filterRestaurantResultsByDeliveryType,filterRestaurantResultsByDeiteryType } from '../actions/restaurantActions'
+import { getAllRestaurants, filterRestaurantResultsByDeliveryType,filterRestaurantResultsByDeiteryType, filterData } from '../actions/restaurantActions'
 import Loader from '../components/Loader'
 import * as AllIcons from 'react-icons/all'
 import RestaurantCard from '../components/RestaurantCard'
 const HomeScreen = () => {
 
-    const [deliverychecked, setDeliveryChecked] = useState('');
-    const [pickUpChecked, setPickUpChecked] = useState('')
-    const [bothChecked, setbothChecked] = useState('Both')
-    const [deliveryModeChanged, setDeliveryModeChanged] = useState('Both')
-    const [dieteryoptions,setDieteryOptions] = useState({
+
+    const [filterOptions,setFilterOptions] = useState({
         Veg:false,
         Vegan:false,
-        nonVeg:false
+        nonVeg:false,
+        pickup:false,
+        delivery:false,
+        both:true
 
     })
     const userLogin = useSelector(state => state.userLogin)
@@ -26,89 +26,97 @@ const HomeScreen = () => {
     const { user, loading: userLoading, error: userLoadError } = userDetails
     const dispatch = useDispatch()
 
-    const getAllRestaurantsInfo = async() =>{
-        dispatch(getAllRestaurants())
-    }
-
+   
     useEffect(() => {
 
 
+            dispatch(filterData(filterOptions))
+         
 
-        if(deliveryModeChanged ==='Both' || deliveryModeChanged===''){
-            //if(!dieteryoptions.Veg && !dieteryoptions.Vegan && !dieteryoptions.nonVeg)
-                dispatch(getAllRestaurants())
-        }
-        else{
-            dispatch(filterRestaurantResultsByDeliveryType(deliveryModeChanged))
-            
-        }
+    }, [dispatch,filterOptions])
 
-        if(dieteryoptions.Veg || dieteryoptions.Vegan || dieteryoptions.nonVeg){
-            dispatch(filterRestaurantResultsByDeiteryType(dieteryoptions))
-        }
 
-        
-            
 
-    }, [dispatch,deliveryModeChanged,dieteryoptions])
-
-    const setDeliveryMode = (e) =>{
-        setDeliveryModeChanged(e)
-        if(e==='pick-up'){
-            setPickUpChecked('pick-up')
-            setDeliveryChecked('')
-            setbothChecked('')
-        }
-        else if(e==='Delivery'){
-            setPickUpChecked('')
-            setDeliveryChecked('Delivery')
-            setbothChecked('')
-
-        }
-        else{
-            setPickUpChecked('')
-            setDeliveryChecked('')
-            setbothChecked('Both')
-        }
-
-            //setDeliveryChecked(!deliverychecked)
-           // setPickUpChecked(!pickUpChecked)
-
-        
-    }
-
-    const setDietery=(e)=>{
+    const setFilterOptionsonChange=(e)=>{
         if(e==='Veg'){
-            setDieteryOptions({
-                Veg:!dieteryoptions.Veg,
-                nonVeg:dieteryoptions.nonVeg,
-                Vegan: dieteryoptions.Vegan
+            setFilterOptions({
+                Veg:!filterOptions.Veg,
+                nonVeg:filterOptions.nonVeg,
+                Vegan: filterOptions.Vegan,
+                delivery:filterOptions.delivery,
+                pickup:filterOptions.pickup,
+                both:filterOptions.both
             })
         }
             
         else if (e== 'Vegan'){
-            setDieteryOptions({
-                Veg:dieteryoptions.Veg,
-                nonVeg:dieteryoptions.nonVeg,
-                Vegan: !dieteryoptions.Vegan
+            setFilterOptions({
+                Veg:filterOptions.Veg,
+                nonVeg:filterOptions.nonVeg,
+                Vegan: !filterOptions.Vegan,
+                delivery:filterOptions.delivery,
+                pickup:filterOptions.pickup,
+                both:filterOptions.both
             })
         }
            
         else if (e=='nonVeg'){
-            setDieteryOptions({
-                Veg:dieteryoptions.Veg,
-                nonVeg:!dieteryoptions.nonVeg,
-                Vegan: dieteryoptions.Vegan
+            setFilterOptions({
+                Veg:filterOptions.Veg,
+                nonVeg:!filterOptions.nonVeg,
+                Vegan: filterOptions.Vegan,
+                delivery:filterOptions.delivery,
+                pickup:filterOptions.pickup,
+                both:filterOptions.both
+
+            })
+
+        }
+        else if (e=='Delivery'){
+            setFilterOptions({
+                Veg:filterOptions.Veg,
+                nonVeg:filterOptions.nonVeg,
+                Vegan: filterOptions.Vegan,
+                delivery:true,
+                pickup:false,
+                both:false
+
+            })
+
+        }
+        else if (e=='pick-up'){
+            setFilterOptions({
+                Veg:filterOptions.Veg,
+                nonVeg:filterOptions.nonVeg,
+                Vegan: filterOptions.Vegan,
+                delivery:false,
+                pickup:true,
+                both:false
+
+            })
+
+        }
+        else if (e=='Both'){
+            setFilterOptions({
+                Veg:filterOptions.Veg,
+                nonVeg:filterOptions.nonVeg,
+                Vegan: filterOptions.Vegan,
+                delivery:false,
+                pickup:false,
+                both:true
+
             })
 
         }
            
         else{
-            setDieteryOptions({
-                Veg:dieteryoptions.Veg,
-                nonVeg:dieteryoptions.nonVeg,
-                Vegan: dieteryoptions.Vegan,
-                all:dieteryoptions.all
+            setFilterOptions({
+                Veg:filterOptions.Veg,
+                nonVeg:filterOptions.nonVeg,
+                Vegan: filterOptions.Vegan,
+                delivery:filterOptions.delivery,
+                pickup:filterOptions.pickup,
+                both:true
             })
         }
             
@@ -135,30 +143,30 @@ const HomeScreen = () => {
                                 <h5><b>Delivery Options</b></h5>
                                 <form>
                                     <label className="radio-inline">
-                                        <input type="radio" name="optradio" value="pick-up" checked={pickUpChecked === 'pick-up'} onChange={(e) => setDeliveryMode(e.target.value)}></input>
+                                        <input type="radio" name="optradio" value="pick-up" checked={filterOptions.pickup} onChange={(e) => setFilterOptionsonChange(e.target.value)}></input>
                                         <span className="px-2"><span className="mx-2"><AllIcons.BsFillBagFill /></span> Pick Up</span>
                                     </label>
                                     <label className="radio-inline px-3">
-                                        <input type="radio" name="optradio" value="Delivery" checked={deliverychecked === 'Delivery'} onChange={(e) => setDeliveryMode(e.target.value)}></input>
+                                        <input type="radio" name="optradio" value="Delivery" checked={filterOptions.delivery} onChange={(e) => setFilterOptionsonChange(e.target.value)}></input>
                                         <span className="px-2"><span className="mx-2"><AllIcons.RiEBike2Line /></span>Delivery</span>
                                     </label>
                                     <label className="radio-inline px-3">
-                                        <input type="radio" name="optradio" value="Both" checked={bothChecked === 'Both'}onChange={(e) => setDeliveryMode(e.target.value)} ></input>
+                                        <input type="radio" name="optradio" value="Both" checked={filterOptions.both}onChange={(e) => setFilterOptionsonChange(e.target.value)} ></input>
                                         <span className="px-2"><span className="mx-2"><AllIcons.GoArrowBoth /></span>Both</span>
                                     </label>
                                 </form>
                                 <hr></hr>
                                 <h5><b>Dietery</b></h5>
                                 <div className="py-2">
-                                    <input type="checkbox" name="optradio" value="Veg" checked={dieteryoptions.Veg} onChange={(e) => setDietery(e.target.value)}></input>
+                                    <input type="checkbox" name="optradio" value="Veg" checked={filterOptions.Veg} onChange={(e) => setFilterOptionsonChange(e.target.value)}></input>
                                     <span className="px-2"><span className="mx-2"><AllIcons.FaLeaf /></span> Vegetarian</span>
                                 </div>
                                 <div className="py-2">
-                                    <input type="checkbox" name="optradio" value="Vegan" checked={dieteryoptions.Vegan} onChange={(e) => setDietery(e.target.value)}></input>
+                                    <input type="checkbox" name="optradio" value="Vegan" checked={filterOptions.Vegan} onChange={(e) => setFilterOptionsonChange(e.target.value)}></input>
                                     <span className="px-2"><span className="mx-2"><AllIcons.GiRawEgg /></span>Vegan</span>
                                 </div>
                                 <div className="py-2">
-                                    <input type="checkbox" name="optradio" value="nonVeg" checked={dieteryoptions.nonVeg} onChange={(e) => setDietery(e.target.value)}></input>
+                                    <input type="checkbox" name="optradio" value="nonVeg" checked={filterOptions.nonVeg} onChange={(e) => setFilterOptionsonChange(e.target.value)}></input>
                                     <span className="px-2"><span className="mx-2"><AllIcons.GiChickenOven /></span>Non-veg</span>
                                 </div>
                                 

@@ -1,4 +1,4 @@
-import { REST_LOGOUT, REST_REGISTER_REQUEST, REST_REGISTER_SUCCESS, REST_REGISTER_FAIL, REST_DETAILS_REQUEST, REST_DETAILS_SUCCESS, REST_DETAILS_FAIL, REST_PROFILE_UPDATE_REQUEST, REST_PROFILE_UPDATE_SUCCESS, REST_PROFILE_UPDATE_FAIL, REST_ALL_DETAILS_REQUEST, REST_ALL_DETAILS_SUCCESS, REST_ALL_DETAILS_FAIL, REST_SEARCH_REQUEST, REST_FILTER_BY_TYPE, REST_FILTER_BY_MODE} from '../constants//restaurantConstants'
+import { REST_LOGOUT, REST_REGISTER_REQUEST, REST_REGISTER_SUCCESS, REST_REGISTER_FAIL, REST_DETAILS_REQUEST, REST_DETAILS_SUCCESS, REST_DETAILS_FAIL, REST_PROFILE_UPDATE_REQUEST, REST_PROFILE_UPDATE_SUCCESS, REST_PROFILE_UPDATE_FAIL, REST_ALL_DETAILS_REQUEST, REST_ALL_DETAILS_SUCCESS, REST_ALL_DETAILS_FAIL, REST_SEARCH_REQUEST, REST_FILTER_BY_TYPE, REST_FILTER_BY_MODE, REST_FILTER_REQUEST} from '../constants//restaurantConstants'
 import axios from 'axios'
 
 
@@ -146,82 +146,71 @@ export const getsearchRestaurantResults = (keyWord) => async(dispatch,getState) 
     }      
 }
 
-export const filterRestaurantResultsByDeliveryType = (deliverymode) => async(dispatch,getState) =>{
-
+export const filterData = (filters) => async(dispatch,getState)=>{
     const {data} = await axios.get(`/api/restaurant/`)
-    
-    dispatch({
-        type : REST_ALL_DETAILS_SUCCESS,
-        payload:data,
-    })
-    const {allRestaurants} = getState()
-    //console.log(deliverymode)
-    const {allRestaurants:allRestaurantsObj} = allRestaurants
-    //console.log(allRestaurantsObj)
-    let result = allRestaurantsObj.result.filter(
-        (x)=>x.rest_type.toLowerCase().indexOf(deliverymode.toLowerCase()) !== -1
         
-    )
-    let results = {
-        result
-    }
-  
-        //results.push(result)
-        dispatch({
-            type:REST_FILTER_BY_MODE,
-            payload:results
-        })
-        
-}
-
-export const filterRestaurantResultsByDeiteryType = (dieteryType) => async(dispatch,getState) =>{
-    const {data} = await axios.get(`/api/restaurant/`)
-    //const {allRestaurants} = getState()
-    //const {allRestaurants:data} = allRestaurants
-    dispatch({
-        type : REST_ALL_DETAILS_SUCCESS,
-        payload:data,
-    })
-    if((Object.values(dieteryType).every(item=>item === true)) || (Object.values(dieteryType).every(item=>item === false))){
-        const {allRestaurants} = getState()
-        const {allRestaurants:allRestaurantsObj} = allRestaurants
-        //console.log(allRestaurantsObj)
-        /*dispatch({
+         dispatch({
             type : REST_ALL_DETAILS_SUCCESS,
-            payload:allRestaurantsObj,
-        })*/
+            payload:data,
+        })
+        const {allRestaurants} = getState()
+        const {allRestaurants:allRestaurantsObject} = allRestaurants
+    if(allRestaurantsObject){
+        const {result} = allRestaurantsObject
+        let resultOutStage1 = []
+        //console.log(filters)
+        if(filters.pickup){
+        const {data} = await axios.get(`/api/restaurant/`)
+        const res = data.result.filter(x =>(x.rest_type === 'pick-up' ))
+        resultOutStage1 = resultOutStage1.concat(res)
+    }
+    else if (filters.delivery){
+        const {data} = await axios.get(`/api/restaurant/`)
+        const res = data.result.filter(x =>(x.rest_type === 'delivery'))
+        resultOutStage1 = resultOutStage1.concat(res)
     }
     else{
-        const {allRestaurants} = getState()
-        const {allRestaurants:allRestaurantsObj} = allRestaurants
-        let result = []
-        if(dieteryType.Veg){
-              const res1 =  allRestaurantsObj.result.filter((x)=>x.rest_category.trim() === 'Veg')
-              result = result.concat(res1)
-        }
-        if (dieteryType.Vegan){
-            const res2 =  allRestaurantsObj.result.filter((x)=>x.rest_category.trim() === 'Vegan')
-            result = result.concat(res2)
-        }
-        if (dieteryType.nonVeg){
-            const res3 =  allRestaurantsObj.result.filter((x)=>x.rest_category.trim() === 'nonVeg')
-            result = result.concat(res3)
-        }
-        let results = {
-            result
-        }
-        
-        //console.log(result)
-            //results.push(result)
-            dispatch({
-                type:REST_FILTER_BY_TYPE,
-                payload:results
-            })
-  
+        const {data} = await axios.get(`/api/restaurant/`)
+        //const res = data.result.filter(x =>(x.rest_type === 'delivery'))
+        resultOutStage1 = resultOutStage1.concat(data.result)
 
     }
-    
-     
+
+    let resultOutStage2 = []
+    if(filters.Veg){
+        const res = resultOutStage1.filter(x =>(x.rest_category === 'Veg'))
+        resultOutStage2 = resultOutStage2.concat(res)
+        
+    }
+    if(filters.Vegan){
+        const res = resultOutStage1.filter(x =>(x.rest_category === 'Vegan'))
+        resultOutStage2 = resultOutStage2.concat(res)
+        
+    }
+    if(filters.nonVeg){
+        const res = resultOutStage1.filter(x =>(x.rest_category === 'nonVeg'))
+        resultOutStage2 = resultOutStage2.concat(res)
+        
+    }
+    if(resultOutStage2.length >0){
+        var resultsOutFinal = {
+            result:resultOutStage2
+        }
+    }
+    else{
+        var resultsOutFinal = {
+            result:resultOutStage1
+        }
+
+    }
+
+    dispatch({
+        type:REST_FILTER_REQUEST,
+        payload:resultsOutFinal
+    })
+
+}
+
 }
 
 
