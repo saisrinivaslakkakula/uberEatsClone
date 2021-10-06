@@ -1,16 +1,30 @@
-import React from 'react'
+import React,{ useState, useEffect } from 'react'
 import SideBar from './SideBar'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
 import * as TiIcons from "react-icons/ti"
 import * as BiIcons from "react-icons/bi"
 import * as FaIcons from "react-icons/fa"
+import {getsearchRestaurantResults,getAllRestaurants} from '../actions/restaurantActions'
 const Header = () => {
-
+    const [keyword, setKeyWord] = useState('')
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
     const adminLogin = useSelector(state => state.adminLogin)
     const { adminInfo } = adminLogin
+    const dispatch = useDispatch()
+    useEffect(() => {
+       
+            if(keyword.trim() !== ''){
+                dispatch(getsearchRestaurantResults(keyword.trim()))
+            }
+            else{
+                dispatch(getAllRestaurants())
+            }
+               
+    }, [keyword,dispatch])
+
+
     return (
         < div className="header">
             <div className="row">
@@ -36,7 +50,7 @@ const Header = () => {
                         </div>
                         <div className="col-md-3 header-search">
                             <BiIcons.BiSearch />
-                            <input type="text" className="header-search-after" placeholder="What are you craving?"></input>
+                            <input type="text" className="header-search-after" onChangeCapture={(e) => setKeyWord(e.target.value)} placeholder="What are you craving?"></input>
                         </div>
                         <div className="col-md-2">
                             <button className="cartbutton"><FaIcons.FaShoppingCart/> &nbsp; <span>cart <b>.</b> 0</span></button>
