@@ -51,7 +51,7 @@ const restaurantUpdateReducer = (state = {},action) =>{
 
 }
 
-const restaurantDetailsReducer = (state = {restaurant:{}},action) =>{
+const restaurantDetailsReducer = (state = {menu:[]},action) =>{
 
     switch(action.type){
         case REST_DETAILS_REQUEST:

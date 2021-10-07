@@ -13,6 +13,8 @@ import AddBusiness from "./screens/AddBusiness";
 import ManageMenu from "./screens/ManageMenu";
 import AddMenuItem from "./screens/AddMenuItem";
 import EditMenuItem from "./screens/EditMenuItem";
+import RestDetails from "./screens/RestDetails";
+import Cart from "./screens/Cart";
 function App() {
   return (
     <div className="App">
@@ -31,6 +33,8 @@ function App() {
           <Route path='/manageMenu' component={ManageMenu}/>
           <Route path='/addMenuItem' component={AddMenuItem}/>
           <Route path='/editMenuItem/:id' component={EditMenuItem}/>
+          <Route path='/restDetails/:id' component={RestDetails}/>
+          <Route path='/cart' component={Cart}/>
           
        </div> 
       <Footer/>

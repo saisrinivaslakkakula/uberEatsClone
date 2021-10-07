@@ -75,20 +75,18 @@ export const getRestaurantDetails = (id) => async(dispatch,getState) =>{
             type:REST_DETAILS_REQUEST
         })
      
-        const {userLogin} = getState()
-        const {userInfo} = userLogin
-        const config = {
-            headers: {
-                'Content-Type':'application/json',
-                Authorization: `Bearer ${userInfo.token}`,
-            }
+    
+        const {data} = await axios.get(`/api/restaurant/profile/${id}`)
+        const menuData = await axios.get(`/api/restaurant/${data.rest_id}`)
+        //console.log(menuData.data)
+        const payloadObject = {
+            ...data,
+            menu:menuData.data
         }
-        const {data} = await axios.get(`/api/users/${id}`,config)
         //console.log(data)
-        console.log("Dispatchin in getRestaurantDetails")
          dispatch({
             type : REST_DETAILS_SUCCESS,
-            payload:data,
+            payload:payloadObject,
         })
        
         

@@ -5,6 +5,7 @@ import {userLoginReducer,userRegisterReducer,userDetailsReducer, userUpdateProfi
 import {adminDetailsReducer,adminRegisterReducer,adminLoginReducer,adminUpdateProfileReducer} from './reducers/adminReducers'
 import {restaurantDetailsReducer,restaurantLoginReducer,restaurantRegisterReducer,restaurantUpdateProfileReducer,getAllRestaurants} from './reducers/restaurantReducers'
 import{menuAddItemsReducer,getMenuByRestaurant,deleteMenuItemByIDReducer,getMenuItemByItemId,updateMenuItemByIDReducer} from './reducers/menuReducers'
+import { cartReducer } from './reducers/cartReducers'
 const userInfoFromStorage = localStorage.getItem('userInfo')?JSON.parse(localStorage.getItem('userInfo')):null
 const adminInfoFromStorage = localStorage.getItem('adminInfo')?JSON.parse(localStorage.getItem('adminInfo')):null
 const restaurantInfoFromStorage = localStorage.getItem('restaurantInfo')?JSON.parse(localStorage.getItem('restaurantInfo')):null
@@ -25,10 +26,12 @@ const reducer = combineReducers({
     restaurantMenuDeleteItem: deleteMenuItemByIDReducer,
     allRestaurants: getAllRestaurants,
     menuItemDetail:getMenuItemByItemId,
-    updateMenuItem:updateMenuItemByIDReducer
+    updateMenuItem:updateMenuItemByIDReducer,
+    cartItems:cartReducer
 
 })
 
+const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
 const initialState = {
     userLogin: {
         userInfo:userInfoFromStorage,
@@ -36,7 +39,9 @@ const initialState = {
     adminLogin: {
         adminInfo:adminInfoFromStorage,
         restaurantInfo:restaurantInfoFromStorage
-    }
+    },
+    cartItems:{cartItems:cartItemsFromStorage}
+
 }
 
 const middleWare = [thunk]

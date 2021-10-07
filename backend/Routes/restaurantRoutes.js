@@ -7,7 +7,7 @@ const {addRestaurant,updateRestaurant,getRestaurantProfile,
 router.route('/add').post(protect,addRestaurant)
 router.route('/update').put(protect,updateRestaurant)
 router.route('/additem').post(protect,addmenuItem)
-router.post('/profile',getRestaurantProfile)
+router.get('/profile/:id',getRestaurantProfile)
 router.post('/profileadm',getRestaurantProfileforAdmin)
 router.get('/:id',getMenuByRestaurant)
 router.get('/menuItem/:id',getItemDetails)

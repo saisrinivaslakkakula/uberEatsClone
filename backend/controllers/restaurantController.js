@@ -278,7 +278,7 @@ const updateRestaurant = async (req, res) => {
 
 const getRestaurantProfile = async (req, res) => {
 
-    let sql = "SELECT * FROM restaurant WHERE rest_id ='" + req.body.rest_id + "'"
+    let sql = "SELECT * FROM restaurant WHERE rest_id ='" + req.params.id+ "'"
     db.query(sql, (err, result) => {
         if (err) {
             throw new Error(err)
@@ -301,13 +301,14 @@ const getRestaurantProfile = async (req, res) => {
                 rest_open_time_from: result[0].rest_open_time_from,
                 rest_open_time_to: result[0].rest_open_time_to,
                 rest_main_photo: result[0].rest_main_photo,
-                rest_desc: result[0].rest_desc
+                rest_desc: result[0].description
 
             })
         }
         else {
-            res.status(401)
-            throw new Error("Error 404 - Not Found")
+            res.status(401).json({
+                "message:": "Restaurant Not Found!"
+            })
         }
     })
 }
@@ -338,7 +339,7 @@ const getRestaurantProfileforAdmin = async (req, res) => {
                 rest_open_time_from: result[0].rest_open_time_from,
                 rest_open_time_to: result[0].rest_open_time_to,
                 rest_main_photo: result[0].rest_main_photo,
-                rest_desc: result[0].rest_desc
+                rest_desc: result[0].description
 
             })
         }
@@ -635,7 +636,6 @@ const getAllRestaurants = async (req, res) => {
 
         }
     })
-
 
 
 }

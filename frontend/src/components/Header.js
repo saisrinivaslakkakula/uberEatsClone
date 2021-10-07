@@ -13,6 +13,8 @@ const Header = () => {
     const adminLogin = useSelector(state => state.adminLogin)
     const { adminInfo } = adminLogin
     const dispatch = useDispatch()
+    const cartItems = useSelector(state => state.cartItems)
+    const { loading: addCartLoading, error: addCartError, success: addCartSuccess, cartItems: cartItemsObject } = cartItems
     useEffect(() => {
        
             if(keyword.trim() !== ''){
@@ -22,7 +24,7 @@ const Header = () => {
                 dispatch(getAllRestaurants())
             }
                
-    }, [keyword,dispatch])
+    }, [keyword,cartItemsObject,dispatch])
 
 
     return (
@@ -53,7 +55,10 @@ const Header = () => {
                             <input type="text" className="header-search-after" onChangeCapture={(e) => setKeyWord(e.target.value)} placeholder="What are you craving?"></input>
                         </div>
                         <div className="col-md-2">
-                            <button className="cartbutton"><FaIcons.FaShoppingCart/> &nbsp; <span>cart <b>.</b> 0</span></button>
+                            <Link to="/cart">
+                            <button className="cartbutton"><FaIcons.FaShoppingCart/> &nbsp; <span>cart <b>.</b> 
+                            {cartItemsObject?cartItemsObject.length:0}
+                            </span></button> </Link>
                         </div>
                     </>
                     :
