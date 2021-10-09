@@ -1,4 +1,4 @@
-import { REST_LOGOUT, REST_REGISTER_REQUEST, REST_REGISTER_SUCCESS, REST_REGISTER_FAIL, REST_DETAILS_REQUEST, REST_DETAILS_SUCCESS, REST_DETAILS_FAIL, REST_PROFILE_UPDATE_REQUEST, REST_PROFILE_UPDATE_SUCCESS, REST_PROFILE_UPDATE_FAIL, REST_ALL_DETAILS_REQUEST, REST_ALL_DETAILS_SUCCESS, REST_ALL_DETAILS_FAIL, REST_SEARCH_REQUEST, REST_FILTER_BY_TYPE, REST_FILTER_BY_MODE, REST_FILTER_REQUEST} from '../constants//restaurantConstants'
+import { REST_LOGOUT, REST_REGISTER_REQUEST, REST_REGISTER_SUCCESS, REST_REGISTER_FAIL, REST_DETAILS_REQUEST, REST_DETAILS_SUCCESS, REST_DETAILS_FAIL, REST_PROFILE_UPDATE_REQUEST, REST_PROFILE_UPDATE_SUCCESS, REST_PROFILE_UPDATE_FAIL, REST_ALL_DETAILS_REQUEST, REST_ALL_DETAILS_SUCCESS, REST_ALL_DETAILS_FAIL, REST_SEARCH_REQUEST, REST_FILTER_BY_TYPE, REST_FILTER_BY_MODE, REST_FILTER_REQUEST, REST_SEARCH_BY_LOC_REQUEST} from '../constants//restaurantConstants'
 import axios from 'axios'
 
 
@@ -77,7 +77,7 @@ export const getRestaurantDetails = (id) => async(dispatch,getState) =>{
      
     
         const {data} = await axios.get(`/api/restaurant/profile/${id}`)
-        const menuData = await axios.get(`/api/restaurant/${data.rest_id}`)
+        const menuData = await axios.get(`/api/restaurant/menu/${data.rest_id}`)
         //console.log(menuData.data)
         const payloadObject = {
             ...data,
@@ -110,6 +110,29 @@ export const getAllRestaurants = () => async(dispatch,getState) =>{
         //console.log(data)
          dispatch({
             type : REST_ALL_DETAILS_SUCCESS,
+            payload:data,
+        })
+       
+        
+    } catch (error) {
+
+         dispatch({
+            type:REST_ALL_DETAILS_FAIL,
+            payload:error.response && error.response.data.message ? error.response.data.message: error.message
+        }) 
+    }
+}
+
+export const getRestaurantsByLocation = (location) => async(dispatch,getState) =>{
+    try {
+        dispatch({
+            type:REST_ALL_DETAILS_REQUEST
+        })
+     
+        const {data} = await axios.get(`/api/restaurant/${location}`)
+        //console.log(data)
+         dispatch({
+            type : REST_SEARCH_BY_LOC_REQUEST,
             payload:data,
         })
        

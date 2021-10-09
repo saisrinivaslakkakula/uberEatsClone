@@ -80,8 +80,8 @@ const RestDetails = ({ match }) => {
                         <div className="col-md-8">
                             <p>{restaurantDetailsObject.rest_desc}</p>
                         </div>
-                        <div className="col-md-4">
-                            Delivers between 10 AM - 11 PM
+                        <div className="col-md-4 p-3" >
+                            <p style={{backgroundColor:"#f0f0f0", width:'80%'} } className="p-3">Delivers between 10 AM - 11 PM</p>
                         </div>
                     </div>
                     <hr></hr>

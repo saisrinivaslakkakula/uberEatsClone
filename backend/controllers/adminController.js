@@ -1,11 +1,13 @@
 const crypto = require('crypto')
 const generateToken = require('../utils/generateToken')
 const db = require('../dbCon')
+const bcrypt = require('bcryptjs')
 const addAdmin = async (req, res) => {
     const { firstName, lastName, email, phone, password, image } = req.body
     //console.log(req.body)
     let id = crypto.createHash('sha256').update(email + firstName).digest('base64')
-    let sql = "INSERT INTO `admin` (`admin_id`,`firstName`, `lastName`, `email`, `password`, `phone`,`photoPath`) VALUES ('" + id + "', '" + firstName + "', '" + lastName + "','" + email + "','" + password + "','" + phone + "','" +image+"' ) "
+    const Hashedpassword = crypto.createHash('sha256').update(password).digest('base64')
+    let sql = "INSERT INTO `admin` (`admin_id`,`firstName`, `lastName`, `email`, `password`, `phone`,`photoPath`) VALUES ('" + id + "', '" + firstName + "', '" + lastName + "','" + email + "','" + Hashedpassword + "','" + phone + "','" +image+"' ) "
     //console.log(id)
    // let sql = "INSERT INTO `users` (`id`,`firstName`, `lastName`, `email`, `password`, `phone`, `street`, `city`, `state`,`country`,`zipcode`,`photo_path`) \
    //                         VALUES ('?','?','?','?','?','?','?','?','?','?','?','?' )"
@@ -30,7 +32,7 @@ const addAdmin = async (req, res) => {
                         firstName,
                         lastName,
                         email,
-                        password,
+                        Hashedpassword,
                         phone,
                         image
 
@@ -71,7 +73,7 @@ const addAdmin = async (req, res) => {
 
 const authAdmin = async (req, res) => {
     const { email, password } = req.body
-    //console.log("hi")
+    const Hashedpassword = crypto.createHash('sha256').update(password).digest('base64')
     db.query("SELECT * FROM admin WHERE email =?", [email], (err, result) => {
         if (err) {
             res.status(400).json({
@@ -79,7 +81,7 @@ const authAdmin = async (req, res) => {
             })
         }
         if (result.length === 1) {
-            if (result[0].password === password) {
+            if (result[0].password === Hashedpassword) {
                 res.json({
                     _id: result[0].admin_id,
                     firstName: result[0].firstName,

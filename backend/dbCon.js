@@ -7,5 +7,4 @@ const db = mysql.createConnection({
       password : 'mydatabase',
       database:'ubereats'
     })
-
     module.exports = db

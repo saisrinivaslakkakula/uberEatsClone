@@ -15,6 +15,8 @@ import AddMenuItem from "./screens/AddMenuItem";
 import EditMenuItem from "./screens/EditMenuItem";
 import RestDetails from "./screens/RestDetails";
 import Cart from "./screens/Cart";
+import MyOrders from "./screens/MyOrders";
+import PrevoiuosOrdersForAdmin from "./screens/PrevoiuosOrdersForAdmin";
 function App() {
   return (
     <div className="App">
@@ -35,6 +37,8 @@ function App() {
           <Route path='/editMenuItem/:id' component={EditMenuItem}/>
           <Route path='/restDetails/:id' component={RestDetails}/>
           <Route path='/cart' component={Cart}/>
+          <Route path='/myOrders' component={MyOrders}/>
+          <Route path='/previousOrders' component={PrevoiuosOrdersForAdmin}/>
           
        </div> 
       <Footer/>

@@ -1,6 +1,10 @@
 @font-face {
-  font-family: 'Uber Move Text';
-  src: url("//db.onlinewebfonts.com/t/11469c307f0de6481e3a04cc5d54ae93.eot");
+  font-family: 'FF Clan OT Medium';
+  src: url("./FF\ Clan\ OT\ Medium.otf");
+}
+@font-face {
+  font-family: 'FF Clan OT Book';
+  src: url("./FF\ Clan\ OT\ Book.otf");
 }
 
 :root {
@@ -15,31 +19,40 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Uber Move Text';
+  font-family: 'FF Clan OT Medium';
 }
 
 .container {
   width: calc(100% - 120px);
   margin-left: auto;
+  font-family: 'FF Clan OT Medium';
 
+}
+
+.container-fluid{
+  font-family: 'FF Clan OT Book';
 }
 
 header .logo h1 {
   font-weight: 300;
+  font-family: 'FF Clan OT Medium';
 }
 
 header .logo h1 span {
   color: #06c167;
   font-weight: 600;
+  
 }
 
 .logo h1 {
   font-weight: 300;
+  
 }
 
 .logo h1 span {
   color: #06c167;
   font-weight: 600;
+  
 }
 
 
@@ -112,6 +125,7 @@ header .container {
   align-items: center;
   list-style: none;
   height: 60px;
+  font-family: 'FF Clan OT Medium';
 }
 
 .nav-text a{
@@ -201,6 +215,7 @@ header .searchBar {
   border-color: transparent;
   padding: 5px;
   margin-right: 1.5rem;
+  font-family: 'FF Clan OT Medium';
 }
 
 .header-location-after {
@@ -221,6 +236,7 @@ header .searchBar {
  padding: 10px;
  margin-right: 1.5rem;
  color: black;
+ font-family: 'FF Clan OT Medium';
 }
 
 .header-search-after {
@@ -243,6 +259,7 @@ header .searchBar {
  font-size: 1.2rem;
  margin-right: 1.5rem;
  color: black;
+ font-family: 'FF Clan OT Medium';
 }
 
 .rest-details{
@@ -262,11 +279,16 @@ header .searchBar {
   border-style: solid;
   border-width: 0.5px;
   border-color: #f0f0f0;
+ 
+  
 }
 
 .menuItemCard img{
   width: 100%;
   height: fit-content;
+}
+.menuItemCard h5 {
+  font-family: 'FF Clan OT Medium';
 }
 
 .menuItemModal-img{
@@ -280,6 +302,7 @@ header .searchBar {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    font-family: 'FF Clan OT Book';
 }
 
 .menuItemModal{
@@ -409,6 +432,8 @@ footer{
   /*font-family: 'Uber Move Text';*/
   padding: 5vh;
   background-color: black;
+
+
 }
 footer .logo h2 {
   
@@ -431,6 +456,7 @@ footer ul.nobullets{
 footer ul a {
   color: inherit;
   text-decoration: none;
+  font-family: 'FF Clan OT Book';
 }
 footer ul a:hover {
   color: inherit;
@@ -442,6 +468,7 @@ footer hr {
 footer a {
   color: white;
   text-decoration: none;
+  font-family: 'FF Clan OT Book';
 
 }
 
@@ -454,6 +481,7 @@ footer a:hover {
 footer p {
   color: white;
   padding: 5vh;
+  font-family: 'FF Clan OT Book';
 }
 
 

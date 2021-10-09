@@ -1,6 +1,6 @@
-import { CART_ADD_ITEM_SUCCESS, CART_CHANGE_ITEM_FAIL, CART_CHANGE_ITEM_REQUEST, CART_DELETE_ITEM_SUCCESS } from '../constants/cartConstants'
+import { CART_ADD_ITEM_SUCCESS, CART_CHANGE_ITEM_FAIL, CART_CHANGE_ITEM_REQUEST, CART_CLEAR_REQUEST, CART_DELETE_ITEM_SUCCESS, PLACE_ORDER_FAIL, PLACE_ORDER_REQUEST, PLACE_ORDER_SUCCESS } from '../constants/cartConstants'
 
-export const cartReducer = (state = {cartItems:[]},action) =>{
+const cartReducer = (state = {cartItems:[]},action) =>{
     switch(action.type){
         case CART_CHANGE_ITEM_REQUEST:
             return({...state,loading:true})
@@ -30,8 +30,35 @@ export const cartReducer = (state = {cartItems:[]},action) =>{
             }
         case CART_CHANGE_ITEM_FAIL:
             return({loading:false, error:action.payload})
+        case CART_CLEAR_REQUEST:
+            localStorage.removeItem('cartItems')
+            return({
+                ...state,
+                cartItems:[]
+            })
         default:
                 return state
 
     }
 }
+
+
+const cartPlaceOrderReducer = (state = {},action) =>{
+
+    switch(action.type){
+        case PLACE_ORDER_REQUEST:
+            return({loading:true})
+        case PLACE_ORDER_SUCCESS:
+            return({loading:false,success:true})
+        case PLACE_ORDER_FAIL:
+            return({loading:false, error:action.payload})
+        default:
+                return state
+
+    }
+
+}
+
+
+
+export {cartReducer,cartPlaceOrderReducer}

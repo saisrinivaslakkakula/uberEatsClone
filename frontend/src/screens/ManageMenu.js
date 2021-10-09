@@ -33,7 +33,7 @@ const ManageMenu = ({history,location}) => {
         if(localStorage.getItem('restaurantInfo') === null){
             history.push("/adminHome")
         }
-        if(!menu){
+        if(!menu && localStorage.getItem('restaurantInfo')){
             const restDetails = localStorage.getItem('restaurantInfo')
             const restDetailsJson = JSON.parse(restDetails)
             dispatch(getMenuDetails(restDetailsJson.rest_id))

@@ -59,9 +59,9 @@ const SideBar = ({location,history}) => {
     
                                     </li>
                                 </p>
-                                <p>  <Link style={{ textDecoration: 'none', color: 'black' }} to="/manageRestaurant"> <AllIcons.BiEdit /> <span>Manage Restaurant</span></Link></p>
-                                <p> <Link style={{ textDecoration: 'none', color: 'black' }} to="/manageMenu"> <AllIcons.MdRestaurantMenu /> <span>Edit Menu</span></Link></p>
-                                <p> <li> <AllIcons.IoIosHelpBuoy /> <span>Previous orders</span></li></p>
+                                <p>  <Link onClick={showSidebar} style={{ textDecoration: 'none', color: 'black' }} to="/manageRestaurant"> <AllIcons.BiEdit /> <span>Manage Restaurant</span></Link></p>
+                                <p> <Link onClick={showSidebar}  style={{ textDecoration: 'none', color: 'black' }} to="/manageMenu"> <AllIcons.MdRestaurantMenu /> <span>Edit Menu</span></Link></p>
+                                <p> <Link  onClick={showSidebar} style={{ textDecoration: 'none', color: 'black' }} to="/previousOrders"> <AllIcons.IoIosHelpBuoy /> <span>Previous orders</span></Link></p>
                                 <p> <li> <AllIcons.IoMdPricetag /> <span>Edit Offers</span></li></p>
                                 <p onClick={showSidebar} style={{ 'color': '#757575' }}> <li onClick={logoutHandler}>
                                     Sign out
@@ -79,14 +79,14 @@ const SideBar = ({location,history}) => {
                             }
 
                             <p>
-                                <li>
+                                
                                     <Link style={{ textDecoration: 'none', color: 'black' }} to="/profile">
                                         <AllIcons.FaUserAlt /> <span> View Profile</span>
                                     </Link>
 
-                                </li>
+                                
                             </p>
-                            <p> <li> <AllIcons.FaReceipt /> <span>Orders</span></li></p>
+                            <p> <Link style={{ textDecoration: 'none', color: 'black' }} to="/myOrders"> <AllIcons.FaReceipt /> <span>Orders</span></Link></p>
                             <p> <li> <AllIcons.BsWallet /> <span>Wallet</span></li></p>
                             <p> <li> <AllIcons.IoIosHelpBuoy /> <span>Help</span></li></p>
                             <p> <li> <AllIcons.IoMdPricetag /> <span>Promotions</span></li></p>
@@ -116,49 +116,6 @@ const SideBar = ({location,history}) => {
                         }
                     </div>
                     }
-                    {/*userInfo  ?
-                        <div className="nav-menu-items">
-                            {userInfo.image && userInfo.image !== "null" ?
-                                <div> <li> <img className="userImg" src={userInfo.image}></img> {userInfo.firstName}</li></div>
-                                :
-                                <div> <li> <img className="userImg" src="/images/defaultuser.jpeg"></img> {userInfo.firstName}</li></div>
-                            }
-
-                            <p>
-                                <li>
-                                    <Link style={{ textDecoration: 'none', color: 'black' }} to="/profile">
-                                        <AllIcons.FaUserAlt /> <span> View Profile</span>
-                                    </Link>
-
-                                </li>
-                            </p>
-                            <p> <li> <AllIcons.FaReceipt /> <span>Orders</span></li></p>
-                            <p> <li> <AllIcons.BsWallet /> <span>Wallet</span></li></p>
-                            <p> <li> <AllIcons.IoIosHelpBuoy /> <span>Help</span></li></p>
-                            <p> <li> <AllIcons.IoMdPricetag /> <span>Promotions</span></li></p>
-                            <p onClick={showSidebar} style={{ 'color': '#757575' }}> <li onClick={logoutHandler}>
-                                Sign out
-                            </li></p>
-                        </div>
-
-                        :
-                        <div>
-                            <li className='nav-text'>
-                                <Link to="/login"> <button onClick={showSidebar}> Sign In</button></Link>
-                            </li>
-                            <li className='nav-text'>
-                                <Link to="/business-signup"> Sign Up for a Business</Link>
-                            </li>
-                            <li className='nav-text'>
-                                <Link to="/business-login"> Business Sign In</Link>
-                            </li>
-                            <li className='nav-text'>
-                                <Link to="#"> Sign Up as A Driver Partner</Link>
-                            </li>
-                        </div>
-                        */}
-                    
-
                 </ul>
             </nav>
         </div>

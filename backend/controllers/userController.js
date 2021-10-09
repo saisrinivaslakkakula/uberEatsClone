@@ -1,11 +1,14 @@
 const crypto = require('crypto')
 const generateToken = require('../utils/generateToken')
 const db = require('../dbCon')
+const bcrypt = require('bcryptjs')
 const addUser = async (req, res) => {
     const { firstName, lastName, email, phone, password, Street, City, State, Country, ZipCode, image } = req.body
     //console.log(req.body)
     let id = crypto.createHash('sha256').update(email + firstName).digest('base64')
-    let sql = "INSERT INTO `users` (`id`,`firstName`, `lastName`, `email`, `password`, `phone`, `street`, `city`, `state`,`country`,`zipcode`, `photo_path`) VALUES ('" + id + "', '" + firstName + "', '" + lastName + "','" + email + "','" + password + "','" + phone + "','" + Street + "','" + City + "','" + State + "','" + Country + "','" + ZipCode +"','"+image+"' ) "
+    const Hashedpassword = crypto.createHash('sha256').update(password).digest('base64')
+    //console.log(Hashedpassword+"~~~")
+    let sql = "INSERT INTO `users` (`id`,`firstName`, `lastName`, `email`, `password`, `phone`, `street`, `city`, `state`,`country`,`zipcode`, `photo_path`) VALUES ('" + id + "', '" + firstName + "', '" + lastName + "','" + email + "','" + Hashedpassword + "','" + phone + "','" + Street + "','" + City + "','" + State + "','" + Country + "','" + ZipCode +"','"+image+"' ) "
 
    // let sql = "INSERT INTO `users` (`id`,`firstName`, `lastName`, `email`, `password`, `phone`, `street`, `city`, `state`,`country`,`zipcode`,`photo_path`) \
    //                         VALUES ('?','?','?','?','?','?','?','?','?','?','?','?' )"
@@ -29,7 +32,7 @@ const addUser = async (req, res) => {
                         firstName,
                         lastName,
                         email,
-                        password,
+                        Hashedpassword,
                         phone,
                         Street,
                         City,
@@ -77,7 +80,7 @@ const addUser = async (req, res) => {
 
 const authUser = async (req, res) => {
     const { email, password } = req.body
-    //console.log("hi")
+    const Hashedpassword = crypto.createHash('sha256').update(password).digest('base64')
     db.query("SELECT * FROM users WHERE email =?", [email], (err, result) => {
         if (err) {
             res.status(400).json({
@@ -85,7 +88,8 @@ const authUser = async (req, res) => {
             })
         }
         if (result.length === 1) {
-            if (result[0].password === password) {
+            //console.log(result[0].password+"|"+Hashedpassword)
+            if (result[0].password === Hashedpassword) {
                 res.json({
                     _id: result[0].id,
                     firstName: result[0].firstName,

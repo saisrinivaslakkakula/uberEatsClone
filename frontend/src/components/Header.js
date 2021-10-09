@@ -1,11 +1,11 @@
-import React,{ useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import SideBar from './SideBar'
 import { Link } from 'react-router-dom'
-import { useSelector,useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import * as TiIcons from "react-icons/ti"
 import * as BiIcons from "react-icons/bi"
 import * as FaIcons from "react-icons/fa"
-import {getsearchRestaurantResults,getAllRestaurants} from '../actions/restaurantActions'
+import { getsearchRestaurantResults, getAllRestaurants,getRestaurantsByLocation} from '../actions/restaurantActions'
 const Header = () => {
     const [keyword, setKeyWord] = useState('')
     const userLogin = useSelector(state => state.userLogin)
@@ -16,17 +16,19 @@ const Header = () => {
     const cartItems = useSelector(state => state.cartItems)
     const { loading: addCartLoading, error: addCartError, success: addCartSuccess, cartItems: cartItemsObject } = cartItems
     useEffect(() => {
-       
-            if(keyword.trim() !== ''){
-                dispatch(getsearchRestaurantResults(keyword.trim()))
-            }
-            else{
-                dispatch(getAllRestaurants())
-            }
-               
-    }, [keyword,cartItemsObject,dispatch])
 
+        if (keyword.trim() !== '') {
+            dispatch(getsearchRestaurantResults(keyword.trim()))
+        }
+        else {
+            dispatch(getAllRestaurants())
+        }
 
+    }, [keyword, cartItemsObject, dispatch])
+
+    const filterByLocation = (location) =>{
+        dispatch(getRestaurantsByLocation(location))
+    }
     return (
         < div className="header">
             <div className="row">
@@ -41,13 +43,13 @@ const Header = () => {
 
                     </div>
                 </div>
-                {(userInfo || adminInfo) ?
+                {(userInfo) ?
                     <>
                         <div className="col-md-2 ">
                             <TiIcons.TiLocation />
-                            <select className="header-location-after" >
-                                <option>San Jose</option>
-                                <option> San Fransisco</option>
+                            <select className="header-location-after" onChange={(e)=>filterByLocation(e.target.value)}>
+                                <option vlaue="San Jose">San Jose</option>
+                                <option vlaue="San Fransisco"> San Fransisco</option>
                             </select>
                         </div>
                         <div className="col-md-3 header-search">
@@ -56,16 +58,19 @@ const Header = () => {
                         </div>
                         <div className="col-md-2">
                             <Link to="/cart">
-                            <button className="cartbutton"><FaIcons.FaShoppingCart/> &nbsp; <span>cart <b>.</b> 
-                            {cartItemsObject?cartItemsObject.length:0}
-                            </span></button> </Link>
+                                <button className="cartbutton"><FaIcons.FaShoppingCart /> &nbsp; <span>cart <b>.</b>
+                                    {cartItemsObject ? cartItemsObject.length : 0}
+                                </span></button> </Link>
                         </div>
                     </>
                     :
                     <>
-                    <div className="col-md-2 searchBar">
-                        <button className="header-signIn"> <Link className="header-signIn" to="/login"> Sign In</Link></button>
-                    </div>
+                        {!(userInfo || adminInfo) &&
+                            <div className="col-md-2 searchBar">
+                                <button className="header-signIn"> <Link className="header-signIn" to="/login"> Sign In</Link></button>
+                            </div>
+                        }
+
                     </>
                 }
 

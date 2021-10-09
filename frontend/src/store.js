@@ -2,10 +2,10 @@ import { createStore, combineReducers, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 import  {composeWithDevTools} from 'redux-devtools-extension'
 import {userLoginReducer,userRegisterReducer,userDetailsReducer, userUpdateProfileReducer} from './reducers/userReducers'
-import {adminDetailsReducer,adminRegisterReducer,adminLoginReducer,adminUpdateProfileReducer} from './reducers/adminReducers'
+import {adminDetailsReducer,adminRegisterReducer,adminLoginReducer,adminUpdateProfileReducer, adminAllOrderDetailsReducer, adminChangeStatusReducer} from './reducers/adminReducers'
 import {restaurantDetailsReducer,restaurantLoginReducer,restaurantRegisterReducer,restaurantUpdateProfileReducer,getAllRestaurants} from './reducers/restaurantReducers'
 import{menuAddItemsReducer,getMenuByRestaurant,deleteMenuItemByIDReducer,getMenuItemByItemId,updateMenuItemByIDReducer} from './reducers/menuReducers'
-import { cartReducer } from './reducers/cartReducers'
+import { cartReducer,cartPlaceOrderReducer } from './reducers/cartReducers'
 const userInfoFromStorage = localStorage.getItem('userInfo')?JSON.parse(localStorage.getItem('userInfo')):null
 const adminInfoFromStorage = localStorage.getItem('adminInfo')?JSON.parse(localStorage.getItem('adminInfo')):null
 const restaurantInfoFromStorage = localStorage.getItem('restaurantInfo')?JSON.parse(localStorage.getItem('restaurantInfo')):null
@@ -27,7 +27,10 @@ const reducer = combineReducers({
     allRestaurants: getAllRestaurants,
     menuItemDetail:getMenuItemByItemId,
     updateMenuItem:updateMenuItemByIDReducer,
-    cartItems:cartReducer
+    cartItems:cartReducer,
+    placedOrder:cartPlaceOrderReducer,
+    adminOrders:adminAllOrderDetailsReducer,
+    adminChangeOrderStatus: adminChangeStatusReducer
 
 })
 
