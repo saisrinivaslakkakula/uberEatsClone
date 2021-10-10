@@ -1,4 +1,4 @@
-import {USER_LOGIN_REQUEST,USER_LOGIN_SUCCESS,USER_LOGIN_FAIL,USER_LOGOUT, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_DETAILS_FAIL, USER_PROFILE_UPDATE_REQUEST, USER_PROFILE_UPDATE_SUCCESS, USER_PROFILE_UPDATE_FAIL} from '../constants/userConstants'
+import {USER_LOGIN_REQUEST,USER_LOGIN_SUCCESS,USER_LOGIN_FAIL,USER_LOGOUT, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_DETAILS_FAIL, USER_PROFILE_UPDATE_REQUEST, USER_PROFILE_UPDATE_SUCCESS, USER_PROFILE_UPDATE_FAIL, USER_ADD_FAV_REQUEST, USER_EDIT_FAV_SUCCESS, USER_EDIT_FAV_FAIL, USER_REMOVE_FAV_REQUEST, USER_GET_FAV_REQUEST, USER_GET_FAV_SUCCESS, USER_GET_FAV_FAIL} from '../constants/userConstants'
 const userLoginReducer = (state = {},action) =>{
 
     switch(action.type){
@@ -65,4 +65,38 @@ const userUpdateProfileReducer = (state = {},action) =>{
 
 }
 
-export {userLoginReducer,userRegisterReducer,userDetailsReducer,userUpdateProfileReducer}
+const userFavouritesReducer = (state = {favourites:[]},action) =>{
+
+    switch(action.type){
+        case USER_ADD_FAV_REQUEST:
+            return({...state,loading:true})
+        case USER_REMOVE_FAV_REQUEST:
+            return({...state,loading:true})
+        case USER_EDIT_FAV_SUCCESS:
+            return({loading:false,success:true,favourites:action.payload})
+        case USER_EDIT_FAV_FAIL:
+            return({loading:false, error:action.payload})
+        default:
+                return state
+
+    }
+
+}
+
+const userGetFavouritesReducer = (state = {favourites:[]},action) =>{
+
+    switch(action.type){
+        case USER_GET_FAV_REQUEST:
+            return({...state,loading:true})
+        case USER_GET_FAV_SUCCESS:
+            return({loading:false,success:true,favourites:action.payload})
+        case USER_GET_FAV_FAIL:
+            return({loading:false, error:action.payload})
+        default:
+                return state
+
+    }
+
+}
+
+export {userLoginReducer,userRegisterReducer,userDetailsReducer,userUpdateProfileReducer,userFavouritesReducer,userGetFavouritesReducer}

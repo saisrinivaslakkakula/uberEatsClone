@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllRestaurants, filterRestaurantResultsByDeliveryType,filterRestaurantResultsByDeiteryType, filterData } from '../actions/restaurantActions'
+import { getUserDetails } from '../actions/userActions'
 import Loader from '../components/Loader'
 import * as AllIcons from 'react-icons/all'
 import RestaurantCard from '../components/RestaurantCard'
@@ -29,9 +30,8 @@ const HomeScreen = () => {
    
     useEffect(() => {
 
-
             dispatch(filterData(filterOptions))
-         
+            dispatch(getUserDetails('profile'))
 
     }, [dispatch,filterOptions])
 
@@ -126,7 +126,7 @@ const HomeScreen = () => {
         window.location.reload()
     }
     return (
-        <div className="container">
+        <div className="container-fluid">
             {userLoading&& <Loader/>}
             {userInfo ?
 
@@ -139,7 +139,7 @@ const HomeScreen = () => {
 
                         }
                         <div className="row">
-                            <div className="col-md-4 py-4">
+                            <div className="col-md-3 py-4">
                                 <h5><b>Delivery Options</b></h5>
                                 <form>
                                     <label className="radio-inline">
@@ -150,7 +150,7 @@ const HomeScreen = () => {
                                         <input type="radio" name="optradio" value="Delivery" checked={filterOptions.delivery} onChange={(e) => setFilterOptionsonChange(e.target.value)}></input>
                                         <span className="px-2"><span className="mx-2"><AllIcons.RiEBike2Line /></span>Delivery</span>
                                     </label>
-                                    <label className="radio-inline px-3">
+                                    <label className="radio-inline">
                                         <input type="radio" name="optradio" value="Both" checked={filterOptions.both}onChange={(e) => setFilterOptionsonChange(e.target.value)} ></input>
                                         <span className="px-2"><span className="mx-2"><AllIcons.GoArrowBoth /></span>Both</span>
                                     </label>
@@ -174,7 +174,7 @@ const HomeScreen = () => {
 
                             </div>
                             {loading&&<Loader/>}
-                            <div className="col-md-8 px-3">
+                            <div className="col-md-9 px-3">
                                 <div className="row py-3">
                                     {
                                         allRestaurants.result.map(x => 

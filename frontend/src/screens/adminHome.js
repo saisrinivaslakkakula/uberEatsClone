@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { getRestaurantDetailsforAdmin } from '../actions/restaurantActions'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 const AdminHome = ({ history }) => {
 
     const adminLoginRes = useSelector(state => state.adminLogin)
@@ -19,11 +21,16 @@ const AdminHome = ({ history }) => {
             dispatch(getRestaurantDetailsforAdmin(adminInfo._id))
             //restaurantInfo = adminLoginRes.restaurantInfo
         }
+        if(restaurantInfo){
+            localStorage.setItem('restaurantInfo',JSON.stringify(restaurantInfo))
+        }
         
         
     }, [history, adminInfo, restaurantInfo])
     return (
         <div className=" adminHomePageMessage">
+            {loading&&<Loader/>}
+            {error&&<Message variant="danger"> {error}</Message>}
             {restaurantInfo ?
                 (
                     <div className="row">

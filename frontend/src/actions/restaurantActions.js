@@ -16,7 +16,10 @@ export const register = (rest_name, rest_type, rest_category, rest_email, rest_p
             }
         }
         //console.log(rest_main_photo)
-        const {data} = await axios.post('/api/restaurant/add',{rest_name, rest_type, rest_category, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode,rest_open_day_from,rest_open_day_to,rest_open_time_from,rest_open_time_to,rest_desc,rest_main_photo,checked},config)
+        console.log(adminInfo)
+        const admId= adminInfo._id
+        console.log(adminInfo)
+        const {data} = await axios.post('/api/restaurant/add',{rest_name, rest_type, rest_category, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode,rest_open_day_from,rest_open_day_to,rest_open_time_from,rest_open_time_to,rest_desc,rest_main_photo,checked,admId},config)
         
         
          dispatch({
@@ -128,9 +131,9 @@ export const getRestaurantsByLocation = (location) => async(dispatch,getState) =
         dispatch({
             type:REST_ALL_DETAILS_REQUEST
         })
-     
+        console.log(location)
         const {data} = await axios.get(`/api/restaurant/${location}`)
-        //console.log(data)
+        console.log(data)
          dispatch({
             type : REST_SEARCH_BY_LOC_REQUEST,
             payload:data,

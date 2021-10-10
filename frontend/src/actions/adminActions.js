@@ -190,9 +190,7 @@ export const updateUserProfile = (user) => async(dispatch,getState) =>{
 
 
 export const logout = () =>(dispatch)=>{
-    localStorage.removeItem('adminInfo')
-    localStorage.removeItem('restaurantInfo')
-    localStorage.removeItem('restInfo')
+    localStorage.clear();
     dispatch({
         type:ADMIN_LOGOUT
     })

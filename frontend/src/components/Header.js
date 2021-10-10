@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as TiIcons from "react-icons/ti"
 import * as BiIcons from "react-icons/bi"
 import * as FaIcons from "react-icons/fa"
-import { getsearchRestaurantResults, getAllRestaurants,getRestaurantsByLocation} from '../actions/restaurantActions'
+import { getsearchRestaurantResults, getAllRestaurants, getRestaurantsByLocation } from '../actions/restaurantActions'
 const Header = () => {
     const [keyword, setKeyWord] = useState('')
     const userLogin = useSelector(state => state.userLogin)
@@ -26,8 +26,15 @@ const Header = () => {
 
     }, [keyword, cartItemsObject, dispatch])
 
-    const filterByLocation = (location) =>{
-        dispatch(getRestaurantsByLocation(location))
+    const filterByLocation = (location) => {
+        if(location === "bayArea"){
+            dispatch(getAllRestaurants())
+        }
+            
+        else{
+            dispatch(getRestaurantsByLocation(location))
+        }
+       
     }
     return (
         < div className="header">
@@ -47,9 +54,10 @@ const Header = () => {
                     <>
                         <div className="col-md-2 ">
                             <TiIcons.TiLocation />
-                            <select className="header-location-after" onChange={(e)=>filterByLocation(e.target.value)}>
-                                <option vlaue="San Jose">San Jose</option>
-                                <option vlaue="San Fransisco"> San Fransisco</option>
+                            <select className="header-location-after" onChange={(e) => filterByLocation(e.target.value)}>
+                                <option value="bayArea">Bay Area</option>
+                                <option value="San Jose">San Jose</option>
+                                <option value="San Francisco"> San Francisco</option>
                             </select>
                         </div>
                         <div className="col-md-3 header-search">

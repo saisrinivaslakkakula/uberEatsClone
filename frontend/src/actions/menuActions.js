@@ -6,8 +6,7 @@ export const getMenuDetails = (id) => async(dispatch,getState) =>{
             type:MENU_GET_BY_ID_REQUEST
         })
      
-        let uri = '/api/restaurant/'+encodeURIComponent(id)
-        console.log(uri)
+        let uri = '/api/restaurant/menu/'+(id)
         const {data} = await axios.get(uri)
         console.log(data)
          dispatch({
@@ -25,7 +24,7 @@ export const getMenuDetails = (id) => async(dispatch,getState) =>{
     }
 }
 
-export const addmenuItem = (rest_id,item_name,item_category,item_type,item_photo_path,item_desc) => async(dispatch,getState) =>{
+export const addmenuItem = (rest_id,item_name,item_category,item_type,item_photo_path,item_desc,item_price) => async(dispatch,getState) =>{
     try {
         dispatch({
             type:MENU_ADD_REQUEST
@@ -39,7 +38,7 @@ export const addmenuItem = (rest_id,item_name,item_category,item_type,item_photo
                 Authorization: `Bearer ${adminInfo.token}`
             }
         }
-        const {data} = await axios.post('api/restaurant/additem',{rest_id,item_name,item_category,item_type,item_photo_path,item_desc},config)
+        const {data} = await axios.post('api/restaurant/additem',{rest_id,item_name,item_category,item_type,item_photo_path,item_desc,item_price},config)
         //console.log(data)
          dispatch({
             type : MENU_ADD_SUCCESS,

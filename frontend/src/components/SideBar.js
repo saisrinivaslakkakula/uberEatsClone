@@ -86,10 +86,10 @@ const SideBar = ({location,history}) => {
 
                                 
                             </p>
-                            <p> <Link style={{ textDecoration: 'none', color: 'black' }} to="/myOrders"> <AllIcons.FaReceipt /> <span>Orders</span></Link></p>
-                            <p> <li> <AllIcons.BsWallet /> <span>Wallet</span></li></p>
-                            <p> <li> <AllIcons.IoIosHelpBuoy /> <span>Help</span></li></p>
-                            <p> <li> <AllIcons.IoMdPricetag /> <span>Promotions</span></li></p>
+                            <p> <Link onClick={showSidebar} style={{ textDecoration: 'none', color: 'black' }} to="/myOrders"> <AllIcons.FaReceipt /> <span>Orders</span></Link></p>
+                            <p> <Link onClick={showSidebar} style={{ textDecoration: 'none', color: 'black' }} to="/myFavourites"> <AllIcons.AiFillHeart /> <span>Favourites</span></Link></p>
+                            <p> <li onClick={showSidebar}> <AllIcons.IoIosHelpBuoy /> <span>Help</span></li></p>
+                            <p> <li onClick={showSidebar}> <AllIcons.IoMdPricetag /> <span>Promotions</span></li></p>
                             <p onClick={showSidebar} style={{ 'color': '#757575' }}> <li onClick={logoutHandler}>
                                 Sign out
                             </li></p>

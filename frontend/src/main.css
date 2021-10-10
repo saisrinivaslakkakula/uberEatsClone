@@ -33,6 +33,9 @@ body {
   font-family: 'FF Clan OT Book';
 }
 
+.container table {
+  font-family: 'FF Clan OT Book';
+}
 header .logo h1 {
   font-weight: 300;
   font-family: 'FF Clan OT Medium';
@@ -356,11 +359,54 @@ header .searchBar {
   text-transform: capitalize;
   text-decoration: none !important;
   color: black;
+  
 }
 
+.rest-card img{
+  width: 100%;
+}
+
+/*.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .3s ease;
+  background-color: red;
+}
+
+.rest-card img:hover .overlay{
+  opacity: 1;
+}
+.icon {
+  color: white;
+  font-size: 100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}*/
+
 .rest-card p{
+  margin-top: 1.2rem;
   text-decoration: none;
   color: black;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  font-family: 'FF Clan OT Medium';
+  
+  
+}
+.rest-card .rating{
+  background-color: #f0f0f0;
+  border-radius: 50%;
 }
 
 .userImg{
@@ -383,11 +429,23 @@ header .searchBar {
 
 .update-profile{
   margin: 2rem;
+  font-family: 'FF Clan OT Book';
 }
+
+
+.update-profile input{
+  font-family: 'FF Clan OT Book' !important;
+}
+
+.update-profile label{
+  font-family: 'FF Clan OT Medium' !important;
+}
+
 
 .update-profile-button{
   display: flex;
   justify-content: center;
+  font-family: 'FF Clan OT Medium' !important;
 }
 
 .adminHomePageMessage{

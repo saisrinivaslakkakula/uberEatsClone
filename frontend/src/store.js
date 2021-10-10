@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 import  {composeWithDevTools} from 'redux-devtools-extension'
-import {userLoginReducer,userRegisterReducer,userDetailsReducer, userUpdateProfileReducer} from './reducers/userReducers'
+import {userLoginReducer,userRegisterReducer,userDetailsReducer, userGetFavouritesReducer,userUpdateProfileReducer,userFavouritesReducer} from './reducers/userReducers'
 import {adminDetailsReducer,adminRegisterReducer,adminLoginReducer,adminUpdateProfileReducer, adminAllOrderDetailsReducer, adminChangeStatusReducer} from './reducers/adminReducers'
 import {restaurantDetailsReducer,restaurantLoginReducer,restaurantRegisterReducer,restaurantUpdateProfileReducer,getAllRestaurants} from './reducers/restaurantReducers'
 import{menuAddItemsReducer,getMenuByRestaurant,deleteMenuItemByIDReducer,getMenuItemByItemId,updateMenuItemByIDReducer} from './reducers/menuReducers'
@@ -14,6 +14,8 @@ const reducer = combineReducers({
     userRegister : userRegisterReducer,
     userDetails:userDetailsReducer,
     userUpdateProfile:userUpdateProfileReducer,
+    userEditFavourites:userFavouritesReducer,
+    userGetFavourites: userGetFavouritesReducer,
     adminRegister : adminRegisterReducer,
     adminDetails:adminDetailsReducer,
     adminLogin : adminLoginReducer,
@@ -31,6 +33,7 @@ const reducer = combineReducers({
     placedOrder:cartPlaceOrderReducer,
     adminOrders:adminAllOrderDetailsReducer,
     adminChangeOrderStatus: adminChangeStatusReducer
+
 
 })
 

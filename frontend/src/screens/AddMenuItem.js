@@ -8,6 +8,7 @@ import { addmenuItem } from '../actions/menuActions'
 import {getRestaurantDetailsforAdmin} from '../actions/restaurantActions'
 const AddMenuItem = ({ history, location }) => {
     const [item_name, setItemName] = useState('')
+    const [item_price, setItemPrice] = useState(0)
     const [item_category, setItemCategory] = useState('')
     const [item_type, setItemType] = useState('')
     const [item_desc, setDescription] = useState('')
@@ -50,7 +51,7 @@ const AddMenuItem = ({ history, location }) => {
 
     const submitHandler = (e) => {
         e.preventDefault()
-        dispatch(addmenuItem(rest_id, item_name, item_category, item_type, item_photo_path, item_desc))
+        dispatch(addmenuItem(rest_id, item_name, item_category, item_type, item_photo_path, item_desc,item_price))
         //
     }
 
@@ -117,6 +118,7 @@ const AddMenuItem = ({ history, location }) => {
                                 <option option="Non Veg"> Non Veg</option>
                                 <option option="Vegan"> Vegan</option>
                             </select>
+                            <input type="number" step="0.01" name="itemPrice" className="form-control pad" required onChange={(e) => setItemPrice(e.target.value)} placeholder="Item Price"></input>
 
                             <p>
                                 Upload Photo &nbsp;

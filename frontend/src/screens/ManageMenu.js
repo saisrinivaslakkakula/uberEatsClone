@@ -30,19 +30,25 @@ const ManageMenu = ({history,location}) => {
         if(!adminInfo){
             history.push("/business-login")
         }
-        if(localStorage.getItem('restaurantInfo') === null){
-            history.push("/adminHome")
+
+        if(!restaurantDetails){
+            history.push("/adminhome")
         }
-        if(!menu && localStorage.getItem('restaurantInfo')){
-            const restDetails = localStorage.getItem('restaurantInfo')
+        else{
+            console.log(restaurantDetails)
+            const rest_id = restaurantDetails.rest_id
+            //const restDetailsJson = JSON.parse(restDetails)
+            dispatch(getMenuDetails(rest_id))
+        }
+            /*const restDetails = localStorage.getItem('restaurantInfo')
             const restDetailsJson = JSON.parse(restDetails)
-            dispatch(getMenuDetails(restDetailsJson.rest_id))
-        }
+            dispatch(getMenuDetails(restDetailsJson.rest_id))*/
+
             
             //dispatch(getMenuDetails(rest_id))
 
             
-    }, [adminInfo,menu,dispatch])
+    }, [adminInfo,dispatch])
 
     return (
         <div className="container">
@@ -65,7 +71,8 @@ const ManageMenu = ({history,location}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {menu.map(x=>(
+                    {menu.length>0 ?
+                    menu.map(x=>(
                         <tr >
                         <td ><img  className = "userImg" src={x.item_photo_path} alt="menuItemImage"></img></td>
                         <td scope="row">{x.item_name}</td>
@@ -75,7 +82,10 @@ const ManageMenu = ({history,location}) => {
                            <p> <Link to={`/editMenuItem/${encodeURI(x.item_id)}`}><AiIcons.AiFillEdit className="mx-1" /></Link> <FaIcons.FaTrashAlt style={{color:'red'}} className="mx-1" onClick={()=> handleDelete(x.item_id)}/> </p>
                         </td>
                     </tr>
-                    ))}
+                    ))
+                    :
+                    <h4 className="py-5">No Items in the Menu. Click on Add Menu Item to add your Menu Items</h4>
+                }
                     
                 </tbody>
             </table>

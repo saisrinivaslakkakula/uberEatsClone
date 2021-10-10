@@ -157,6 +157,93 @@ const getUserProfile = async (req, res) => {
 
 }
 
+const addFavourite = async (req, res) => {
+    if (req.userAuth) {
+
+        db.query("SELECT DISTINCT rest_id FROM `favourites` WHERE cust_id = ?", [req.params.cust_id], (err, result) => {
+            if(result.find(x=>x.rest_id = req.params.rest_id))
+                console.log("sdasd")
+
+        let sql = "INSERT INTO `favourites` (`cust_id`, `rest_id`) VALUES (?, ?);"
+        db.query(sql, [req.params.cust_id,req.params.rest_id], (err, result) => {
+            if (err) {
+                res.status(500).json({
+                    "message":"Internal Server Error"
+                })
+            }
+            else {
+                //console.log(result[0])
+                res.status(200).json({
+                    "message":"success"
+
+                })
+            }
+            
+        })
+    })
+    }
+    else {
+        res.status(401)
+        throw new Error("Error 401 - Not Authorized")
+    }
+
+
+}
+
+
+const getUserFavourites = async (req, res) => {
+    if (req.userAuth) {
+        let sql = "SELECT * FROM `favourites` WHERE cust_id = ?;"
+        db.query(sql, [req.params.cust_id], (err, result) => {
+            if (err) {
+                res.status(500).json({
+                    "message":"Internal Server Error"
+                })
+            }
+            else {
+                //console.log(result[0])
+                res.status(200).json({
+                    result
+
+                })
+            }
+            
+        })
+    }
+    else {
+        res.status(401)
+        throw new Error("Error 401 - Not Authorized")
+    }
+
+
+}
+
+const removeFavourites = async (req, res) => {
+    if (req.userAuth) {
+        let sql = "DELETE  FROM `favourites` WHERE cust_id = ?;"
+        db.query(sql, [req.params.cust_id], (err, result) => {
+            if (err) {
+                res.status(500).json({
+                    "message":"Internal Server Error"
+                })
+            }
+            else {
+                //console.log(result[0])
+                res.status(200).json({
+                    "message":"success"
+
+                })
+            }
+            
+        })
+    }
+    else {
+        res.status(401)
+        throw new Error("Error 401 - Not Authorized")
+    }
+
+
+}
 
 const updateUserProfile = async (req, res) => {
 
@@ -228,4 +315,4 @@ const updateUserProfile = async (req, res) => {
 
 }
 
-module.exports = { addUser, authUser, getUserProfile, updateUserProfile }
+module.exports = { addUser, authUser, getUserFavourites,addFavourite,getUserProfile, updateUserProfile,removeFavourites }

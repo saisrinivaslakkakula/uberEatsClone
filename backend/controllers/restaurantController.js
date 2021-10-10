@@ -2,7 +2,7 @@ const crypto = require('crypto')
 const generateToken = require('../utils/generateToken')
 const db = require('../dbCon')
 const addRestaurant = async (req, res) => {
-    let { rest_name, rest_type, rest_category, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode, rest_open_day_from, rest_open_day_to, rest_open_time_from, rest_open_time_to, rest_desc, rest_main_photo, checked} = req.body
+    let { rest_name, rest_type, rest_category, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode, rest_open_day_from, rest_open_day_to, rest_open_time_from, rest_open_time_to, rest_desc, rest_main_photo, checked,admId} = req.body
     //console.log(req.body)
 
     let id = crypto.createHash('sha256').update(rest_email + rest_name).digest('base64')
@@ -88,7 +88,7 @@ const addRestaurant = async (req, res) => {
                         rest_open_time_from,
                         rest_open_time_to,
                         rest_main_photo,
-                        req.userId,
+                        admId,
                         rest_desc
 
                     ]
@@ -118,7 +118,7 @@ const addRestaurant = async (req, res) => {
                                     rest_open_time_from,
                                     rest_open_time_to,
                                     rest_main_photo,
-                                    admin_id: req.userId,
+                                    admin_id: admId,
                                     rest_desc
 
                                 })
@@ -358,7 +358,7 @@ const getRestaurantProfileforAdmin = async (req, res) => {
 
 
 const addmenuItem = async (req, res) => {
-    const { rest_id, item_name, item_category, item_type, item_photo_path, item_desc } = req.body
+    const { rest_id, item_name, item_category, item_type, item_photo_path, item_desc,item_price } = req.body
     //console.log(req.body)
     let menu_id = crypto.createHash('sha256').update(rest_id + item_name).digest('base64')
     let sql = "INSERT INTO `menu` \
@@ -368,7 +368,8 @@ const addmenuItem = async (req, res) => {
     `item_category`,\
      `item_type`, \
      `item_photo_path`, \
-     `item_desc` \
+     `item_desc`, \
+     `item_price`\
      ) \
      VALUES \
      (\
@@ -378,6 +379,7 @@ const addmenuItem = async (req, res) => {
       ?, \
       ?, \
       ?, \
+      ?,\
       ? \
      );"
 
@@ -403,7 +405,8 @@ const addmenuItem = async (req, res) => {
                     item_category,
                     item_type,
                     item_photo_path,
-                    item_desc
+                    item_desc,
+                    item_price
 
                 ]
                 db.query(sql, Queryparams, (err, result) => {
@@ -422,7 +425,8 @@ const addmenuItem = async (req, res) => {
                                 item_category,
                                 item_type,
                                 item_photo_path,
-                                item_desc
+                                item_desc,
+                                item_price
 
                             })
                         }

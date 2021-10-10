@@ -3,31 +3,36 @@ import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import { Form, Modal, Button } from 'react-bootstrap'
 import { getRestaurantDetails } from '../actions/restaurantActions'
-import { addCartItem } from '../actions/cartActions'
+import { addCartItem,clearCartAction } from '../actions/cartActions'
 import * as allIcons from "react-icons/all"
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-const RestDetails = ({ match }) => {
+const RestDetails = ({ match,history }) => {
 
     const [menuData, setMenuData] = useState(null)
     const [showModal, setShowModal] = useState(null)
     const [cartQty, setCartQty] = useState(0)
     const [addSuccess, setAddSuccess] = useState(false)
     const dispatch = useDispatch()
+    const userLogin = useSelector(state => state.userLogin)
+    const { userInfo } = userLogin
     const restaurantDetails = useSelector(state => state.restaurantDetails)
     const { loading, error, restaurantDetails: restaurantDetailsObject } = restaurantDetails
     const cartItems = useSelector(state => state.cartItems)
-    const { loading: addCartLoading, error: addCartError, success: addCartSuccess, cartItems: cartItemsObject } = cartItems
+    const { loading: addCartLoading, error: addCartError, success: addCartSuccess, clearCartSuccess, cartItems: cartItemsObject } = cartItems
     useEffect(() => {
+        if (!userInfo) {
+            history.push("/login")
+        }
 
         dispatch(getRestaurantDetails(match.params.id))
 
-    }, [dispatch, match])
+    }, [dispatch, match,clearCartSuccess,addCartSuccess])
 
     const handleClick = (x) => {
         setShowModal(!showModal)
         setMenuData(x)
-        
+
 
     }
 
@@ -35,7 +40,15 @@ const RestDetails = ({ match }) => {
         setShowModal(false)
         setCartQty(0)
         setAddSuccess(false)
+        handleReload()
 
+    }
+
+    const handleClear = () =>{
+        dispatch(clearCartAction())
+    }
+    const handleReload = ()=>{
+        window.location.reload(false)
     }
 
     const incrementCartQty = () => {
@@ -63,16 +76,16 @@ const RestDetails = ({ match }) => {
         <div className="container-fluid">
             {loading && <Loader></Loader>}
             {error && <Message variant="danger"> {error}</Message>}
-            
+
             {restaurantDetailsObject
                 ?
                 <>
-                {restaurantDetailsObject.rest_main_photo ? 
-                    <img className="rest-details" src={restaurantDetailsObject.rest_main_photo}></img>
-                :
-                    <img className="rest-details" src="/images/admin_home_restaurant_card_image.jpeg"></img>
-                }
-               
+                    {restaurantDetailsObject.rest_main_photo ?
+                        <img className="rest-details" src={restaurantDetailsObject.rest_main_photo}></img>
+                        :
+                        <img className="rest-details" src="/images/admin_home_restaurant_card_image.jpeg"></img>
+                    }
+
                     <div className="row my-4">
                         <h1 style={{ textTransform: 'capitalize' }}>{restaurantDetailsObject.rest_name}</h1>
                     </div>
@@ -81,7 +94,7 @@ const RestDetails = ({ match }) => {
                             <p>{restaurantDetailsObject.rest_desc}</p>
                         </div>
                         <div className="col-md-4 p-3" >
-                            <p style={{backgroundColor:"#f0f0f0", width:'80%'} } className="p-3">Delivers between 10 AM - 11 PM</p>
+                            <p style={{ backgroundColor: "#f0f0f0", width: '80%' }} className="p-3">Delivers between 10 AM - 11 PM</p>
                         </div>
                     </div>
                     <hr></hr>
@@ -91,7 +104,7 @@ const RestDetails = ({ match }) => {
                         </div>
                     </div>
                     <div className="row">
-                        {addCartError && <Message variant="danger">{addCartError}</Message>}
+                       
                         {
                             restaurantDetailsObject.menu.map(
                                 x => <div className="col-md-4 my-2">
@@ -118,60 +131,116 @@ const RestDetails = ({ match }) => {
                                 <p style={{ marginLeft: '95%' }}><allIcons.GrFormClose onClick={handleClose}></allIcons.GrFormClose></p>
 
                             </Modal.Header>
-                            <Modal.Body>
-                                <div className="container">
-                                    <div className="row menuItemModal">
-                                        <div className="col-7">
-                                            <h4>{menuData.item_name}</h4>
-                                            <p>{menuData.item_desc}</p>
-                                            <div className="row">
-                                                <div className="col-3">
-                                                    <button onClick={decrementCartQty}>-</button>
-                                                </div>
-                                                <div className="col-3">
-                                                    <input type="text" value={cartQty} />
-                                                </div>
-                                                <div className="col-3">
-                                                    <button onClick={incrementCartQty}>+</button>
-                                                </div>
+                            {!addCartError ?
+                                <>
+                                    <Modal.Body>
+                                        <div className="container">
+                                            <div className="row menuItemModal">
+                                                <div className="col-7">
+                                                    <h4>{menuData.item_name}</h4>
+                                                    <p>{menuData.item_desc}</p>
+                                                    <div className="row">
+                                                        <div className="col-3">
+                                                            <button onClick={decrementCartQty}>-</button>
+                                                        </div>
+                                                        <div className="col-3">
+                                                            <input type="text" value={cartQty} />
+                                                        </div>
+                                                        <div className="col-3">
+                                                            <button onClick={incrementCartQty}>+</button>
+                                                        </div>
 
 
+                                                    </div>
+                                                </div>
+                                                <div className="col-3">
+                                                    <img src={menuData.item_photo_path}></img>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="col-3">
-                                            <img src={menuData.item_photo_path}></img>
-                                        </div>
-                                    </div>
 
 
-                                </div>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                {
-                                    addSuccess ?
-                                    <>
-                                    <p style={{color:'green',marginRight:'20%'}}> Item Added to the cart Successfully</p>
-                                    <Button variant="dark" onClick={handleClose}>
-                                                Close
-                                    </Button>
-                                    </>
-                                     :
-                                        <>
-                                            <Button variant="dark" onClick={handleClose}>
-                                                Cancel
-                                            </Button>
-                                            {cartQty > 0 &&
-                                                <Button variant="success" onClick={handleAddtoCart}>
-                                                    Add to Cart
+                                        </div>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        {
+                                            addCartSuccess ?
+                                                <>
+                                                    <p style={{ color: 'green', marginRight: '20%' }}> Item Added to the cart Successfully</p>
+                                                    <Button variant="dark" onClick={handleClose}>
+                                                        Close
+                                                    </Button>
+                                                </>
+                                                :
+                                                <>
+                                                    <Button variant="dark" onClick={handleClose}>
+                                                        Cancel
+                                                    </Button>
+                                                    {cartQty > 0 &&
+                                                        <Button variant="success" onClick={handleAddtoCart}>
+                                                            Add to Cart
+                                                        </Button>
+                                                    }
+                                                </>
+                                        }
+
+
+
+
+                                    </Modal.Footer>
+                                </>
+                                :
+                                <>
+                                 {!clearCartSuccess?
+                                  <Modal.Body>
+                                  <div className="container">
+                                      <p>Items Found from a different restaurant. do you want to clear the cart ?</p>
+
+
+                                  </div>
+                              </Modal.Body>
+                                 :
+                                 <Modal.Body>
+                                  <div className="container">
+                                      <p>Cart Cleared Successfully!</p>
+
+
+                                  </div>
+                              </Modal.Body>
+                                 }
+                                   
+                                    <Modal.Footer>
+                                        {
+
+                                            <>
+                                            {!clearCartSuccess?
+                                            <>
+                                            <Button variant="dark" onClick={handleReload}>
+                                                    Cancel
                                                 </Button>
+
+                                                <Button variant="success" onClick={handleClear}>
+                                                    clear
+                                                </Button>
+                                            </>
+                                            :
+                                            <>
+                                            <Button variant="success" onClick={handleClose}>
+                                                    Close
+                                                </Button>
+                                            </>
                                             }
-                                        </>
-                                }
+                                                
+
+                                            </>
+                                        }
 
 
 
 
-                            </Modal.Footer>
+                                    </Modal.Footer>
+                                </>
+                            }
+
                         </Modal>
                     }
 
