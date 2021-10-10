@@ -15,6 +15,7 @@ const EditMenuItem = ({ history, match,location }) => {
     const updateMenuItem = useSelector(state => state.updateMenuItem)
     const { loading:updateItemLoading, error:updateItemError, success } = updateMenuItem
     const [itemName, setItemName] = useState('')
+    const [itemPrice, setItemPrice] = useState(0)
     const [itemType, setItemType] = useState('')
     const [itemCategory, setItemCategory] = useState('')
     const [image, setItemImage] = useState('')
@@ -26,18 +27,20 @@ const EditMenuItem = ({ history, match,location }) => {
             history.push('/business-login')
         }
         if (!menuItemDetails){
-            alert("Getting")
+            
             dispatch(getMenuItemByItemID(encodeURI(match.params.id)))
             
         }
             
         else{
-            alert("Got")
+            
             setItemName(menuItemDetails.item_name)
             setItemType(menuItemDetails.item_type)
             setItemCategory(menuItemDetails.item_category)
             setItemImage(menuItemDetails.item_photo_path)
             setItemDesc(menuItemDetails.item_desc)
+            setItemPrice(menuItemDetails.item_price)
+            
         }
         
 
@@ -46,7 +49,7 @@ const EditMenuItem = ({ history, match,location }) => {
     const submitHandler= (e)=>{
         //
         e.preventDefault()
-        dispatch(updateItem(match.params.id,itemName,price,itemCategory,itemType,image,itemDesc))
+        dispatch(updateItem(match.params.id,itemName,itemPrice,itemCategory,itemType,image,itemDesc))
     }
     return (
         <div className="container update-profile">
@@ -77,7 +80,7 @@ const EditMenuItem = ({ history, match,location }) => {
                                 <label>Price </label>
                             </div>
                             <div class="col-md-6">
-                                <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="form-control" name="lastName"></input>
+                                <input type="number" step="0.01" value={itemPrice} onChange={(e) => setItemPrice(e.target.value)} className="form-control" name="price"></input>
                             </div>
                         </div>
                         <div className="row">

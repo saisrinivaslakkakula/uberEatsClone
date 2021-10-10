@@ -83,6 +83,7 @@ const SignUpScreen = ({ location, history }) => {
 
     useEffect(() => {
         if (userInfo) {
+            alert("Signup Success!")
             history.push(redirect)
         }
         setCountries()

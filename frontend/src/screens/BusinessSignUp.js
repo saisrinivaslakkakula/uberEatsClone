@@ -28,6 +28,7 @@ const BusinessSignUp = ({ location, history }) => {
 
     useEffect(() => {
         if (adminInfo) {
+            alert("Signup Success!")
             history.push(redirect)
         }
     }, [history, adminInfo, redirect])
