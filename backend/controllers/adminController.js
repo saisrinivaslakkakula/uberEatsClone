@@ -4,7 +4,7 @@ const db = require('../dbCon')
 const bcrypt = require('bcryptjs')
 const addAdmin = async (req, res) => {
     const { firstName, lastName, email, phone, password, image } = req.body
-    //console.log(req.body)
+    console.log(req.body)
     let id = crypto.createHash('sha256').update(email + firstName).digest('base64')
     const Hashedpassword = crypto.createHash('sha256').update(password).digest('base64')
     let sql = "INSERT INTO `admin` (`admin_id`,`firstName`, `lastName`, `email`, `password`, `phone`,`photoPath`) VALUES ('" + id + "', '" + firstName + "', '" + lastName + "','" + email + "','" + Hashedpassword + "','" + phone + "','" +image+"' ) "
