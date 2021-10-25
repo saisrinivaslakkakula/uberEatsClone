@@ -1,11 +1,16 @@
-const mysql = require('mysql')
-const env = require('dotenv')
-env.config()
-const db = mysql.createConnection({
-    host     : process.env.DB_URI,
-      user     : 'admin',
-      password : 'mydatabase',
-      database:'ubereats',
-      
-    })
-    module.exports = db
+const mongoose =  require('mongoose')
+
+const db = async () =>{
+    try { 
+        // mongoose connect always returns a promise// hence await is required
+        const con = await mongoose.connect(process.env.MONGO_DB_URI,
+            {useUnifiedTopology:true,useNewUrlParser:true}
+            )
+       console.log(`Connected to DB ${con.connection.host}`) 
+    } catch (error) {
+        console.log(`Connection Failed! ${error}`) 
+        process.exit(1)
+    }
+}
+
+module.exports = db;

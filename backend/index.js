@@ -13,13 +13,7 @@ const orderRoutes = require('./Routes/orderRoutes')
 const {notFound,errorHandler} = require('./middleware/errorHandlerMiddleware')
 
 dotenv.config()
-db.connect((err)=>{
-    if(err){
-        console.error(err.stack)
-        return
-    }
-    console.log("Connected To DB "+db.threadId)
-})
+db()
 app.use('/api/users',userRoutes)
 app.use('/api/upload',uploadRoutes)
 app.use('/api/admin',adminRoutes)

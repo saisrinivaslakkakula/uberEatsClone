@@ -2,76 +2,46 @@ const crypto = require('crypto')
 const generateToken = require('../utils/generateToken')
 const db = require('../dbCon')
 const bcrypt = require('bcryptjs')
+const User = require('../Models/userModel')
 const addUser = async (req, res) => {
     const { firstName, lastName, email, phone, password, Street, City, State, Country, ZipCode, image } = req.body
-    //console.log(req.body)
-    let id = crypto.createHash('sha256').update(email + firstName).digest('base64')
-    const Hashedpassword = crypto.createHash('sha256').update(password).digest('base64')
-    //console.log(Hashedpassword+"~~~")
-    let sql = "INSERT INTO `users` (`id`,`firstName`, `lastName`, `email`, `password`, `phone`, `street`, `city`, `state`,`country`,`zipcode`, `photo_path`) VALUES ('" + id + "', '" + firstName + "', '" + lastName + "','" + email + "','" + Hashedpassword + "','" + phone + "','" + Street + "','" + City + "','" + State + "','" + Country + "','" + ZipCode +"','"+image+"' ) "
+    const userExists = await User.findOne({ email })
+    if (userExists) {
+        res.status(400).send("User Already Exists")
+    }
+    else {
+        const salt = await bcrypt.genSalt(10) // generate salt for bcrypt hash rounded to 10
+        const Hashedpassword = await bcrypt.hash(password, salt)
+        const user = await User.create({
+            firstName,
+            lastName,
+            email,
+            password: Hashedpassword,
+            phone,
+            address: {
+                street: Street,
+                city: City,
+                state: State,
+                country: Country,
+                zipCode: ZipCode,
+            },
 
-   // let sql = "INSERT INTO `users` (`id`,`firstName`, `lastName`, `email`, `password`, `phone`, `street`, `city`, `state`,`country`,`zipcode`,`photo_path`) \
-   //                         VALUES ('?','?','?','?','?','?','?','?','?','?','?','?' )"
-    try {
-
-        db.query("SELECT * FROM users WHERE email =?", [email], (err, result) => {
-            if (err) {
-                res.status(500).json({
-                    message: " Internal Server Error"
-                })
-            }
-
-            if (result.length !== 0) {
-                res.status(401).json({
-                    message: " User Already Exists!"
-                })
-            }
-            else {
-                const queryparams = [
-                        id,
-                        firstName,
-                        lastName,
-                        email,
-                        Hashedpassword,
-                        phone,
-                        Street,
-                        City,
-                        Country,
-                        ZipCode,
-                        image
-
-
-                ]
-                db.query(sql, queryparams,(err, result) => {
-                    if (err) {
-                        res.status(500).json({
-                            message: " Internal Server Error:"+err
-                        })
-                    }
-                    else{
-
-                        res.status(201).json({
-                            firstName: firstName,
-                            lastName: lastName,
-                            email: email,
-                            phone: phone,
-                            Street: Street,
-                            City: City,
-                            State: State,
-                            Country: Country
-    
-                        })
-
-                    }
-
-
-                })
-
-            }
-
+            photo_path: image
         })
-    } catch (error) {
-        throw new Error("Internal Server Error")
+        if (user) {
+            res.status(201).json(
+                {
+                    _id: user._id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    token: generateToken(user._id),
+                }
+            )
+        }
+        else {
+            res.status("400")
+            throw new Error("400 Bad Request: Please try again later. ")
+        }
 
     }
 
@@ -80,78 +50,43 @@ const addUser = async (req, res) => {
 
 const authUser = async (req, res) => {
     const { email, password } = req.body
-    const Hashedpassword = crypto.createHash('sha256').update(password).digest('base64')
-    db.query("SELECT * FROM users WHERE email =?", [email], (err, result) => {
-        if (err) {
-            res.status(400).json({
-                message: err
-            })
-        }
-        if (result.length === 1) {
-            //console.log(result[0].password+"|"+Hashedpassword)
-            if (result[0].password === Hashedpassword) {
-                res.json({
-                    _id: result[0].id,
-                    firstName: result[0].firstName,
-                    lastName: result[0].lastName,
-                    email: result[0].email,
-                    phone: result[0].phone,
-                    Street: result[0].Street,
-                    City: result[0].City,
-                    State: result[0].State,
-                    Country: result[0].Country,
-                    ZipCoce: result[0].ZipCode,
-                    image:result[0].photo_path,
-                    token: generateToken(result[0].id),
-
-                })
-            }
-            else {
-
-                res.status(400).json({
-                    message: "Email Id/ Password doesn't match. Please try again."
-                })
-            }
-        }
-        else {
-            res.status(400).json({
-                message: "Email Id/ Password doesn't match. Please try again."
-            })
-        }
-
-
-    })
+    const user = await User.findOne({ email: email })
+    if (user && (await user.matchPassword(password))) {
+        res.json({
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            token: generateToken(user._id), // token is generated by using a custom function and jsonwebtoken library. The custom function is available is utils/generatetokens.js
+        })
+    }
+    else {
+        res.status("401")
+        throw new Error('Invalid username/Password')
+    }
 
 }
 
 const getUserProfile = async (req, res) => {
     if (req.userAuth) {
-        db.query("SELECT * FROM users WHERE id =?", [req.userId], (err, result) => {
-            if (err) {
-                throw new Error(err)
-            }
-            if (result.length === 1) {
-                //console.log(result[0])
-                res.json({
-                    _id: result[0].id,
-                    firstName: result[0].firstName,
-                    lastName: result[0].lastName,
-                    email: result[0].email,
-                    phone: result[0].phone,
-                    Street: result[0].street,
-                    City: result[0].city,
-                    State: result[0].state,
-                    Country: result[0].country,
-                    ZipCode: result[0].zipcode,
-                    image:result[0].photo_path
+        const user = await User.findById(req.userId)
+        if (user) {
+            res.json({
+                _id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                phone:user.phone,
+                address:user.address,
+                favourites:user.favourites
 
-                })
-            }
-            else {
-                res.status(401)
-                throw new Error("Error 401 - Not Authorized")
-            }
-        })
+            })
+
+        }
+        else {
+            res.status('404')
+            throw new Error("user Not Found. Please try again")
+        }
     }
 
 
@@ -161,26 +96,26 @@ const addFavourite = async (req, res) => {
     if (req.userAuth) {
 
         db.query("SELECT DISTINCT rest_id FROM `favourites` WHERE cust_id = ?", [req.params.cust_id], (err, result) => {
-            if(result.find(x=>x.rest_id = req.params.rest_id))
+            if (result.find(x => x.rest_id = req.params.rest_id))
                 console.log("sdasd")
 
-        let sql = "INSERT INTO `favourites` (`cust_id`, `rest_id`) VALUES (?, ?);"
-        db.query(sql, [req.params.cust_id,req.params.rest_id], (err, result) => {
-            if (err) {
-                res.status(500).json({
-                    "message":"Internal Server Error"
-                })
-            }
-            else {
-                //console.log(result[0])
-                res.status(200).json({
-                    "message":"success"
+            let sql = "INSERT INTO `favourites` (`cust_id`, `rest_id`) VALUES (?, ?);"
+            db.query(sql, [req.params.cust_id, req.params.rest_id], (err, result) => {
+                if (err) {
+                    res.status(500).json({
+                        "message": "Internal Server Error"
+                    })
+                }
+                else {
+                    //console.log(result[0])
+                    res.status(200).json({
+                        "message": "success"
 
-                })
-            }
-            
+                    })
+                }
+
+            })
         })
-    })
     }
     else {
         res.status(401)
@@ -197,7 +132,7 @@ const getUserFavourites = async (req, res) => {
         db.query(sql, [req.params.cust_id], (err, result) => {
             if (err) {
                 res.status(500).json({
-                    "message":"Internal Server Error"
+                    "message": "Internal Server Error"
                 })
             }
             else {
@@ -207,7 +142,7 @@ const getUserFavourites = async (req, res) => {
 
                 })
             }
-            
+
         })
     }
     else {
@@ -224,17 +159,17 @@ const removeFavourites = async (req, res) => {
         db.query(sql, [req.params.cust_id], (err, result) => {
             if (err) {
                 res.status(500).json({
-                    "message":"Internal Server Error"
+                    "message": "Internal Server Error"
                 })
             }
             else {
                 //console.log(result[0])
                 res.status(200).json({
-                    "message":"success"
+                    "message": "success"
 
                 })
             }
-            
+
         })
     }
     else {
@@ -249,28 +184,8 @@ const updateUserProfile = async (req, res) => {
 
 
     if (req.userAuth) {
-
-        db.query("SELECT * FROM users WHERE id =?", [req.userId], (err, result) => {
-            if (err) {
-                res.status(500).json({
-                    message: " Internal Server Error"
-                })
-            }
-
-            let sql = "UPDATE `users` SET \
-            `firstName`= ? ,\
-            `lastName` = ?  ,\
-            `email`= ? ,\
-            `phone` = ?  ,\
-            `street`= ? ,\
-            `city` = ?  ,\
-            `state`= ? ,\
-            `country` = ?  ,\
-            `zipcode`= ? \
-            WHERE (`id` = ?)"
-
-            //console.log(req.body)
-            let paramsArray = [req.body.firstName,
+        const {firstName, lastName, email, phone, password, Street, City, State, Country, ZipCode, image } = req.body
+                   /* let paramsArray = [req.body.firstName,
             req.body.lastName,
             req.body.email,
             req.body.phone,
@@ -280,34 +195,53 @@ const updateUserProfile = async (req, res) => {
             req.body.Country,
             req.body.ZipCode,
             req.userId
-            ]
-            db.query(sql, paramsArray, (err, result) => {
-                if (err) {
-                    res.status(500).json({
-                        message: " Internal Server Error. Please Try again Later."
-                    })
-                }
-                else {
-                    res.json({
-                    _id: req.userId,
-                    firstName: req.body.firstName,
-                    lastName: req.body.lastName,
-                    email: req.body.email,
-                    phone: req.body.phone,
-                    token: generateToken(req.userId),
-
-                })
-                }
+            ]*/
+    
+    const user = await User.findById(req.userId)
+    if (user) {
+        
+        if(user){
+            user.firstName = firstName||user.firstName
+            user.lastName = lastName||user.lastName
+            user.email = email||user.email
+            if(req.body.password){
+                const salt = await bcrypt.genSalt(10) // generate salt for bcrypt hash rounded to 10
+                const Hashedpassword = await bcrypt.hash(password,salt)
+                user.password = Hashedpassword
+            }
+            user.phone = phone||user.phone
+            user.address.street = Street||user.address.street
+            user.address.city = City||user.address.city
+            user.address.state = State||user.address.state
+            user.address.country = Country||user.address.country
+            user.address.zipCode = ZipCode||user.address.zipCode
+            const updatedUser = await user.save()
+            res.json({
+                id:req.userId,
+                firstName: updatedUser.firstName,
+                lastName: updatedUser.lastName,
+                email: updatedUser.email,
+                phone:updatedUser.phone,
+                address:updatedUser.address,
+                favourites:updatedUser.favourites
 
             })
+            
+        }
+        
+    }
+    else{
+        res.status(400).send("User does not Exist!")
+    }
 
-        })
+
+
 
 
     }
     else {
         res.status(401).json({
-            message: " User Not Found!"
+            message: " Authorization Error!"
         })
     }
 
@@ -315,4 +249,4 @@ const updateUserProfile = async (req, res) => {
 
 }
 
-module.exports = { addUser, authUser, getUserFavourites,addFavourite,getUserProfile, updateUserProfile,removeFavourites }
+module.exports = { addUser, authUser, getUserFavourites, addFavourite, getUserProfile, updateUserProfile, removeFavourites }
