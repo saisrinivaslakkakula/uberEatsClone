@@ -50,7 +50,7 @@ const userSchema = mongoose.Schema({
         photo_path:{
             type:String
         },
-        favourites:[]
+        favourites:[{type:String}]
         
     },{timestamps:true})
 

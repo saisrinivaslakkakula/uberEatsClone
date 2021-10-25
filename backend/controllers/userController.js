@@ -94,28 +94,28 @@ const getUserProfile = async (req, res) => {
 
 const addFavourite = async (req, res) => {
     if (req.userAuth) {
+        const rest_id = req.params.rest_id
+        const user = await User.findById(req.userId)
+        if (user) {
+            user.favourites.push(rest_id)
+            console.log(user)
+            const result = await user.save()
+            if(result){
+                res.status(200).json({
+                    "message": "success"
 
-        db.query("SELECT DISTINCT rest_id FROM `favourites` WHERE cust_id = ?", [req.params.cust_id], (err, result) => {
-            if (result.find(x => x.rest_id = req.params.rest_id))
-                console.log("sdasd")
+                })
+            }
+            else{
+                res.status('500')
+            throw new Error("Request Failer with status code 500.")
+            }
 
-            let sql = "INSERT INTO `favourites` (`cust_id`, `rest_id`) VALUES (?, ?);"
-            db.query(sql, [req.params.cust_id, req.params.rest_id], (err, result) => {
-                if (err) {
-                    res.status(500).json({
-                        "message": "Internal Server Error"
-                    })
-                }
-                else {
-                    //console.log(result[0])
-                    res.status(200).json({
-                        "message": "success"
-
-                    })
-                }
-
-            })
-        })
+        }
+        else {
+            res.status('404')
+            throw new Error("user Not Found. Please try again")
+        }
     }
     else {
         res.status(401)
@@ -128,23 +128,22 @@ const addFavourite = async (req, res) => {
 
 const getUserFavourites = async (req, res) => {
     if (req.userAuth) {
-        let sql = "SELECT * FROM `favourites` WHERE cust_id = ?;"
-        db.query(sql, [req.params.cust_id], (err, result) => {
-            if (err) {
-                res.status(500).json({
-                    "message": "Internal Server Error"
-                })
-            }
-            else {
-                //console.log(result[0])
+        
+        const user = await User.findById(req.userId)
+        if (user) {
+           const result = user.favourites;
+            if(result){
                 res.status(200).json({
                     result
 
                 })
             }
-
-        })
-    }
+            else{
+                res.status('500')
+            throw new Error("Request Failed with status code 500.")
+            }
+        }
+    }   
     else {
         res.status(401)
         throw new Error("Error 401 - Not Authorized")
@@ -155,22 +154,27 @@ const getUserFavourites = async (req, res) => {
 
 const removeFavourites = async (req, res) => {
     if (req.userAuth) {
-        let sql = "DELETE  FROM `favourites` WHERE cust_id = ?;"
-        db.query(sql, [req.params.cust_id], (err, result) => {
-            if (err) {
-                res.status(500).json({
-                    "message": "Internal Server Error"
-                })
-            }
-            else {
-                //console.log(result[0])
+        const rest_id = req.params.rest_id
+        const user = await User.findById(req.userId)
+        if (user) {
+            user.favourites.pull(rest_id)
+            const result = await user.save()
+            if(result){
                 res.status(200).json({
                     "message": "success"
 
                 })
             }
+            else{
+                res.status('500')
+            throw new Error("Request Failer with status code 500.")
+            }
 
-        })
+        }
+        else {
+            res.status('404')
+            throw new Error("user Not Found. Please try again")
+        }
     }
     else {
         res.status(401)
