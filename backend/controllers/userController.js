@@ -68,6 +68,7 @@ const authUser = async (req, res) => {
 }
 
 const getUserProfile = async (req, res) => {
+    //console.log(req)
     if (req.userAuth) {
         const user = await User.findById(req.userId)
         if (user) {
@@ -203,8 +204,7 @@ const updateUserProfile = async (req, res) => {
     
     const user = await User.findById(req.userId)
     if (user) {
-        
-        if(user){
+
             user.firstName = firstName||user.firstName
             user.lastName = lastName||user.lastName
             user.email = email||user.email
@@ -231,7 +231,7 @@ const updateUserProfile = async (req, res) => {
 
             })
             
-        }
+        
         
     }
     else{

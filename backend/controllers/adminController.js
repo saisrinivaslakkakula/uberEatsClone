@@ -2,140 +2,87 @@ const crypto = require('crypto')
 const generateToken = require('../utils/generateToken')
 const db = require('../dbCon')
 const bcrypt = require('bcryptjs')
+const Admin = require('../Models/adminModel')
 const addAdmin = async (req, res) => {
     const { firstName, lastName, email, phone, password, image } = req.body
-    //console.log(req.body)
-    let id = crypto.createHash('sha256').update(email + firstName).digest('base64')
-    const Hashedpassword = crypto.createHash('sha256').update(password).digest('base64')
-    let sql = "INSERT INTO `admin` (`admin_id`,`firstName`, `lastName`, `email`, `password`, `phone`,`photoPath`) VALUES ('" + id + "', '" + firstName + "', '" + lastName + "','" + email + "','" + Hashedpassword + "','" + phone + "','" +image+"' ) "
-    //console.log(id)
-   // let sql = "INSERT INTO `users` (`id`,`firstName`, `lastName`, `email`, `password`, `phone`, `street`, `city`, `state`,`country`,`zipcode`,`photo_path`) \
-   //                         VALUES ('?','?','?','?','?','?','?','?','?','?','?','?' )"
-   //console.log(sql)
-    try {
 
-        db.query("SELECT * FROM admin WHERE email =?", [email], (err, result) => {
-            if (err) {
-                res.status(500).json({
-                    message: " Internal Server Error"
-                })
-            }
-
-            if (result.length !== 0) {
-                res.status(401).json({
-                    message: " Email Already Exists!"
-                })
-            }
-            else {
-                const queryparams = [
-                        id,
-                        firstName,
-                        lastName,
-                        email,
-                        Hashedpassword,
-                        phone,
-                        image
-
-
-                ]
-                db.query(sql, queryparams,(err, result) => {
-                    if (err) {
-                        res.status(500).json({
-                            message: " Internal Server Error:"+err
-                        })
-                    }
-                    else{
-
-                        res.status(201).json({
-                            firstName: firstName,
-                            lastName: lastName,
-                            email: email,
-                            phone: phone,
-                            token: generateToken( id),
-    
-                        })
-
-                    }
-
-
-                })
-
-            }
-
+    const adminExists = await Admin.findOne({ email })
+    if (adminExists) {
+        res.status(400).send("User Already Exists")
+    }
+    else {
+        const salt = await bcrypt.genSalt(10) // generate salt for bcrypt hash rounded to 10
+        const Hashedpassword = await bcrypt.hash(password, salt)
+        const admin = await Admin.create({
+            firstName,
+            lastName,
+            email,
+            password: Hashedpassword,
+            phone,
+            
+            photo_path: image
         })
-    } catch (error) {
-        throw new Error("Internal Server Error")
+        if (admin) {
+            res.status(201).json(
+                {
+                    _id: admin._id,
+                    firstName: admin.firstName,
+                    lastName: admin.lastName,
+                    token: generateToken(admin._id),
+                }
+            )
+        }
+        else {
+            res.status("400")
+            throw new Error("400 Bad Request: Please try again later. ")
+        }
 
     }
+
+    
 
 }
 
 
 const authAdmin = async (req, res) => {
     const { email, password } = req.body
-    const Hashedpassword = crypto.createHash('sha256').update(password).digest('base64')
-    db.query("SELECT * FROM admin WHERE email =?", [email], (err, result) => {
-        if (err) {
-            res.status(400).json({
-                message: err
-            })
-        }
-        if (result.length === 1) {
-            if (result[0].password === Hashedpassword) {
-                res.json({
-                    _id: result[0].admin_id,
-                    firstName: result[0].firstName,
-                    lastName: result[0].lastName,
-                    email: result[0].email,
-                    phone: result[0].phone,
-                    restraunt_id:result[0].rest_id,
-                    image:result[0].photoPath,
-                    token: generateToken(result[0].admin_id),
-                    
-                })
-            }
-            else {
-
-                res.status(400).json({
-                    message: "Email Id/ Password doesn't match. Please try again."
-                })
-            }
-        }
-        else {
-            res.status(400).json({
-                message: "Email Id/ Password doesn't match. Please try again."
-            })
-        }
-
-
-    })
+    const admin = await Admin.findOne({ email: email })
+    if (admin && (await admin.matchPassword(password))) {
+        res.json({
+            _id: admin._id,
+            firstName: admin.firstName,
+            lastName: admin.lastName,
+            email: admin.email,
+            token: generateToken(admin._id), // token is generated by using a custom function and jsonwebtoken library. The custom function is available is utils/generatetokens.js
+        })
+    }
+    else {
+        res.status("401")
+        throw new Error('Invalid username/Password')
+    }
 
 }
 
 const getAdminProfile = async (req, res) => {
-    //console.log(req)
     if (req.userAuth) {
-        db.query("SELECT * FROM admin WHERE admin_id =?", [req.userId], (err, result) => {
-            if (err) {
-                throw new Error(err)
-            }
-            if (result.length === 1) {
-                //console.log(result[0])
-                res.json({
-                    _id: result[0].admin_id,
-                    firstName: result[0].firstName,
-                    lastName: result[0].lastName,
-                    email: result[0].email,
-                    phone: result[0].phone,
-                    image:result[0].photo_path,
+        const admin = await Admin.findById(req.userId)
+        if (admin) {
+            res.json({
+                _id: admin._id,
+                firstName: admin.firstName,
+                lastName: admin.lastName,
+                email: admin.email,
+                phone:admin.phone,
+                address:admin.address,
+                favourites:admin.favourites
 
-                })
-            }
-            else {
-                res.status(401)
-                throw new Error("Error 401 - Not Authorized")
-            }
-        })
+            })
+
+        }
+        else {
+            res.status('404')
+            throw new Error("user Not Found. Please try again")
+        }
     }
 
 

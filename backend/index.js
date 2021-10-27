@@ -11,16 +11,23 @@ const adminRoutes = require('./Routes/adminRoutes')
 const restaurantRoutes = require('./Routes/restaurantRoutes')
 const orderRoutes = require('./Routes/orderRoutes')
 const {notFound,errorHandler} = require('./middleware/errorHandlerMiddleware')
+const passport = require('passport')
 
 dotenv.config()
 db()
+//passport middleware
+
+app.use(passport.initialize())
+//passport config
+require('./config/passport')(passport)
+
+//
 app.use('/api/users',userRoutes)
 app.use('/api/upload',uploadRoutes)
 app.use('/api/admin',adminRoutes)
 app.use('/api/restaurant',restaurantRoutes)
 app.use('/api/order',orderRoutes)
 app.use('/uploads',express.static(path.join(__dirname,'../','/uploads')))
-
 app.use(notFound)
 app.use(errorHandler)
 
