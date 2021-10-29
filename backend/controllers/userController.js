@@ -3,7 +3,27 @@ const generateToken = require('../utils/generateToken')
 const db = require('../dbCon')
 const bcrypt = require('bcryptjs')
 const User = require('../Models/userModel')
+const kafka = require('../kafka/client')
 const addUser = async (req, res) => {
+
+    kafka.make_request('add_user',req.body,(err,results)=>{
+        if(results.error){
+            console.log("sds")
+            res.status(500).json({
+                error:results.error
+            })
+        }
+        else{
+            console.log(results)
+            res.status(201).json(
+                {
+                    results
+                }
+            )
+        }
+    })
+
+    /*
     const { firstName, lastName, email, phone, password, Street, City, State, Country, ZipCode, image } = req.body
     const userExists = await User.findOne({ email })
     if (userExists) {
@@ -43,7 +63,7 @@ const addUser = async (req, res) => {
             throw new Error("400 Bad Request: Please try again later. ")
         }
 
-    }
+    }*/
 
 }
 
