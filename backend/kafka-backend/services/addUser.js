@@ -4,14 +4,16 @@ const db = require('../../dbCon')
 const bcrypt = require('bcryptjs')
 const User = require('../../Models/userModel')
 const kafka = require('../../kafka/client')
+const { Next } = require('react-bootstrap/esm/PageItem')
 
 
 const handle_request = async(msg, callback)=>{
-
     const { firstName, lastName, email, phone, password, Street, City, State, Country, ZipCode, image } = msg
     const userExists = await User.findOne({ email:email })
     if (userExists) {
         callback({error:"USerExists"},null);
+        
+        
     }
     else{
         const salt = await bcrypt.genSalt(10) // generate salt for bcrypt hash rounded to 10
