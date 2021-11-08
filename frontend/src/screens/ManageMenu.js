@@ -22,8 +22,9 @@ const ManageMenu = ({history,location}) => {
         //e.preventDefault()
     }
     const handleDelete = (id)=>{
+        
         if(window.confirm("Are you sure you want to delete the product?")){
-            dispatch(deleteMenuItemByItemID(id))
+            dispatch(deleteMenuItemByItemID(restaurantDetails._id,id))
         }
     }
     useEffect(() => {
@@ -35,8 +36,8 @@ const ManageMenu = ({history,location}) => {
             history.push("/adminhome")
         }
         else{
-            console.log(restaurantDetails)
-            const rest_id = restaurantDetails.rest_id
+            //console.log(restaurantDetails)
+            const rest_id = restaurantDetails._id
             //const restDetailsJson = JSON.parse(restDetails)
             dispatch(getMenuDetails(rest_id))
         }
@@ -79,7 +80,7 @@ const ManageMenu = ({history,location}) => {
                         <td>{x.item_category}</td>
                         <td>{x.item_type}</td>
                         <td>
-                           <p> <Link to={`/editMenuItem/${encodeURI(x.item_id)}`}><AiIcons.AiFillEdit className="mx-1" /></Link> <FaIcons.FaTrashAlt style={{color:'red'}} className="mx-1" onClick={()=> handleDelete(x.item_id)}/> </p>
+                           <p> <Link to={`/editMenuItem/${restaurantDetails._id}/${encodeURI(x._id)}`}><AiIcons.AiFillEdit className="mx-1" /></Link> <FaIcons.FaTrashAlt style={{color:'red'}} className="mx-1" onClick={()=> handleDelete(x._id)}/> </p>
                         </td>
                     </tr>
                     ))

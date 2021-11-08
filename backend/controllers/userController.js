@@ -6,7 +6,7 @@ const User = require('../Models/userModel')
 const kafka = require('../kafka/client')
 const addUser = async (req, res) => {
 
-    kafka.make_request('add_user',req.body,(err,results)=>{
+    /*kafka.make_request('add_user',req.body,(err,results)=>{
         if(err)
         {
             res.status(500).json({
@@ -29,8 +29,8 @@ const addUser = async (req, res) => {
             )
         }
     })
-
-    /*
+*/
+    
     const { firstName, lastName, email, phone, password, Street, City, State, Country, ZipCode, image } = req.body
     const userExists = await User.findOne({ email })
     if (userExists) {
@@ -70,12 +70,13 @@ const addUser = async (req, res) => {
             throw new Error("400 Bad Request: Please try again later. ")
         }
 
-    }*/
+    }
 
 }
 
 
 const authUser = async (req, res) => {
+
     const { email, password } = req.body
     const user = await User.findOne({ email: email })
     if (user && (await user.matchPassword(password))) {

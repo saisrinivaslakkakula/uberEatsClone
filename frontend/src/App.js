@@ -35,7 +35,7 @@ function App() {
           <Route path='/profile' component={Profile}/>
           <Route path='/manageMenu' component={ManageMenu}/>
           <Route path='/addMenuItem' component={AddMenuItem}/>
-          <Route path='/editMenuItem/:id' component={EditMenuItem}/>
+          <Route path='/editMenuItem/:rest_id/:item_id' component={EditMenuItem}/>
           <Route path='/restDetails/:id' component={RestDetails}/>
           <Route path='/cart' component={Cart}/>
           <Route path='/myOrders' component={MyOrders}/>

@@ -8,7 +8,7 @@ export const getMenuDetails = (id) => async(dispatch,getState) =>{
      
         let uri = '/api/restaurant/menu/'+(id)
         const {data} = await axios.get(uri)
-        console.log(data)
+        //console.log(data)
          dispatch({
             type : MENU_GET_BY_ID_SUCCESS,
             payload:data,
@@ -56,7 +56,7 @@ export const addmenuItem = (rest_id,item_name,item_category,item_type,item_photo
 }
 
 
-export const updateItem = (item_id,item_name,item_price,item_category,item_type,item_photo_path,item_desc) => async(dispatch,getState) =>{
+export const updateItem = (rest_id,item_id,item_name,item_price,item_category,item_type,item_photo_path,item_desc) => async(dispatch,getState) =>{
     try {
         dispatch({
             type:MENU_UPDATE_REQUEST
@@ -70,7 +70,7 @@ export const updateItem = (item_id,item_name,item_price,item_category,item_type,
                 Authorization: `Bearer ${adminInfo.token}`
             }
         }
-        const {data} = await axios.put('/api/admin/updateMenuItem',{item_id,item_name,item_price,item_category,item_type,item_photo_path,item_desc},config)
+        const {data} = await axios.put('/api/admin/updateMenuItem',{rest_id,item_id,item_name,item_price,item_category,item_type,item_photo_path,item_desc},config)
        
          dispatch({
             type : MENU_UPDATE_SUCCESS,
@@ -87,13 +87,14 @@ export const updateItem = (item_id,item_name,item_price,item_category,item_type,
     }
 }
 
-export const deleteMenuItemByItemID = (id) => async(dispatch,getState) =>{
+export const deleteMenuItemByItemID = (rest_id,item_id) => async(dispatch,getState) =>{
     try {
         dispatch({
             type:MENU_DELETE_REQUEST
         })
      
-        let uri = '/api/admin/deleteMenuItem/'+encodeURIComponent(id)
+        let uri = `/api/admin/deleteMenuItem/${rest_id}/${item_id}`
+        console.log(uri)
         const {adminLogin} = getState()
         const {adminInfo} = adminLogin
         const config = {
@@ -107,8 +108,11 @@ export const deleteMenuItemByItemID = (id) => async(dispatch,getState) =>{
          dispatch({
             type : MENU_DELETE_SUCCESS,
         })
+        let uri2 = '/api/restaurant/menu/'+(rest_id)
+        const {data} = await axios.get(uri2)
         dispatch({
             type : MENU_GET_BY_ID_SUCCESS,
+            payload:data,
         })
        
         
@@ -121,14 +125,13 @@ export const deleteMenuItemByItemID = (id) => async(dispatch,getState) =>{
     }
 }
 
-export const getMenuItemByItemID = (id) => async(dispatch,getState) =>{
+export const getMenuItemByItemID = (rest_id,item_id) => async(dispatch,getState) =>{
     try {
         dispatch({
             type:MENU_GET_BY_ID_REQUEST
         })
      
-        let uri = '/api/restaurant/menuItem/'+encodeURIComponent(id)
-        console.log(id)
+        let uri = `/api/restaurant/menuItem/${rest_id}/${item_id}`
         const config = {
             headers: {
                 'Content-Type':'application/json'

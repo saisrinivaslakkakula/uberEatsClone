@@ -38,7 +38,6 @@ const AddMenuItem = ({ history, location }) => {
                 }
             }
             const { data } = await axios.post('/api/upload/userimage', formData, config)
-            //console.log(data)
             setPhotoPath(data)
             setUploading(false)
 
@@ -63,7 +62,7 @@ const AddMenuItem = ({ history, location }) => {
             dispatch(getRestaurantDetailsforAdmin(adminInfo._id))
         }
         else{
-                setRestID(restaurantDetails.rest_id)
+                setRestID(restaurantDetails._id)
         }
         
         

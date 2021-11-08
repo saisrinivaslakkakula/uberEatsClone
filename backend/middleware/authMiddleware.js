@@ -13,6 +13,7 @@ const protect = ayncHandler(async(req,res,next) =>{
         try {
             
             const decoded = jwt.verify(token,process.env.JWT_SECRET)
+            
             if(decoded.id){
                 req.userAuth = true
                 req.userId = decoded.id
@@ -21,6 +22,7 @@ const protect = ayncHandler(async(req,res,next) =>{
                 req.userAuth = false
                 req.userId = decoded.id
             }
+            
             next()
         } catch (error) {
             throw new Error(error)

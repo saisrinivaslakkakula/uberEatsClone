@@ -80,11 +80,10 @@ export const getRestaurantDetails = (id) => async(dispatch,getState) =>{
      
     
         const {data} = await axios.get(`/api/restaurant/profile/${id}`)
-        const menuData = await axios.get(`/api/restaurant/menu/${data.rest_id}`)
         //console.log(menuData.data)
         const payloadObject = {
             ...data,
-            menu:menuData.data
+           
         }
         //console.log(data)
          dispatch({

@@ -40,15 +40,15 @@ const RestaurantCard = ({ data }) => {
     }
     return (
         <div className="rest-card">
-            <Link style={{ textDecoration: 'none' }} to={`/restDetails/${encodeURI(data.rest_id)}`}>
+            <Link style={{ textDecoration: 'none' }} to={`/restDetails/${encodeURI(data._id)}`}>
                 <img className="img-responsive" src={data.rest_main_photo}></img>
             </Link>
             <div className="row">
-                    <Link  className="py-3 col-md-10" to={`/restDetails/${encodeURI(data.rest_id)}`}>{data.rest_name}</Link>
-                    {((favouritesFromState.result && favouritesFromState.result.find(x=>x.rest_id === data.rest_id))||(favourite)) ?
-                    <p className="col-md-2" style={{color:'green', cursor:'pointer'}} onClick={()=>editFavourite(data.rest_id)}><allIcons.AiFillHeart/></p>
+                    <Link  className="py-3 col-md-10" to={`/restDetails/${encodeURI(data._id)}`}>{data.rest_name}</Link>
+                    {((favouritesFromState.result && favouritesFromState.result.find(x=>x._id === data._id))||(favourite)) ?
+                    <p className="col-md-2" style={{color:'green', cursor:'pointer'}} onClick={()=>editFavourite(data._id)}><allIcons.AiFillHeart/></p>
                     :
-                    <p className="col-md-2" style={{color:'green', cursor:'pointer'}} onClick={()=>editFavourite(data.rest_id)}><allIcons.AiOutlineHeart/></p>
+                    <p className="col-md-2" style={{color:'green', cursor:'pointer'}} onClick={()=>editFavourite(data._id)}><allIcons.AiOutlineHeart/></p>
                     }
                     
             </div>
