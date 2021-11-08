@@ -89,8 +89,10 @@ const authUser = async (req, res) => {
         })
     }
     else {
-        res.status("401")
-        throw new Error('Invalid username/Password')
+        res.status("401").json({
+            "error":"Invalid username/Password'"
+        })
+       
     }
 
 }
