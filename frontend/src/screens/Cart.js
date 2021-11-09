@@ -50,7 +50,7 @@ const Cart = ({ location, history }) => {
             const yyyy = today.getFullYear()
             const dataObject = {
                 cust_id: userInfo._id,
-                rest_id: cartItemsArray[0].rest_id,
+                rest_id: cartItemsArray[0]._id,
                 order_date: yyyy + "-" + mm + "-" + dd,
                 order_status: "placed",
                 items_array: cartItemsArray,

@@ -4,6 +4,8 @@ const db = require('../dbCon')
 const Order = require('../Models/orderModel')
 const addOrder = async (req, res) => {
     let { cust_id,rest_id,order_status,items_array,items_total_price} = req.body
+    //console.log("********")
+    console.log(items_array)
     /* Delete this if fails ****/
     if (!req.userAuth) {
         res.status(404).json({
@@ -111,7 +113,7 @@ const getOrderDetailsForCustomer = async (req,res) =>{
 
 const getordersByOrderID = async (req, res) => {
     try {
-        console.log(req.params.id)
+        //console.log(req.params.id)
         const order = await Order.findById(req.params.id)
         //console.log(order)
     if(order){
@@ -191,7 +193,7 @@ const adminChangeOrderByID = async (req, res) => {
 
 const getordersByRestaurantID = async (req, res) => {
     try {
-        console.log(req.params.id)
+        //console.log(req.params.id)
         const orders = await Order.find({rest_id:req.params.id})
         //console.log(order)
     if(orders){

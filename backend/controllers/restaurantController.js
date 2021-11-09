@@ -155,7 +155,7 @@ const getRestaurantProfileforAdmin = async (req, res) => {
 
 const addmenuItem = async (req, res) => {
     const { rest_id, item_name, item_category, item_type, item_photo_path, item_desc, item_price } = req.body
-    console.log(item_photo_path)
+   // console.log(item_photo_path)
     const restaurant = await Restaurant.findById(rest_id)
     if (restaurant) {
         const menuItem = {
@@ -198,7 +198,7 @@ const getMenuByRestaurant = async (req, res) => {
         }
     }
     catch (err) {
-        console.log(req)
+        //console.log(req)
         res.status(500)
         throw new Error("Internal Server Error!")
     }
@@ -332,7 +332,7 @@ const getAllRestaurants = async (req, res) => {
 
     const result = await Restaurant.find()
     if (result) {
-        console.log(result)
+        //console.log(result)
         res.status(200).json({ result })
     }
     else {

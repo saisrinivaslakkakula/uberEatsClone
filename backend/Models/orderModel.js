@@ -27,7 +27,7 @@ const orderSchema = mongoose.Schema({
         order_details:[
             {
                 item_name:{type:String},
-                item_quantity:{type:String},
+                item_qty:{type:Number},
                 item_price:{type:Number},
             }
         ]

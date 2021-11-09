@@ -57,8 +57,10 @@ const authAdmin = async (req, res) => {
         })
     }
     else {
-        res.status("401")
-        throw new Error('Invalid username/Password')
+        res.status(401).json({
+                "Error":"Invalid username/Password"
+        })
+        
     }
 
 }
@@ -80,8 +82,9 @@ const getAdminProfile = async (req, res) => {
 
         }
         else {
-            res.status('404')
-            throw new Error("user Not Found. Please try again")
+            res.status(401).json({
+                "Error":"Invalid username/Password"
+        })
         }
     }
 
