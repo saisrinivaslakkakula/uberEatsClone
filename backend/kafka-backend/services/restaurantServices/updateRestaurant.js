@@ -11,6 +11,7 @@ const handle_request = async(msg, callback)=>{
     try {
 
         let { rest_id, rest_name, rest_type, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode, rest_open_day_from, rest_open_day_to, rest_open_time_from, rest_open_time_to, rest_desc, checked } = msg
+        console.log(msg)
         const restaurant = await Restaurant.findById(rest_id)
         if (!restaurant) {
             res.status(400).json({
@@ -40,14 +41,10 @@ const handle_request = async(msg, callback)=>{
                 restaurant.rest_desc = rest_desc
             const updatedRestaurant = await restaurant.save()
             if (updatedRestaurant) {
-               const result = {
-
-                    message: "Update Success!"
-
-                }
-                callback(null,result)
+                callback(null,updatedRestaurant)
             }
             else {
+                
                 const err = {
                     "error":"Internal Server Error"
                 }
@@ -57,8 +54,9 @@ const handle_request = async(msg, callback)=>{
         }
         
     } catch (error) {
+        console.log(error)
         const err = {
-            "error":"Internal Server Error"
+            "error":"Internal Server Error"+error
         }
         callback( err,null);
         

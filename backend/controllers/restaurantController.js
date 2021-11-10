@@ -45,18 +45,11 @@ const updateRestaurant = async (req, res) => {
                 })
     
             }
-            if (results.error) {
-    
-                res.status(500).json({
-                    error: results.error
-                })
-            }
             else {
-                console.log(results)
-                res.status(201).json(
-                    {
+                res.status(200).send(
+                    
                         results
-                    }
+                    
                 )
             }
         })
@@ -145,18 +138,13 @@ const getMenuByRestaurant = async (req, res) => {
             })
 
         }
-        if (results.error) {
-
-            res.status(500).json({
-                error: results.error
-            })
-        }
+        
         else {
             console.log(results)
-            res.status(201).json(
-                {
+            res.status(201).send(
+                
                     results
-                }
+                
             )
         }
     })
@@ -164,6 +152,27 @@ const getMenuByRestaurant = async (req, res) => {
 }
 
 const updateMenuItem = async (req, res) => {
+
+    kafka.make_request('edit_menu_for_restaurant', req.body, (err, results) => {
+        if (err) {
+            res.status(500).json({
+                error: err
+            })
+
+        }
+        
+        else {
+            console.log(results)
+            res.status(201).send(
+                
+                    results
+                
+            )
+        }
+    })
+
+
+    /*
 
     const { rest_id, item_id, item_name, item_category, item_type, item_photo_path, item_desc, item_price } = req.body
     try {
@@ -187,6 +196,7 @@ const updateMenuItem = async (req, res) => {
     } catch (error) {
             res.status(500).json({"Error":error})
     }
+    */
 
 
 }
@@ -194,63 +204,26 @@ const updateMenuItem = async (req, res) => {
 
 const deleteMenuItem = async (req, res) => {
 
-
-    const { rest_id, item_id } = req.params
-
-    const restaurant = await Restaurant.findById(rest_id)
-    if (restaurant) {
-
-        restaurant.rest_menu.pull({ '_id': item_id })
-        const result = restaurant.save()
-        if (result) {
-            res.status(200).json({
-                message: "Item removed Successfully!"
+    kafka.make_request('delete_menu_for_restaurant', req.params, (err, results) => {
+        if (err) {
+            res.status(500).json({
+                error: err
             })
 
         }
+        
         else {
-            res.status(500).send("Error: Update failed due to internal server Error")
+            console.log(results)
+            res.status(201).send(
+                
+                    results
+                
+            )
         }
-    }
-    else {
-        res.status(400).send("Error: Restaurant not Found!")
-    }
-    /*if (req.userAuth) {
-        //console.log(req.body)
-        db.query("SELECT * FROM menu WHERE item_id =?", [req.params.id], (err, result) => {
-            if (err) {
-                res.status(500).json({
-                    message: " Internal Server Error " + err
-                })
-            }
-
-            let sql = "DELETE FROM `menu` \
-            WHERE (`item_id` = ?)"
-            //console.log(req.params.id)
-            db.query(sql, req.params.id, (err, result) => {
-                if (err) {
-                    res.status(500).json({
-                        message: " Internal Server Error. Please Try again Later. " + err
-                    })
-                }
-                else {
-                    res.json({
-                        message: "Delete Success"
-
-                    })
-                }
-
-            })
-
-        })
+    })
 
 
-    }
-    else {
-        res.status(401).json({
-            message: " User Not Found!"
-        })
-    }*/
+    
 
 
 

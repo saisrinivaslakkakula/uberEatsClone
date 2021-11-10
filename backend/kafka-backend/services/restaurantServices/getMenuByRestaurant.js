@@ -21,7 +21,7 @@ const handle_request = async(msg, callback)=>{
             callback( err,null);
         }
     }
-    catch (err) {
+    catch (error) {
         //console.log(req)
         console.log(error)
         const err = {

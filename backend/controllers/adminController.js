@@ -14,18 +14,13 @@ const addAdmin = async (req, res) => {
             })
 
         }
-        if (results.error) {
-
-            res.status(500).json({
-                error: results.error
-            })
-        }
+        
         else {
             console.log(results)
-            res.status(201).json(
-                {
+            res.status(201).send(
+                
                     results
-                }
+                
             )
         }
     })
@@ -78,19 +73,14 @@ const authAdmin = async (req, res) => {
             })
 
         }
-        if (results.error) {
-
-            res.status(500).json({
-                error: results.error
-            })
-        }
+        
         else {
             console.log(results)
-            res.status(201).json(
-                {
-                    results
-                }
-            )
+            res.status(201).send(
+                
+                results
+            
+        )
         }
     })
 
@@ -127,19 +117,13 @@ const getAdminProfile = async (req, res) => {
                 })
     
             }
-            if (results.error) {
-    
-                res.status(500).json({
-                    error: results.error
-                })
-            }
             else {
                 console.log(results)
-                res.status(201).json(
-                    {
-                        results
-                    }
-                )
+                res.status(201).send(
+                
+                    results
+                
+            )
             }
         })
     }

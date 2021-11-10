@@ -17,7 +17,9 @@ const getAdminDetails = require('./services/adminServices/getAdminDetails')
 const addRestaurant = require('./services/restaurantServices/addRestaurant')
 const updateRestaurant = require('./services/restaurantServices/updateRestaurant')
 const addMenuItem = require('./services/restaurantServices/addMenuItem')
-
+const getRestaurantMenu = require('./services/restaurantServices/getMenuByRestaurant')
+const editRestaurantMenu = require('./services/restaurantServices/editRestaurantMenuService')
+const deleteRestaurantMenu = require('./services/restaurantServices/deleteMenuService')
 function handleTopicRequest(topic_name, fname) {
     //var topic_name = 'root_topic';
     var consumer = connection.getConsumer(topic_name);
@@ -85,3 +87,6 @@ handleTopicRequest("get_admin", getAdminDetails)
 handleTopicRequest("add_restaurant", addRestaurant)
 handleTopicRequest("update_restaurant", updateRestaurant)
 handleTopicRequest("add_menu_item", addMenuItem)
+handleTopicRequest("get_menu_for_restaurant", getRestaurantMenu)
+handleTopicRequest("edit_menu_for_restaurant", editRestaurantMenu)
+handleTopicRequest("delete_menu_for_restaurant", deleteRestaurantMenu)

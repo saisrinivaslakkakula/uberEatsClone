@@ -55,11 +55,11 @@ const ManageRestaurant = ({ location, history }) => {
                 setRestaurantName(restaurantDetails.rest_name)
                 setEmail(restaurantDetails.rest_email)
                 setPhone(restaurantDetails.rest_phone)
-                setStreet(restaurantDetails.rest_street)
-                setCity(restaurantDetails.rest_city)
-                setState(restaurantDetails.rest_state)
-                setCountry(restaurantDetails.rest_country)
-                setZipCode(restaurantDetails.rest_zipcode)
+                setStreet(restaurantDetails.rest_address.rest_street)
+                setCity(restaurantDetails.rest_address.rest_city)
+                setState(restaurantDetails.rest_address.rest_state)
+                setCountry(restaurantDetails.rest_address.rest_country)
+                setZipCode(restaurantDetails.rest_address.rest_zipcode)
                 setImage(restaurantDetails.rest_main_photo)
                 setOpenDay(restaurantDetails.rest_open_day_from)
                 setCloseDay(restaurantDetails.rest_open_day_to)
@@ -77,7 +77,7 @@ const ManageRestaurant = ({ location, history }) => {
 
     const submitHandler = (e) => {
         e.preventDefault()
-        const rest_id = JSON.parse(localStorage.getItem('restaurantInfo')).rest_id
+        const rest_id = JSON.parse(localStorage.getItem('restaurantInfo'))._id
         //alert(rest_id)
 
         dispatch(updateRestaurantProfile(rest_id, restaurantName, restaurantType, email, phone, Street, City, State, Country, ZipCode, openDay, closeDay, openTime, closeTime, description, checked))
