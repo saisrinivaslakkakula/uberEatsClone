@@ -44,11 +44,11 @@ const Profile = ({ history }) => {
                 setLastName(user.lastName)
                 setEmail(user.email)
                 setPhone(user.phone)
-                setStreet(user.Street)
-                setCity(user.City)
-                setState(user.State)
-                setCountry(user.Country)
-                setZipCode(user.ZipCode)
+                setStreet(user.address.street)
+                setCity(user.address.city)
+                setState(user.address.state)
+                setCountry(user.address.country)
+                setZipCode(user.address.zipCode)
                 setImage(user.image)
                 
             }

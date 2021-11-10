@@ -6,78 +6,90 @@ const User = require('../Models/userModel')
 const kafka = require('../kafka/client')
 const addUser = async (req, res) => {
 
-    /*kafka.make_request('add_user',req.body,(err,results)=>{
-        if(err)
-        {
+    kafka.make_request('add_user', req.body, (err, results) => {
+        if (err) {
             res.status(500).json({
-                error:err
+                error: err
             })
 
-        }
-        if(results.error){
-            
-            res.status(500).json({
-                error:results.error
-            })
-        }
-        else{
-            console.log(results)
-            res.status(201).json(
-                {
-                    results
-                }
-            )
-        }
-    })
-*/
-    
-    const { firstName, lastName, email, phone, password, Street, City, State, Country, ZipCode, image } = req.body
-    const userExists = await User.findOne({ email })
-    if (userExists) {
-        res.status(400).send("User Already Exists")
-    }
-    else {
-        const salt = await bcrypt.genSalt(10) // generate salt for bcrypt hash rounded to 10
-        const Hashedpassword = await bcrypt.hash(password, salt)
-        const user = await User.create({
-            firstName,
-            lastName,
-            email,
-            password: Hashedpassword,
-            phone,
-            address: {
-                street: Street,
-                city: City,
-                state: State,
-                country: Country,
-                zipCode: ZipCode,
-            },
-
-            photo_path: image
-        })
-        if (user) {
-            res.status(201).json(
-                {
-                    _id: user._id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    token: generateToken(user._id),
-                }
-            )
         }
         else {
-            res.status("400")
-            throw new Error("400 Bad Request: Please try again later. ")
+            //console.log(results)
+            res.status(200).send(
+                
+                results
+            
+        )
         }
+    })
 
-    }
+
+    /* const { firstName, lastName, email, phone, password, Street, City, State, Country, ZipCode, image } = req.body
+     const userExists = await User.findOne({ email })
+     if (userExists) {
+         res.status(400).send("User Already Exists")
+     }
+     else {
+         const salt = await bcrypt.genSalt(10) // generate salt for bcrypt hash rounded to 10
+         const Hashedpassword = await bcrypt.hash(password, salt)
+         const user = await User.create({
+             firstName,
+             lastName,
+             email,
+             password: Hashedpassword,
+             phone,
+             address: {
+                 street: Street,
+                 city: City,
+                 state: State,
+                 country: Country,
+                 zipCode: ZipCode,
+             },
+ 
+             photo_path: image
+         })
+         if (user) {
+             res.status(201).json(
+                 {
+                     _id: user._id,
+                     firstName: user.firstName,
+                     lastName: user.lastName,
+                     token: generateToken(user._id),
+                 }
+             )
+         }
+         else {
+             res.status("400")
+             throw new Error("400 Bad Request: Please try again later. ")
+         }
+ 
+     }*/
 
 }
 
 
 const authUser = async (req, res) => {
 
-    const { email, password } = req.body
+
+    kafka.make_request('auth_user', req.body, (err, results) => {
+        if (err) {
+            res.status(500).json({
+                error: err
+            })
+
+        }
+        
+        else {
+           // console.log(results)
+            res.status(200).send(
+                
+                    results
+                
+            )
+        }
+    })
+
+    /*const { email, password } = req.body
     const user = await User.findOne({ email: email })
     try {
 
@@ -102,13 +114,35 @@ const authUser = async (req, res) => {
             "error":"Invalid username/Password'"
         })
         
-    }
-    
+    }*/
+
 
 }
 
 const getUserProfile = async (req, res) => {
     //console.log(req)
+    const msg = {
+        userAuth: req.userAuth,
+        userId: req.userId
+
+    }
+    kafka.make_request('get_user', msg, (err, results) => {
+        if (err) {
+            res.status(500).json({
+                error: err
+            })
+
+        }
+        
+        else {
+            res.status(200).send(
+                
+                results
+            
+        )
+        }
+    })
+    /*
     if (req.userAuth) {
         const user = await User.findById(req.userId)
         if (user) {
@@ -129,7 +163,7 @@ const getUserProfile = async (req, res) => {
             throw new Error("user Not Found. Please try again")
         }
     }
-
+*/
 
 }
 
@@ -141,15 +175,15 @@ const addFavourite = async (req, res) => {
             user.favourites.push(rest_id)
             console.log(user)
             const result = await user.save()
-            if(result){
+            if (result) {
                 res.status(200).json({
                     "message": "success"
 
                 })
             }
-            else{
+            else {
                 res.status('500')
-            throw new Error("Request Failer with status code 500.")
+                throw new Error("Request Failer with status code 500.")
             }
 
         }
@@ -169,22 +203,22 @@ const addFavourite = async (req, res) => {
 
 const getUserFavourites = async (req, res) => {
     if (req.userAuth) {
-        
+
         const user = await User.findById(req.userId)
         if (user) {
-           const result = user.favourites;
-            if(result){
+            const result = user.favourites;
+            if (result) {
                 res.status(200).json({
                     result
 
                 })
             }
-            else{
+            else {
                 res.status('500')
-            throw new Error("Request Failed with status code 500.")
+                throw new Error("Request Failed with status code 500.")
             }
         }
-    }   
+    }
     else {
         res.status(401)
         throw new Error("Error 401 - Not Authorized")
@@ -200,15 +234,15 @@ const removeFavourites = async (req, res) => {
         if (user) {
             user.favourites.pull(rest_id)
             const result = await user.save()
-            if(result){
+            if (result) {
                 res.status(200).json({
                     "message": "success"
 
                 })
             }
-            else{
+            else {
                 res.status('500')
-            throw new Error("Request Failer with status code 500.")
+                throw new Error("Request Failer with status code 500.")
             }
 
         }
@@ -229,55 +263,65 @@ const updateUserProfile = async (req, res) => {
 
 
     if (req.userAuth) {
-        const {firstName, lastName, email, phone, password, Street, City, State, Country, ZipCode, image } = req.body
-                   /* let paramsArray = [req.body.firstName,
-            req.body.lastName,
-            req.body.email,
-            req.body.phone,
-            req.body.Street,
-            req.body.City,
-            req.body.State,
-            req.body.Country,
-            req.body.ZipCode,
-            req.userId
-            ]*/
-    
-    const user = await User.findById(req.userId)
-    if (user) {
+        const msg = {
+            ...req.body,
+            userId: req.userId
+        }
 
-            user.firstName = firstName||user.firstName
-            user.lastName = lastName||user.lastName
-            user.email = email||user.email
-            if(req.body.password){
+        kafka.make_request('update_user', msg, (err, results) => {
+            if (err) {
+                res.status(500).json({
+                    error: err
+                })
+    
+            }
+            
+            else {
+                res.status(200).send(
+                
+                    results
+                
+            )
+            }
+        })
+        /*
+        const { firstName, lastName, email, phone, password, Street, City, State, Country, ZipCode, image } = req.body
+        const user = await User.findById(req.userId)
+        if (user) {
+
+            user.firstName = firstName || user.firstName
+            user.lastName = lastName || user.lastName
+            user.email = email || user.email
+            if (req.body.password) {
                 const salt = await bcrypt.genSalt(10) // generate salt for bcrypt hash rounded to 10
-                const Hashedpassword = await bcrypt.hash(password,salt)
+                const Hashedpassword = await bcrypt.hash(password, salt)
                 user.password = Hashedpassword
             }
-            user.phone = phone||user.phone
-            user.address.street = Street||user.address.street
-            user.address.city = City||user.address.city
-            user.address.state = State||user.address.state
-            user.address.country = Country||user.address.country
-            user.address.zipCode = ZipCode||user.address.zipCode
+            user.phone = phone || user.phone
+            user.address.street = Street || user.address.street
+            user.address.city = City || user.address.city
+            user.address.state = State || user.address.state
+            user.address.country = Country || user.address.country
+            user.address.zipCode = ZipCode || user.address.zipCode
             const updatedUser = await user.save()
             res.json({
-                id:req.userId,
+                id: req.userId,
                 firstName: updatedUser.firstName,
                 lastName: updatedUser.lastName,
                 email: updatedUser.email,
-                phone:updatedUser.phone,
-                address:updatedUser.address,
-                favourites:updatedUser.favourites
+                phone: updatedUser.phone,
+                address: updatedUser.address,
+                favourites: updatedUser.favourites
 
             })
-            
-        
-        
-    }
-    else{
-        res.status(400).send("User does not Exist!")
-    }
 
+
+
+        }
+        else {
+            res.status(400).send("User does not Exist!")
+        }
+        */
 
 
 

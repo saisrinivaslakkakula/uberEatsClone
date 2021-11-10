@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "kafka-node": "^5.0.0",
     "mongodb": "^2.2.31",
     "mongodb-autoincrement": "^1.0.1",
-    "mongoose": "^4.12.4"
+    "mongoose": "^4.12.4",
+    "nodemon": "^2.0.14"
   }
 }

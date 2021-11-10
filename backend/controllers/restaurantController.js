@@ -2,119 +2,73 @@ const crypto = require('crypto')
 const generateToken = require('../utils/generateToken')
 const db = require('../dbCon')
 const Restaurant = require('../Models/RestaurantModel')
+const kafka = require('../kafka/client')
 const addRestaurant = async (req, res) => {
-    let { rest_name, rest_type, rest_category, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode, rest_open_day_from, rest_open_day_to, rest_open_time_from, rest_open_time_to, rest_desc, rest_main_photo, checked, admId } = req.body
-    //console.log(req.body)
-    const restaurantExists = await Restaurant.findOne({ rest_email })
-    if (restaurantExists) {
-        res.status(400).send("Restaurant Already Exists")
-    }
-    else {
-        const restaurant = await Restaurant.create({
-            rest_name,
-            rest_type,
-            rest_category,
-            rest_email,
-            rest_phone,
-            rest_address: {
-                rest_street,
-                rest_city,
-                rest_state,
-                rest_country,
-                rest_zipcode,
-            },
-            rest_open_day_from,
-            rest_open_day_to,
-            rest_open_time_from,
-            rest_open_time_to,
-            rest_desc,
-            rest_main_photo,
-            checked,
-            adminId: admId
-        })
-        if (restaurant) {
+
+    kafka.make_request('add_restaurant', req.body, (err, results) => {
+        if (err) {
+            res.status(500).json({
+                error: err
+            })
+
+        }
+        if (results.error) {
+
+            res.status(500).json({
+                error: results.error
+            })
+        }
+        else {
+            console.log(results)
             res.status(201).json(
                 {
-                    _id: restaurant._id,
-                    rest_name,
-                    rest_email,
-                    rest_phone,
-                    rest_street,
-                    rest_city,
-                    rest_state,
-                    rest_country,
-                    rest_zipcode,
-                    rest_type,
-                    rest_category,
-                    rest_open_day_from,
-                    rest_open_day_to,
-                    rest_open_time_from,
-                    rest_open_time_to,
-                    rest_main_photo,
-                    admin_id: admId,
-                    rest_desc
+                    results
                 }
             )
         }
-        else {
-            res.status("400")
-            throw new Error("400 Bad Request: Please try again later. ")
-        }
+    })
 
-    }
+   
 
 }
 
 
 const updateRestaurant = async (req, res) => {
-    let { rest_id, rest_name, rest_type, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode, rest_open_day_from, rest_open_day_to, rest_open_time_from, rest_open_time_to, rest_desc, checked } = req.body
+   
     if (req.userAuth) {
+        
 
-        const restaurant = await Restaurant.findById(admin_id)
-        if (!restaurant) {
-            res.status(400).json({
-
-                error: "Restaurant does not exist!"
-
-            })
-
-        }
-        else {
-
-
-            restaurant.rest_name = rest_name
-            restaurant.rest_type = rest_type
-            restaurant.rest_email = rest_email
-            restaurant.rest_phone = rest_phone
-            restaurant.rest_address.rest_street = rest_street
-            restaurant.rest_address.rest_city = rest_city
-            restaurant.rest_address.rest_state = rest_state
-            restaurant.rest_address.rest_state = rest_state
-            restaurant.rest_address.rest_country = rest_country
-            restaurant.rest_address.rest_zipcode = rest_zipcode
-            restaurant.rest_open_day_from = rest_open_day_from || restaurant.rest_open_day_from
-            restaurant.rest_open_day_to = rest_open_day_to || restaurant.rest_open_day_to
-            restaurant.rest_open_time_from = rest_open_time_from || restaurant.rest_open_time_from
-            restaurant.rest_open_time_to = rest_open_time_to || restaurant.rest_open_time_to,
-                restaurant.rest_desc = rest_desc
-            const updatedRestaurant = await restaurant.save()
-            if (updatedRestaurant) {
-                res.status(201).json({
-
-                    message: "Update Success!"
-
+        kafka.make_request('update_restaurant', req.body, (err, results) => {
+            if (err) {
+                res.status(500).json({
+                    error: err
+                })
+    
+            }
+            if (results.error) {
+    
+                res.status(500).json({
+                    error: results.error
                 })
             }
             else {
-                throw new Error("Internal Server Error")
+                console.log(results)
+                res.status(201).json(
+                    {
+                        results
+                    }
+                )
             }
+        })
 
 
-
-        }
+        
 
     }
     else {
+        res.status(500).json({
+            error: "Authorization Failed"
+        })
 
     }
 
@@ -154,31 +108,29 @@ const getRestaurantProfileforAdmin = async (req, res) => {
 
 
 const addmenuItem = async (req, res) => {
-    const { rest_id, item_name, item_category, item_type, item_photo_path, item_desc, item_price } = req.body
-   // console.log(item_photo_path)
-    const restaurant = await Restaurant.findById(rest_id)
-    if (restaurant) {
-        const menuItem = {
-            item_name, item_category, item_type, item_photo_path, item_desc, item_price
-        }
-        restaurant.rest_menu.push(menuItem)
-        const result = restaurant.save()
-        if (result) {
-            res.status(200).json({
-                message: "Item Added Successfully!"
+
+    kafka.make_request('add_menu_item', req.body, (err, results) => {
+        if (err) {
+            res.status(500).json({
+                error: err
             })
 
         }
-        else {
-            res.status(500).send("Error: Update failed due to internal server Error")
+        if (results.error) {
+
+            res.status(500).json({
+                error: results.error
+            })
         }
-    }
-    else {
-        res.status(400).send("Error: Restaurant not Found!")
-    }
-
-
-
+        else {
+            console.log(results)
+            res.status(201).json(
+                {
+                    results
+                }
+            )
+        }
+    })
 
 
 }
@@ -186,27 +138,28 @@ const addmenuItem = async (req, res) => {
 
 const getMenuByRestaurant = async (req, res) => {
 
-    try {
-        const restaurant = await Restaurant.findById(req.params.id)
-        if (restaurant) {
-            res.status(200).send(restaurant.rest_menu)
+    kafka.make_request('get_menu_for_restaurant', req.params, (err, results) => {
+        if (err) {
+            res.status(500).json({
+                error: err
+            })
+
         }
-        else {
-            res.status(401).json({
-                "message:": "Restaurant not Found!"
+        if (results.error) {
+
+            res.status(500).json({
+                error: results.error
             })
         }
-    }
-    catch (err) {
-        //console.log(req)
-        res.status(500)
-        throw new Error("Internal Server Error!")
-    }
-
-
-
-
-
+        else {
+            console.log(results)
+            res.status(201).json(
+                {
+                    results
+                }
+            )
+        }
+    })
 
 }
 

@@ -3,8 +3,34 @@ const generateToken = require('../utils/generateToken')
 const db = require('../dbCon')
 const bcrypt = require('bcryptjs')
 const Admin = require('../Models/adminModel')
+const kafka = require('../kafka/client')
 const addAdmin = async (req, res) => {
-    const { firstName, lastName, email, phone, password, image } = req.body
+
+
+    kafka.make_request('add_admin', req.body, (err, results) => {
+        if (err) {
+            res.status(500).json({
+                error: err
+            })
+
+        }
+        if (results.error) {
+
+            res.status(500).json({
+                error: results.error
+            })
+        }
+        else {
+            console.log(results)
+            res.status(201).json(
+                {
+                    results
+                }
+            )
+        }
+    })
+
+   /* const { firstName, lastName, email, phone, password, image } = req.body
 
     const adminExists = await Admin.findOne({ email })
     if (adminExists) {
@@ -37,7 +63,7 @@ const addAdmin = async (req, res) => {
             throw new Error("400 Bad Request: Please try again later. ")
         }
 
-    }
+    }*/
 
     
 
@@ -45,7 +71,30 @@ const addAdmin = async (req, res) => {
 
 
 const authAdmin = async (req, res) => {
-    const { email, password } = req.body
+    kafka.make_request('auth_admin', req.body, (err, results) => {
+        if (err) {
+            res.status(500).json({
+                error: err
+            })
+
+        }
+        if (results.error) {
+
+            res.status(500).json({
+                error: results.error
+            })
+        }
+        else {
+            console.log(results)
+            res.status(201).json(
+                {
+                    results
+                }
+            )
+        }
+    })
+
+   /* const { email, password } = req.body
     const admin = await Admin.findOne({ email: email })
     if (admin && (await admin.matchPassword(password))) {
         res.json({
@@ -61,31 +110,38 @@ const authAdmin = async (req, res) => {
                 "Error":"Invalid username/Password"
         })
         
-    }
+    }*/
 
 }
 
 const getAdminProfile = async (req, res) => {
     if (req.userAuth) {
-        const admin = await Admin.findById(req.userId)
-        if (admin) {
-            res.json({
-                _id: admin._id,
-                firstName: admin.firstName,
-                lastName: admin.lastName,
-                email: admin.email,
-                phone:admin.phone,
-                address:admin.address,
-                favourites:admin.favourites
-
-            })
-
+        const msg = {
+            ...req.body,
+            userId:req.userId
         }
-        else {
-            res.status(401).json({
-                "Error":"Invalid username/Password"
+        kafka.make_request('get_admin', msg, (err, results) => {
+            if (err) {
+                res.status(500).json({
+                    error: err
+                })
+    
+            }
+            if (results.error) {
+    
+                res.status(500).json({
+                    error: results.error
+                })
+            }
+            else {
+                console.log(results)
+                res.status(201).json(
+                    {
+                        results
+                    }
+                )
+            }
         })
-        }
     }
 
 
