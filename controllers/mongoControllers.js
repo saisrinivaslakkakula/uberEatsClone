@@ -30,4 +30,31 @@ const readUser = async (req,res)=>{
     
  }
 
- module.exports = readUser
+ const createUser = async (req,res)=>{
+    // get the data from request body which is in json and put it in variables called user and password
+   const results = await User.create({
+       name:req.body.name
+   })
+
+     
+
+       if(results){
+          
+        res.status(201).json(
+            {
+             "results":results
+           
+            }
+        )
+    }
+    else{
+        res.status("400")
+        throw new Error ("400 Bad Request: Please try again later. ")
+    }
+    
+
+    
+   
+}
+
+ module.exports = {readUser,createUser}
