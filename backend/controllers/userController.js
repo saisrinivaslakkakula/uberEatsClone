@@ -4,6 +4,8 @@ const db = require('../dbCon')
 const bcrypt = require('bcryptjs')
 const User = require('../Models/userModel')
 const kafka = require('../kafka/client')
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const addUser = async (req, res) => {
 
     kafka.make_request('add_user', req.body, (err, results) => {
@@ -24,52 +26,13 @@ const addUser = async (req, res) => {
     })
 
 
-    /* const { firstName, lastName, email, phone, password, Street, City, State, Country, ZipCode, image } = req.body
-     const userExists = await User.findOne({ email })
-     if (userExists) {
-         res.status(400).send("User Already Exists")
-     }
-     else {
-         const salt = await bcrypt.genSalt(10) // generate salt for bcrypt hash rounded to 10
-         const Hashedpassword = await bcrypt.hash(password, salt)
-         const user = await User.create({
-             firstName,
-             lastName,
-             email,
-             password: Hashedpassword,
-             phone,
-             address: {
-                 street: Street,
-                 city: City,
-                 state: State,
-                 country: Country,
-                 zipCode: ZipCode,
-             },
- 
-             photo_path: image
-         })
-         if (user) {
-             res.status(201).json(
-                 {
-                     _id: user._id,
-                     firstName: user.firstName,
-                     lastName: user.lastName,
-                     token: generateToken(user._id),
-                 }
-             )
-         }
-         else {
-             res.status("400")
-             throw new Error("400 Bad Request: Please try again later. ")
-         }
- 
-     }*/
-
 }
 
 
 const authUser = async (req, res) => {
 
+       
+      
 
     kafka.make_request('auth_user', req.body, (err, results) => {
         if (err) {

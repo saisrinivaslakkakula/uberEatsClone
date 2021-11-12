@@ -12,7 +12,8 @@ const restaurantRoutes = require('./Routes/restaurantRoutes')
 const orderRoutes = require('./Routes/orderRoutes')
 const {notFound,errorHandler} = require('./middleware/errorHandlerMiddleware')
 const passport = require('passport')
-
+//require('./auth/auth');
+app.use(passport.initialize());
 dotenv.config()
 db()
 //passport middleware

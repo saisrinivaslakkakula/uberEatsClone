@@ -1,0 +1,81 @@
+const passport = require('passport');
+const localStrategy = require('passport-local').Strategy;
+const User = require('../Models/userModel');
+const kafka = require('../kafka/client')
+/*passport.use(
+    'signup',
+    new localStrategy(
+      {
+        usernameField: 'email',
+        passwordField: 'password',
+        
+
+      },
+      async (email, res,done) => {
+        console.log(email)
+        kafka.make_request('add_user', email, (err, results) => {
+            if (err) {
+              done(err);
+    
+            }
+            else {
+                //console.log(results)
+                done(results)
+            }
+        })
+    
+    
+    }
+    )
+  );
+
+  passport.use(
+    'login',
+    new localStrategy(
+      {
+        usernameField: 'email',
+        passwordField: 'password'
+      },
+      async (email, password, done) => {
+        try {
+          const user = await UserModel.findOne({ email });
+          if (!user) {
+             
+            return done(null, false, { message: 'User not found' });
+          }
+        var validate;
+          if(user.password === password)
+             validate = true
+          else
+              validate = false
+  
+          if (!validate) {
+            return done(null, false, { message: 'Wrong Password' });
+          }
+  
+          return done(null, user, { message: 'Logged in Successfully' });
+        } catch (error) {
+          return done(error);
+        }
+      }
+    )
+  );*/
+
+const JWTstrategy = require('passport-jwt').Strategy;
+const ExtractJWT = require('passport-jwt').ExtractJwt;
+
+passport.use(
+  new JWTstrategy(
+    {
+      secretOrKey: 'abcd1234',
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken()
+    },
+    async (token, done) => {
+      try {
+        return done(null, token.user);
+      } catch (error) {
+        done(error);
+      }
+    }
+  )
+);
