@@ -81,7 +81,7 @@ function handleTopicRequest(topic_name, fname) {
 // Add your TOPICs here
 //first argument is topic name
 //second argument is a function that will handle this topic request
-handleTopicRequest("add_user", addUser)
+handleTopicRequest("add_user_db", addUser)
 handleTopicRequest("auth_user", authUser)
 handleTopicRequest("get_user", getUserDetails)
 handleTopicRequest("update_user", updateUserDetails)

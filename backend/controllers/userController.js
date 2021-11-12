@@ -6,7 +6,7 @@ const User = require('../Models/userModel')
 const kafka = require('../kafka/client')
 const addUser = async (req, res) => {
 
-    kafka.make_request('add_user', req.body, (err, results) => {
+    kafka.make_request('add_user_db', req.body, (err, results) => {
         if (err) {
             res.status(500).json({
                 error: err
