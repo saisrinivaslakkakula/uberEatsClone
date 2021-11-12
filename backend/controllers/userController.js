@@ -70,8 +70,8 @@ const addUser = async (req, res) => {
 
 const authUser = async (req, res) => {
 
-
-    kafka.make_request('auth_user', req.body, (err, results) => {
+    //console.log(req.userId)
+    kafka.make_request('auth_user', req.userId, (err, results) => {
         if (err) {
             res.status(500).json({
                 error: err
@@ -80,7 +80,8 @@ const authUser = async (req, res) => {
         }
         
         else {
-           // console.log(results)
+            //console.log(results)
+            res.setHeader('token', "jwt " + results.token);
             res.status(200).send(
                 
                     results
@@ -126,6 +127,8 @@ const getUserProfile = async (req, res) => {
         userId: req.userId
 
     }
+    //console.log(req.headers)
+
     kafka.make_request('get_user', msg, (err, results) => {
         if (err) {
             res.status(500).json({
@@ -142,28 +145,7 @@ const getUserProfile = async (req, res) => {
         )
         }
     })
-    /*
-    if (req.userAuth) {
-        const user = await User.findById(req.userId)
-        if (user) {
-            res.json({
-                _id: user._id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                phone:user.phone,
-                address:user.address,
-                favourites:user.favourites
 
-            })
-
-        }
-        else {
-            res.status('404')
-            throw new Error("user Not Found. Please try again")
-        }
-    }
-*/
 
 }
 

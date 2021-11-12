@@ -8,8 +8,8 @@ const kafka = require('../../kafka/client')
 
 const handle_request = async(msg, callback)=>{
     console.log(msg)
-    if (msg.userAuth) {
-       // console.log(msg.userId)
+    //if (msg.userAuth) {
+        console.log(msg.userId)
         const user = await User.findById(msg.userId)
         if (user) {
            const res = {
@@ -31,7 +31,7 @@ const handle_request = async(msg, callback)=>{
             }
             callback( err,null);
         }
-    }
+    //}
         
 };
 

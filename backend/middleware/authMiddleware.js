@@ -10,9 +10,9 @@ const protect = ayncHandler(async(req,res,next)=>{
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
         token = req.headers.authorization.split(' ')[1]
         try {
-            
+            //console.log(token)
             const decoded = jwt.verify(token,process.env.JWT_SECRET)
-            console.log(decoded)
+            //console.log(decoded)
             if(decoded.id){
                 req.userAuth = true
                 req.userId = decoded.id

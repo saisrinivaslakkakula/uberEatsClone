@@ -38,6 +38,6 @@
     "react-bootstrap": "^1.6.4"
   },
   "devDependencies": {
-    "concurrently": "^6.2.1"
+    "concurrently": "^6.3.0"
   }
 }
