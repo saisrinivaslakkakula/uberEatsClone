@@ -20,6 +20,13 @@ const addMenuItem = require('./services/restaurantServices/addMenuItem')
 const getRestaurantMenu = require('./services/restaurantServices/getMenuByRestaurant')
 const editRestaurantMenu = require('./services/restaurantServices/editRestaurantMenuService')
 const deleteRestaurantMenu = require('./services/restaurantServices/deleteMenuService')
+
+const addOrder = require('./services/orderServices/addOrderService')
+const getOrderDetailsByCustID = require('./services/orderServices/getOrdersByCustomerID')
+const getOrdersByOrderID = require('./services/orderServices/getOrdersbyOrderID')
+const getordersByRestaurantID = require('./services/orderServices/getOrdersByRestaurantID');
+const adminChangeOrderStatus = require('./services/orderServices/adminChangeOrder');
+
 function handleTopicRequest(topic_name, fname) {
     //var topic_name = 'root_topic';
     var consumer = connection.getConsumer(topic_name);
@@ -90,3 +97,9 @@ handleTopicRequest("add_menu_item", addMenuItem)
 handleTopicRequest("get_menu_for_restaurant", getRestaurantMenu)
 handleTopicRequest("edit_menu_for_restaurant", editRestaurantMenu)
 handleTopicRequest("delete_menu_for_restaurant", deleteRestaurantMenu)
+
+handleTopicRequest("add_order", addOrder)
+handleTopicRequest("get_order_details_by_order_id", getOrdersByOrderID)
+handleTopicRequest("get_order_details_by_rest_id", getordersByRestaurantID)
+handleTopicRequest("get_order_details_by_cust_id", getOrderDetailsByCustID)
+handleTopicRequest("admin_change_order_status", adminChangeOrderStatus)

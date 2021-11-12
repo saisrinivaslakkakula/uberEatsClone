@@ -81,9 +81,9 @@ const PrevoiuosOrdersForAdmin = ({ history }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {adminOrdersRes.result.length > 0 ?
+                        {adminOrdersRes.results.length > 0 ?
                             (
-                                adminOrdersRes.result.map(x => (
+                                adminOrdersRes.results.map(x => (
                                     <tr >
                                         <td >{x._id}</td>
 

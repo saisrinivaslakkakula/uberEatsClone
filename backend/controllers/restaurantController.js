@@ -222,11 +222,6 @@ const deleteMenuItem = async (req, res) => {
         }
     })
 
-
-    
-
-
-
 }
 
 const getItemDetails = async (req, res) => {

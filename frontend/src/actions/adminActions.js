@@ -101,6 +101,7 @@ export const getAdminOrderDetailsAction = (id) => async(dispatch,getState) =>{
                 Authorization: `Bearer ${adminInfo.token}`,
             }
         }
+        console.log("id"+id)
         const {data} = await axios.get(`/api/order/getOrderByRestaurant/${id}`,config)
         console.log(data)
          dispatch({

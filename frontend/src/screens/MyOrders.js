@@ -70,7 +70,8 @@ const MyOrders = ({ history, location }) => {
             }
             const { data } = await axios.get(`/api/order/getOrderByCustomer/${cust_id}`, config)
             console.log(data)
-            setMyOrders(data.result)
+            setMyOrders(data.results)
+            
         }
 
 
@@ -92,7 +93,7 @@ const MyOrders = ({ history, location }) => {
                     <option value="cancelled" > cancelled</option>
                 </select>
             </div>
-            {myOrders.length > 0 ?
+            {myOrders.length >0 ?
                 <div>
                     {myOrders.filter(x=>x.order_status === filterValue).map((x) => (
                         <>
@@ -159,8 +160,11 @@ const MyOrders = ({ history, location }) => {
                     }
                 </div>
                 :
-
-                <h2>You don't have any previous orders</h2>
+                <div>
+                    <h2>You don't have any previous orders</h2>
+                    
+                </div>
+                
 
             }
         </div>

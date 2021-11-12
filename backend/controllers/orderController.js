@@ -2,11 +2,39 @@ const crypto = require('crypto')
 const generateToken = require('../utils/generateToken')
 const db = require('../dbCon')
 const Order = require('../Models/orderModel')
+const kafka = require('../kafka/client')
 const addOrder = async (req, res) => {
+
+    if (!req.userAuth) {
+        res.status(404).json({
+            message: " Not Authorized"
+        })
+    }
+    else{
+
+        kafka.make_request('add_order', req.body, (err, results) => {
+            if (err) {
+                res.status(500).json({
+                    error: err
+                })
+    
+            }
+            else {
+                console.log(results)
+                res.status(201).json(
+                    {
+                        results
+                    }
+                )
+            }
+        })
+
+    }
+
+
+
+    /*
     let { cust_id,rest_id,order_status,items_array,items_total_price} = req.body
-    //console.log("********")
-    console.log(items_array)
-    /* Delete this if fails ****/
     if (!req.userAuth) {
         res.status(404).json({
             message: " Not Authorized"
@@ -42,7 +70,7 @@ const addOrder = async (req, res) => {
             
         }
         
-    }
+    }*/
 
 
 
@@ -51,26 +79,24 @@ const addOrder = async (req, res) => {
 
 const getordersByCustomerID = async (req, res) => {
 
-    try {
-        const orders = await Order.find({cust_id:req.params.id})
-    if(orders.length > 0){
-        res.status(200).json({
-            "result":orders
-        })
-    }
-    else{
-        res.status(404).json({
-            "error":"No Orders Found"
-        })
-    }
-        
-    } catch (error) {
-        res.status(500).json({
-            "error":"Internal Server Error."
-        })
-        
-    }
-    
+    kafka.make_request('get_order_details_by_cust_id', req.params, (err, results) => {
+        if (err) {
+            res.status(500).json({
+                error: err
+            })
+
+        }
+        else {
+            console.log(results)
+            res.status(201).json(
+                {
+                    results
+                }
+            )
+        }
+    })
+
+   
 
     
 }
@@ -112,33 +138,46 @@ const getOrderDetailsForCustomer = async (req,res) =>{
 }
 
 const getordersByOrderID = async (req, res) => {
-    try {
-        //console.log(req.params.id)
-        const order = await Order.findById(req.params.id)
-        //console.log(order)
-    if(order){
-        res.status(200).json({
-            "result":order
-        })
-    }
-    else{
-        res.status(404).json({
-            "error":"No Orders Found"
-        })
-    }
-        
-    } catch (error) {
-        res.status(500).json({
-            "error":"Internal Server Error."
-        })
-        
-    }
+
+    kafka.make_request('get_order_details_by_order_id', req.params, (err, results) => {
+        if (err) {
+            res.status(500).json({
+                error: err
+            })
+
+        }
+        else {
+            console.log(results)
+            res.status(201).json(
+                {
+                    results
+                }
+            )
+        }
+    })
+    
 }
 
 
 const adminChangeOrderByID = async (req, res) => {
+    kafka.make_request('admin_change_order_status', req.params, (err, results) => {
+        if (err) {
+            res.status(500).json({
+                error: err
+            })
 
-    try {
+        }
+        else {
+            console.log(results)
+            res.status(201).json(
+                {
+                    results
+                }
+            )
+        }
+    })
+
+   /* try {
         const order = await Order.findById(req.params.id)
         if(order){
             order.order_status = req.params.status
@@ -172,47 +211,27 @@ const adminChangeOrderByID = async (req, res) => {
             }
         )
         
-    }
-    /*let sql = "UPDATE `order` SET `order_status` = ? WHERE (`order_id` = ?);"
-    db.query(sql,[req.params.status,req.params.id],(err,result)=>{
-            if(err){
-                res.status(500).json(
-                    {
-                        "error":"500 - internal Server error"+err
-                    }
-                )
-            }
-            else{
-                res.status(201).json({
-                    "result":"success"
-                })
-
-            }
-    })*/
+    }*/
+   
 }
 
 const getordersByRestaurantID = async (req, res) => {
-    try {
-        //console.log(req.params.id)
-        const orders = await Order.find({rest_id:req.params.id})
-        //console.log(order)
-    if(orders){
-        res.status(200).json({
-            "result":orders
-        })
-    }
-    else{
-        res.status(404).json({
-            "error":"No Orders Found"
-        })
-    }
-        
-    } catch (error) {
-        res.status(500).json({
-            "error":"Internal Server Error."
-        })
-        
-    }
+    kafka.make_request('get_order_details_by_rest_id', req.params, (err, results) => {
+        if (err) {
+            res.status(500).json({
+                error: err
+            })
+
+        }
+        else {
+            console.log(results)
+            res.status(201).json(
+                {
+                    results
+                }
+            )
+        }
+    })
 }
 
 module.exports = { addOrder,getordersByCustomerID,getOrderDetailsForCustomer,
