@@ -10,7 +10,7 @@ const handle_request = async(msg, callback)=>{
 
     try {
         console.log(msg)
-        const orders = await Order.findOne({cust_id:msg.id})
+        const orders = await Order.find({cust_id:msg.id})
     if(orders){
         console.log(orders)
         

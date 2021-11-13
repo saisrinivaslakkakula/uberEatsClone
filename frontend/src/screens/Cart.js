@@ -50,14 +50,14 @@ const Cart = ({ location, history }) => {
             const yyyy = today.getFullYear()
             const dataObject = {
                 cust_id: userInfo._id,
-                rest_id: cartItemsArray[0]._id,
+                rest_id: cartItemsArray[0].rest_id,
                 order_date: yyyy + "-" + mm + "-" + dd,
                 order_status: "placed",
                 items_array: cartItemsArray,
                 items_total_price: Total
 
             }
-            //console.log(dataObject)
+            console.log(dataObject)
             dispatch(placeOrderAction(dataObject))
 
         }

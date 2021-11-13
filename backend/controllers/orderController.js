@@ -88,10 +88,10 @@ const getordersByCustomerID = async (req, res) => {
         }
         else {
             console.log(results)
-            res.status(201).json(
-                {
+            res.status(201).send(
+                
                     results
-                }
+                
             )
         }
     })
@@ -216,6 +216,7 @@ const adminChangeOrderByID = async (req, res) => {
 }
 
 const getordersByRestaurantID = async (req, res) => {
+    console.log(req)
     kafka.make_request('get_order_details_by_rest_id', req.params, (err, results) => {
         if (err) {
             res.status(500).json({

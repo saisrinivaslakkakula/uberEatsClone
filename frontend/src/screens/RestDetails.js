@@ -67,8 +67,10 @@ const RestDetails = ({ match,history }) => {
     const handleAddtoCart = () => {
         const data = {
             ...menuData,
+            rest_id:restaurantDetailsObject._id,
             item_qty: cartQty
         }
+        console.log(menuData)
         dispatch(addCartItem(data))
         setAddSuccess(true)
     }

@@ -8,51 +8,55 @@ import { BiZoomIn } from 'react-icons/bi'
 import ReceiptModal from '../components/ReceiptModal'
 import { Modal, Button } from 'react-bootstrap'
 import * as allIcons from "react-icons/all"
+import ReactPaginate from 'react-paginate';
 const MyOrders = ({ history, location }) => {
     const [myOrders, setMyOrders] = useState([])
     const [modalShow, setModalShow] = useState(false)
     const [orderData, setOrderData] = useState([])
-    const[filterValue,setFilterValue] = useState('placed')
+    const [filterValue, setFilterValue] = useState('placed')
     //const [myOrders, setMyOrders] = useState([])
+    const [pageNumber,setPageNumber] = useState(1)
+    const [ordersPerPage,setOrdersPerPage] = useState(3)
+    //const ordersPerPage = 4
+    const pagesVisited = pageNumber * ordersPerPage
+   
+    /*const  displayOrders = myOrders.slice(pagesVisited, pagesVisited+ordersPerPage).map(
+        (order) =>{
+            <p>{order._id}</p>
+        }
+        )*/
+    const [currentItems, setCurrentItems] = useState(null);
+    
+    const [itemOffset, setItemOffset] = useState(0);
     const redirect = location.search ? location.search.split("=")[1] : '/login'
     const dispatch = useDispatch()
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
     const allRestaurantsInfo = useSelector(state => state.allRestaurants)
     const { loading, error, allRestaurants } = allRestaurantsInfo
+    //setPageCount(Math.ceil(myOrders.length / ordersPerPage));
+    const pageCount = Math.ceil(myOrders.length/ordersPerPage)
     useEffect(() => {
         if (!userInfo) {
             history.push(redirect)
         }
         getOrders()
 
+        const itemsPerPage = 5
+        const endOffset = itemOffset + itemsPerPage;
+        console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+        setCurrentItems(myOrders.slice(itemOffset, endOffset));
+        console.log(currentItems)
+        
+
 
     }, [history, userInfo, redirect])
 
     const showModal = async (x) => {
-       /* const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`,
-            }
-        }
 
-
-        const { data: orderDetails } = await axios.get(`/api/order/getOrderDetailsByOrderID/${x.order_id}`, config)
-        const dataObj = {
-            order_id: x.order_id,
-            cust_id: x.cust_id,
-            rest_id: x.rest_id,
-            order_date: x.order_date,
-            order_status: x.order_status,
-            order_total: x.order_total,
-            order_details: orderDetails.result
-
-        }
-        //console.log(dataObj)*/
         console.log(x)
         setOrderData(x)
-        
+
         setModalShow(true)
     }
 
@@ -69,37 +73,52 @@ const MyOrders = ({ history, location }) => {
                 }
             }
             const { data } = await axios.get(`/api/order/getOrderByCustomer/${cust_id}`, config)
-            console.log(data)
-            setMyOrders(data.results)
-            
+           console.log(data)
+           setMyOrders(data)
+            setCurrentItems(data)
+           console.log(myOrders)
+           //console.log(currentItems)
+
         }
 
-
-
     }
 
-    const setChangeValue = (value) =>{
+    const setChangeValue = (value) => {
         setFilterValue(value)
     }
+    const handlePageClick = ({selected}) => {
+        setPageNumber(selected)
+
+    }
+
     return (
         <div className="container" style={{ marginTop: '5%', marginBottom: '5%' }}>
             <div className="menu-add-item-button">
                 <p className="py-4 mx-5">Filter By Status</p>
-                <select style={{width:'30%'}}className="form-control my-3" name="category" placeholder="Restaurant category" onChange={(e) => setChangeValue(e.target.value)}>
+                <select style={{ width: '30%' }} className="form-control my-3" name="category" placeholder="Restaurant category" onChange={(e) => setChangeValue(e.target.value)}>
                     <option value="placed" selected> placed</option>
                     <option value="prepared" > prepared</option>
                     <option value="deliveryInProgress" > Delivery started</option>
                     <option value="delivered" > delivered</option>
                     <option value="cancelled" > cancelled</option>
                 </select>
+                <p className="py-4 mx-5">Orders Per Page</p>
+                <select style={{ width: '30%' }} className="form-control my-3" name="category" placeholder="Restaurant category" onChange={(e) => setOrdersPerPage(e.target.value)}>
+                    <option value="3" selected> 3</option>
+                    <option value="5" > 5</option>
+                    <option value="10" > 10</option>
+                    
+                </select>
             </div>
-            {myOrders.length >0 ?
+            
+            {myOrders.length > 0 ?
                 <div>
-                    {myOrders.filter(x=>x.order_status === filterValue).map((x) => (
+                    {/*currentItems.filter(x => x.order_status === filterValue).map((x) => (
                         <>
-                            <div className="row">
+                        
+                        <div className="row">
                                 <div className="col-md-3" style={{ textTransform: 'capitalize' }}>
-                                    {allRestaurants && allRestaurants.result.find(y => y._id === x._id) && allRestaurants.result.find(y => y._id === x._id).rest_name}
+                                    {allRestaurants && allRestaurants.result.find(y => y._id === x.rest_id) && allRestaurants.result.find(y => y._id === x.rest_id).rest_name}
                                 </div>
                                 <div className="col-md-3">
                                     {x.order_date.substring(0, 10)}
@@ -114,8 +133,51 @@ const MyOrders = ({ history, location }) => {
                                 </div>
                             </div>
                             <hr></hr>
+  
                         </>
-                    ))}
+                    )
+
+
+                    )*/}
+                    {/*myOrders.filter(x => x.order_status === filterValue).slice(pagesVisited, pagesVisited+ordersPerPage).map(
+                        order => {
+                            <p> hi</p>
+                        }
+                    )*/}
+                    <div>
+                    <p>{myOrders.filter(x => x.order_status === filterValue).slice(pagesVisited, pagesVisited+ordersPerPage).map(
+                        x => 
+                        <div>
+                            <div className="row">
+                                <div className="col-md-3" style={{ textTransform: 'capitalize' }}>
+                                    {allRestaurants && allRestaurants.result.find(y => y._id === x.rest_id) && allRestaurants.result.find(y => y._id === x.rest_id).rest_name}
+                                </div>
+                                <div className="col-md-3">
+                                    {x.order_date.substring(0, 10)}
+                                </div>
+                                <div className="col-md-3">
+                                    ${x.order_total} <br />
+                                    <p style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => showModal(x)}> View Receipt</p>
+                                </div>
+                                <div className="col-md-3">
+                                    {x.order_status}
+
+                                </div>
+                            </div>
+                            <hr></hr>
+                        </div>
+                    )}</p>
+                    <ReactPaginate className="pagination"
+                    breakLabel="..."
+                    nextLabel="next >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={pageCount}
+                    previousLabel="< previous"
+                    
+                    />
+                    </div>
+                    
                     {(modalShow) &&
                         <>
                             <Modal show={modalShow}>
@@ -158,13 +220,14 @@ const MyOrders = ({ history, location }) => {
                         </>
 
                     }
+                
                 </div>
                 :
                 <div>
                     <h2>You don't have any previous orders</h2>
-                    
+
                 </div>
-                
+
 
             }
         </div>

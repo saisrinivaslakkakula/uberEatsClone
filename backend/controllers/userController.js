@@ -71,7 +71,7 @@ const addUser = async (req, res) => {
 const authUser = async (req, res) => {
 
     //console.log(req.userId)
-    kafka.make_request('auth_user', req.userId, (err, results) => {
+    kafka.make_request('auth_user', req.body, (err, results) => {
         if (err) {
             res.status(500).json({
                 error: err

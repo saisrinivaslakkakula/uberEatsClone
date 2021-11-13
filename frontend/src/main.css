@@ -393,6 +393,34 @@ header .searchBar {
   text-align: center;
 }*/
 
+
+
+/* Pagination */
+
+.pagination a {
+  cursor: default;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid black;
+  color: #06c167;
+  margin-left: 10px;
+ }
+ 
+ .pagination li:not(.disabled) a:hover {
+  background-color: rgb(131, 131, 130);
+  cursor: pointer;
+ }
+ 
+ .pagination li a {
+  font-weight: bold;
+ }
+ 
+ .pagination li.active a {
+  color: #fff;
+  background: #06c167;
+ }
+
+/* PAgination */
 .rest-card p{
   margin-top: 1.2rem;
   text-decoration: none;
