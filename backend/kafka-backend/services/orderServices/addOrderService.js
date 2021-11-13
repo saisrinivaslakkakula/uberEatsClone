@@ -8,14 +8,15 @@ const kafka = require('../../../kafka/client')
 
 const handle_request = async(msg, callback)=>{
 
-    let { cust_id,rest_id,order_status,items_array,items_total_price} = msg
+    let { cust_id,rest_id,order_status,items_array,items_total_price,special_instructions} = msg
         try {
             const order = await Order.create({
                 cust_id,
                 rest_id,
                 order_status,
                 order_total:items_total_price,
-                order_details:items_array
+                order_details:items_array,
+                special_instructions
             })
             if(order){
                 const result = {

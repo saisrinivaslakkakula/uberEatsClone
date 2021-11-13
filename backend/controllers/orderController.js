@@ -160,6 +160,7 @@ const getordersByOrderID = async (req, res) => {
 
 
 const adminChangeOrderByID = async (req, res) => {
+    console.log(req.params)
     kafka.make_request('admin_change_order_status', req.params, (err, results) => {
         if (err) {
             res.status(500).json({

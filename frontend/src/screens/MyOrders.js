@@ -90,6 +90,14 @@ const MyOrders = ({ history, location }) => {
         setPageNumber(selected)
 
     }
+    const cancelOrder = async(x)=>{
+        
+        //alert(x._id)
+        const result = await axios.put(`/api/order/changeOrderStatus/${x._id}/cancelled`)
+        if(result.data.results == "Success"){
+            window.location.reload(false);
+        }
+    }
 
     return (
         <div className="container" style={{ marginTop: '5%', marginBottom: '5%' }}>
@@ -160,7 +168,8 @@ const MyOrders = ({ history, location }) => {
                                     <p style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => showModal(x)}> View Receipt</p>
                                 </div>
                                 <div className="col-md-3">
-                                    {x.order_status}
+                                    {x.order_status} &nbsp;
+                                    {x.order_status==="placed"&&<button className="btn btn-success" onClick={() => cancelOrder(x)}>Cancel Order</button>}
 
                                 </div>
                             </div>

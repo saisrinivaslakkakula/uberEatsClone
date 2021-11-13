@@ -24,6 +24,10 @@ const orderSchema = mongoose.Schema({
             type:Number,
             reqired:true
         },
+        special_instructions: {
+            type:String
+        },
+
         order_details:[
             {
                 item_name:{type:String},

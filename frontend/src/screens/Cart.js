@@ -6,11 +6,17 @@ import { Link } from 'react-router-dom'
 import { removeCartItem, placeOrderAction, clearCartAction } from '../actions/cartActions'
 import { getUserDetails } from '../actions/userActions'
 import Loader from '../components/Loader'
+import { Modal, ModalBody, ModalFooter } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
+import * as allIcons from "react-icons/all"
+import ModalHeader from 'react-bootstrap/esm/ModalHeader'
 const Cart = ({ location, history }) => {
 
     const [subtotal, setSubTotal] = useState(0);
+    const [splIns, setSplIns] = useState('');
     const [Total, setTotal] = useState(0);
     const cartItems = useSelector(state => state.cartItems)
+    const [showModal, setShowModal] = useState(null)
     const dispatch = useDispatch()
     const { loading: addCartLoading, error: addCartError, success: addCartSuccess, cartItems: cartItemsArray } = cartItems
     const userLogin = useSelector(state => state.userLogin)
@@ -24,9 +30,9 @@ const Cart = ({ location, history }) => {
         if (!userInfo) {
             history.push(redirect)
         }
-        
-            dispatch(getUserDetails('profile'))
-        
+
+        dispatch(getUserDetails('profile'))
+
         if (cartItemsArray.length > 0) {
             let SubT = 0
             for (let i = 0; i < cartItemsArray.length; i++) {
@@ -42,7 +48,11 @@ const Cart = ({ location, history }) => {
         dispatch(removeCartItem(id))
     }
 
-    const checkout = () => {
+    const confirmCheckout = () =>{
+        //alert("dfds")
+        setShowModal(true)
+    }
+    const Checkout = () => {
         if (cartItemsArray.length > 0) {
             const today = new Date()
             const dd = today.getDate()
@@ -54,13 +64,21 @@ const Cart = ({ location, history }) => {
                 order_date: yyyy + "-" + mm + "-" + dd,
                 order_status: "placed",
                 items_array: cartItemsArray,
-                items_total_price: Total
+                items_total_price: Total,
+                special_instructions: splIns
 
             }
             console.log(dataObject)
             dispatch(placeOrderAction(dataObject))
 
         }
+    }
+
+
+    const handleClose = () => {
+        setShowModal(false)
+        
+
     }
 
 
@@ -104,7 +122,7 @@ const Cart = ({ location, history }) => {
                                         ${Total}<br></br>
                                     </td>
                                     <td className="py-4">
-                                        <button onClick={() => checkout()} className="btn btn-dark">CheckOut</button>
+                                        <button onClick={() => confirmCheckout()} className="btn btn-dark">CheckOut</button>
                                     </td>
                                 </tr>
                             }
@@ -117,12 +135,12 @@ const Cart = ({ location, history }) => {
                         <div className="row py-4">
                             Your Items will be delivered to the below Address
                             <div className="row py-4" >
-                                <div className="col-md-4 p-4" style={{borderStyle:'solid'}}>
+                                <div className="col-md-4 p-4" style={{ borderStyle: 'solid' }}>
                                     <p> {user.Street}</p>
                                     <p> {user.City}</p>
                                     <p> {user.State}</p>
                                     <p> {user.Country} - {user.ZipCode}</p>
-                                    <Link to="/profile"style={{color:'#06c167'}}>Change</Link>
+                                    <Link to="/profile" style={{ color: '#06c167' }}>Change</Link>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +152,93 @@ const Cart = ({ location, history }) => {
                 checkoutSuccess ?
                     <h2>Order Placed Successfully!</h2>
                     :
-                    <h5>Your Cart is sad <AllIcons.ImSad/> You can make it happy by adding the items anytime.</h5>
+                    <h5>Your Cart is sad <AllIcons.ImSad /> You can make it happy by adding the items anytime.</h5>
+
+            }
+
+            {showModal  &&
+                <>
+
+                    <Modal show={showModal}>
+                        <Modal.Header>
+                            <p style={{ marginLeft: '95%' }}><allIcons.GrFormClose onClick={handleClose}></allIcons.GrFormClose></p>
+                        </Modal.Header>
+                        <Modal.Body>
+                            {cartItemsArray.length > 0 ?
+                                <>
+                                    <table className="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Item Name</th>
+                                                <th scope="col">Quantity</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">options</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {cartItemsArray.map(x => (
+                                                <tr >
+                                                    <td scope="row">{x.item_name}</td>
+                                                    <td>{x.item_qty}</td>
+                                                    <td>{x.item_price}</td>
+                                                    <td>
+                                                        <p>  <FaIcons.FaTrashAlt style={{ color: 'red' }} className="mx-1" onClick={() => handleDelete(x.item_id)} /> </p>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                            {cartItemsArray &&
+                                                <tr>
+                                                    <td style={{ textAlign: 'right', color: '#06c167', fontWeight: 'bolder' }} colSpan="2"> Sub Total:<br></br>
+                                                        Tax:<br></br>
+                                                        Delivery Charges:
+                                                        <br></br>
+                                                        Total:
+                                                    </td>
+                                                    <td style={{ fontWeight: 'bolder' }}>
+                                                        ${subtotal}<br></br>
+                                                        $3.2<br></br>
+                                                        $6.99<br></br>
+                                                        ${Total}<br></br>
+                                                    </td>
+                                                    
+                                                </tr>
+                                            }
+
+                                        </tbody>
+
+                                    </table>
+
+                                    <textarea className="form-control" onChange={(e) => setSplIns(e.target.value)} placeholder="add Instructions">
+                                        
+                                    </textarea>
+
+
+                                </>
+                                :
+                                checkoutSuccess ?
+                                    <h2>Order Placed Successfully!</h2>
+                                    :
+                                    <h5>Your Cart is sad <AllIcons.ImSad /> You can make it happy by adding the items anytime.</h5>
+
+                            }
+
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <>
+                                <Button variant="dark" onClick={handleClose}>
+                                    Cancel
+                                </Button>
+                                {cartItemsArray.length > 0 &&
+                                    <Button variant="success" onClick={Checkout}>
+                                        CheckOut
+                                    </Button>
+                                }
+                            </>
+
+                        </Modal.Footer>
+                    </Modal>
+
+                </>
 
             }
         </div>

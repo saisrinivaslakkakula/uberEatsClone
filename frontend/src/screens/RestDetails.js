@@ -152,7 +152,10 @@ const RestDetails = ({ match,history }) => {
                                                             <button onClick={incrementCartQty}>+</button>
                                                         </div>
 
-
+                                                        <p>
+                
+                                                            <input type="text" className="form-control" placeholder="special Instructions here"></input>
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div className="col-3">
