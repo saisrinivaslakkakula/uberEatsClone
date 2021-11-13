@@ -112,6 +112,7 @@ const MyOrders = ({ history, location }) => {
                 </select>
                 <p className="py-4 mx-5">Orders Per Page</p>
                 <select style={{ width: '30%' }} className="form-control my-3" name="category" placeholder="Restaurant category" onChange={(e) => setOrdersPerPage(e.target.value)}>
+                <option value="2" selected> 2</option>
                     <option value="3" selected> 3</option>
                     <option value="5" > 5</option>
                     <option value="10" > 10</option>
@@ -207,6 +208,12 @@ const MyOrders = ({ history, location }) => {
                                                     <div className="row">
                                                         <p>Total: ${orderData.order_total}</p>
                                                     </div>
+                                                    {orderData.special_instructions &&
+                                                    <div className="row">
+                                                    <p>Special Instructions: ${orderData.special_instructions}</p>
+                                                </div>
+                                                    }
+                                                    
                                                 </div>
 
                                             </div>
