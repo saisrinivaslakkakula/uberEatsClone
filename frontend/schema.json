@@ -1,0 +1,473 @@
+{
+    "fields": [
+      {
+        "name": "_id",
+        "path": "_id",
+        "count": 7,
+        "types": [
+          {
+            "name": "ObjectID",
+            "bsonType": "ObjectID",
+            "path": "_id",
+            "count": 7,
+            "values": [
+              "618fecd5649b7e086faa89ba",
+              "618f2e8e922c86b79283b9c9",
+              "618f2e9b922c86b79283b9cf",
+              "618f2e83922c86b79283b9c3",
+              "618f2e74922c86b79283b9bd",
+              "618fef5c7e0744fe070e3d8c",
+              "618f2e65922c86b79283b9b7"
+            ],
+            "total_count": 0,
+            "probability": 1,
+            "unique": 7,
+            "has_duplicates": false
+          }
+        ],
+        "total_count": 7,
+        "type": "ObjectID",
+        "has_duplicates": false,
+        "probability": 1
+      },
+      {
+        "name": "__v",
+        "path": "__v",
+        "count": 7,
+        "types": [
+          {
+            "name": "Int32",
+            "bsonType": "Int32",
+            "path": "__v",
+            "count": 7,
+            "values": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "total_count": 0,
+            "probability": 1,
+            "unique": 1,
+            "has_duplicates": true
+          }
+        ],
+        "total_count": 7,
+        "type": "Int32",
+        "has_duplicates": true,
+        "probability": 1
+      },
+      {
+        "name": "createdAt",
+        "path": "createdAt",
+        "count": 7,
+        "types": [
+          {
+            "name": "Date",
+            "bsonType": "Date",
+            "path": "createdAt",
+            "count": 7,
+            "values": [
+              "2021-11-13T16:50:29.981Z",
+              "2021-11-13T03:18:38.690Z",
+              "2021-11-13T03:18:51.605Z",
+              "2021-11-13T03:18:27.422Z",
+              "2021-11-13T03:18:12.671Z",
+              "2021-11-13T17:01:16.108Z",
+              "2021-11-13T03:17:57.550Z"
+            ],
+            "total_count": 0,
+            "probability": 1,
+            "unique": 7,
+            "has_duplicates": false
+          }
+        ],
+        "total_count": 7,
+        "type": "Date",
+        "has_duplicates": false,
+        "probability": 1
+      },
+      {
+        "name": "cust_id",
+        "path": "cust_id",
+        "count": 7,
+        "types": [
+          {
+            "name": "ObjectID",
+            "bsonType": "ObjectID",
+            "path": "cust_id",
+            "count": 7,
+            "values": [
+              "618b579519bacba22bb08160",
+              "618b579519bacba22bb08160",
+              "618b579519bacba22bb08160",
+              "618b579519bacba22bb08160",
+              "618b579519bacba22bb08160",
+              "618b579519bacba22bb08160",
+              "618b579519bacba22bb08160"
+            ],
+            "total_count": 0,
+            "probability": 1,
+            "unique": 1,
+            "has_duplicates": true
+          }
+        ],
+        "total_count": 7,
+        "type": "ObjectID",
+        "has_duplicates": true,
+        "probability": 1
+      },
+      {
+        "name": "order_date",
+        "path": "order_date",
+        "count": 7,
+        "types": [
+          {
+            "name": "Date",
+            "bsonType": "Date",
+            "path": "order_date",
+            "count": 7,
+            "values": [
+              "2021-11-13T16:50:29.966Z",
+              "2021-11-13T03:18:38.688Z",
+              "2021-11-13T03:18:51.602Z",
+              "2021-11-13T03:18:27.420Z",
+              "2021-11-13T03:18:12.663Z",
+              "2021-11-13T17:01:16.096Z",
+              "2021-11-13T03:17:57.546Z"
+            ],
+            "total_count": 0,
+            "probability": 1,
+            "unique": 7,
+            "has_duplicates": false
+          }
+        ],
+        "total_count": 7,
+        "type": "Date",
+        "has_duplicates": false,
+        "probability": 1
+      },
+      {
+        "name": "order_details",
+        "path": "order_details",
+        "count": 7,
+        "types": [
+          {
+            "name": "Array",
+            "bsonType": "Array",
+            "path": "order_details",
+            "count": 7,
+            "types": [
+              {
+                "name": "Document",
+                "bsonType": "Document",
+                "path": "order_details",
+                "count": 7,
+                "fields": [
+                  {
+                    "name": "_id",
+                    "path": "order_details._id",
+                    "count": 7,
+                    "types": [
+                      {
+                        "name": "ObjectID",
+                        "bsonType": "ObjectID",
+                        "path": "order_details._id",
+                        "count": 7,
+                        "values": [
+                          "618b402ac0184d28649f3dbc",
+                          "618b402ac0184d28649f3dbc",
+                          "618b402ac0184d28649f3dbc",
+                          "618b402ac0184d28649f3dbc",
+                          "618b402ac0184d28649f3dbc",
+                          "618b402ac0184d28649f3dbc",
+                          "618b402ac0184d28649f3dbc"
+                        ],
+                        "total_count": 0,
+                        "probability": 1,
+                        "unique": 1,
+                        "has_duplicates": true
+                      }
+                    ],
+                    "total_count": 7,
+                    "type": "ObjectID",
+                    "has_duplicates": true,
+                    "probability": 1
+                  },
+                  {
+                    "name": "item_name",
+                    "path": "order_details.item_name",
+                    "count": 7,
+                    "types": [
+                      {
+                        "name": "String",
+                        "bsonType": "String",
+                        "path": "order_details.item_name",
+                        "count": 7,
+                        "values": [
+                          "Mutton Biryani",
+                          "Mutton Biryani",
+                          "Mutton Biryani",
+                          "Mutton Biryani",
+                          "Mutton Biryani",
+                          "Mutton Biryani",
+                          "Mutton Biryani"
+                        ],
+                        "total_count": 0,
+                        "probability": 1,
+                        "unique": 1,
+                        "has_duplicates": true
+                      }
+                    ],
+                    "total_count": 7,
+                    "type": "String",
+                    "has_duplicates": true,
+                    "probability": 1
+                  },
+                  {
+                    "name": "item_price",
+                    "path": "order_details.item_price",
+                    "count": 7,
+                    "types": [
+                      {
+                        "name": "Double",
+                        "bsonType": "Double",
+                        "path": "order_details.item_price",
+                        "count": 7,
+                        "values": [
+                          8.65,
+                          8.65,
+                          8.65,
+                          8.65,
+                          8.65,
+                          8.65,
+                          8.65
+                        ],
+                        "total_count": 0,
+                        "probability": 1,
+                        "unique": 1,
+                        "has_duplicates": true
+                      }
+                    ],
+                    "total_count": 7,
+                    "type": "Double",
+                    "has_duplicates": true,
+                    "probability": 1
+                  },
+                  {
+                    "name": "item_qty",
+                    "path": "order_details.item_qty",
+                    "count": 7,
+                    "types": [
+                      {
+                        "name": "Int32",
+                        "bsonType": "Int32",
+                        "path": "order_details.item_qty",
+                        "count": 7,
+                        "values": [
+                          2,
+                          6,
+                          3,
+                          5,
+                          4,
+                          4,
+                          3
+                        ],
+                        "total_count": 0,
+                        "probability": 1,
+                        "unique": 5,
+                        "has_duplicates": true
+                      }
+                    ],
+                    "total_count": 7,
+                    "type": "Int32",
+                    "has_duplicates": true,
+                    "probability": 1
+                  }
+                ],
+                "total_count": 0,
+                "probability": 1
+              }
+            ],
+            "lengths": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "total_count": 7,
+            "probability": 1,
+            "average_length": 1
+          }
+        ],
+        "total_count": 7,
+        "type": "Array",
+        "has_duplicates": false,
+        "probability": 1
+      },
+      {
+        "name": "order_status",
+        "path": "order_status",
+        "count": 7,
+        "types": [
+          {
+            "name": "String",
+            "bsonType": "String",
+            "path": "order_status",
+            "count": 7,
+            "values": [
+              "placed",
+              "placed",
+              "placed",
+              "placed",
+              "cancelled",
+              "placed",
+              "cancelled"
+            ],
+            "total_count": 0,
+            "probability": 1,
+            "unique": 2,
+            "has_duplicates": true
+          }
+        ],
+        "total_count": 7,
+        "type": "String",
+        "has_duplicates": true,
+        "probability": 1
+      },
+      {
+        "name": "order_total",
+        "path": "order_total",
+        "count": 7,
+        "types": [
+          {
+            "name": "Double",
+            "bsonType": "Double",
+            "path": "order_total",
+            "count": 7,
+            "values": [
+              27.49,
+              62.09,
+              36.14,
+              53.44,
+              44.79,
+              44.79,
+              36.14
+            ],
+            "total_count": 0,
+            "probability": 1,
+            "unique": 5,
+            "has_duplicates": true
+          }
+        ],
+        "total_count": 7,
+        "type": "Double",
+        "has_duplicates": true,
+        "probability": 1
+      },
+      {
+        "name": "rest_id",
+        "path": "rest_id",
+        "count": 7,
+        "types": [
+          {
+            "name": "ObjectID",
+            "bsonType": "ObjectID",
+            "path": "rest_id",
+            "count": 7,
+            "values": [
+              "618b32bc91067717ab2c371a",
+              "618b32bc91067717ab2c371a",
+              "618b32bc91067717ab2c371a",
+              "618b32bc91067717ab2c371a",
+              "618b32bc91067717ab2c371a",
+              "618b32bc91067717ab2c371a",
+              "618b32bc91067717ab2c371a"
+            ],
+            "total_count": 0,
+            "probability": 1,
+            "unique": 1,
+            "has_duplicates": true
+          }
+        ],
+        "total_count": 7,
+        "type": "ObjectID",
+        "has_duplicates": true,
+        "probability": 1
+      },
+      {
+        "name": "special_instructions",
+        "path": "special_instructions",
+        "count": 1,
+        "types": [
+          {
+            "name": "Undefined",
+            "type": "Undefined",
+            "path": "special_instructions",
+            "count": 6,
+            "total_count": 0,
+            "probability": 0.8571428571428571,
+            "unique": 1,
+            "has_duplicates": true
+          },
+          {
+            "name": "String",
+            "bsonType": "String",
+            "path": "special_instructions",
+            "count": 1,
+            "values": [
+              "Less Spicy"
+            ],
+            "total_count": 0,
+            "probability": 0.14285714285714285,
+            "unique": 1,
+            "has_duplicates": false
+          }
+        ],
+        "total_count": 7,
+        "type": [
+          "Undefined",
+          "String"
+        ],
+        "has_duplicates": true,
+        "probability": 0.14285714285714285
+      },
+      {
+        "name": "updatedAt",
+        "path": "updatedAt",
+        "count": 7,
+        "types": [
+          {
+            "name": "Date",
+            "bsonType": "Date",
+            "path": "updatedAt",
+            "count": 7,
+            "values": [
+              "2021-11-13T16:50:29.981Z",
+              "2021-11-13T03:18:38.690Z",
+              "2021-11-13T03:18:51.605Z",
+              "2021-11-13T03:18:27.422Z",
+              "2021-11-13T05:54:47.822Z",
+              "2021-11-13T17:01:16.108Z",
+              "2021-11-13T05:43:33.336Z"
+            ],
+            "total_count": 0,
+            "probability": 1,
+            "unique": 7,
+            "has_duplicates": false
+          }
+        ],
+        "total_count": 7,
+        "type": "Date",
+        "has_duplicates": false,
+        "probability": 1
+      }
+    ],
+    "count": 7
+  }

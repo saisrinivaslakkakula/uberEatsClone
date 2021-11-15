@@ -58,6 +58,7 @@ const Header = () => {
                                 <option value="bayArea">Bay Area</option>
                                 <option value="San Jose">San Jose</option>
                                 <option value="San Francisco"> San Francisco</option>
+                                <option value="Santa Clara"> Santa Clara</option>
                             </select>
                         </div>
                         <div className="col-md-3 header-search">
