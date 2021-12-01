@@ -23,7 +23,7 @@ const cassandraCreate = async (req, res) => {
 }
 
 const cassandraRead = async (req, res) => {
-  const {name} = req.body
+
   let cql = "SELECT * FROM sample.test "
   client.execute(cql,(err,result)=>{
     if (err){
@@ -43,4 +43,27 @@ const cassandraRead = async (req, res) => {
   
 }
 
-module.exports = {cassandraCreate,cassandraRead}
+const cassandraUpdate = async(req, res) => {
+
+  const { id, username } = req.body
+
+  let cql = "UPDATE sample.test SET name='"+username+"' WHERE _id='"+id+"' IF EXISTS";
+
+  client.execute(cql,(err,result)=>{
+    if (err){
+      res.status(500).json({
+        "message":"500 Internal Server Error",
+        "error":err
+      })
+
+    }
+    else{
+      res.status(203).json({
+        "result":result.rows
+      })
+    }
+
+  })
+}
+
+module.exports = {cassandraCreate,cassandraRead, cassandraUpdate}

@@ -13,7 +13,8 @@ app.get("/",(req,res)=>{
 })        
 app.use("/api/cassandra",cassandraRoutes)
 app.use("/api/mongo",mongoRoutes)
-app.listen(5001,console.log("Server started on prt 5000"))
+
+app.listen(5001,console.log("Server started on prt 5001"))
 
 
 
