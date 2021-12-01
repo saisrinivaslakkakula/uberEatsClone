@@ -1,9 +1,7 @@
 const client = require('../dbconfig')
 const cassandraCreate = async (req, res) => {
-  const {name} = req.body
-  let cql = "INSERT INTO sample.test (name)\
-  VALUES ('"+name+"')\
-  "
+
+  let cql = `INSERT INTO sample.user (userId, username) VALUES (uuid(), '${req.body.name}')`
   client.execute(cql,(err,result)=>{
     if (err){
       res.status(500).json({
@@ -14,7 +12,7 @@ const cassandraCreate = async (req, res) => {
     }
     else{
       res.status(200).json({
-        "result":"Success"
+        "result":"User Created Success"
       })
     }
     
@@ -24,7 +22,7 @@ const cassandraCreate = async (req, res) => {
 
 const cassandraRead = async (req, res) => {
 
-  let cql = "SELECT * FROM sample.test "
+  let cql = "SELECT * FROM sample.user "
   client.execute(cql,(err,result)=>{
     if (err){
       res.status(500).json({
@@ -45,9 +43,9 @@ const cassandraRead = async (req, res) => {
 
 const cassandraUpdate = async(req, res) => {
 
-  const { id, username } = req.body
+  const { userId, username } = req.body
 
-  let cql = "UPDATE sample.test SET name='"+username+"' WHERE _id='"+id+"' IF EXISTS";
+  let cql = `UPDATE sample.user SET username='${username}' WHERE userId=${userId} IF EXISTS`;
 
   client.execute(cql,(err,result)=>{
     if (err){
@@ -59,11 +57,34 @@ const cassandraUpdate = async(req, res) => {
     }
     else{
       res.status(203).json({
-        "result":result.rows
+        "result": "User Updated Successfully"
       })
     }
 
   })
 }
 
-module.exports = {cassandraCreate,cassandraRead, cassandraUpdate}
+const cassandraDelete = async(req, res) => {
+
+
+  let cql = `DELETE FROM sample.user WHERE userId=${req.params.id}`;
+
+  client.execute(cql,(err,result)=>{
+    if (err){
+      res.status(500).json({
+        "message":"500 Internal Server Error",
+        "error":err
+      })
+
+    }
+    else{
+      res.status(203).json({
+        "result": "User Deleted Successfully"
+      })
+    }
+
+  })
+
+}
+
+module.exports = {cassandraCreate,cassandraRead, cassandraUpdate, cassandraDelete }

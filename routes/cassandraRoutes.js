@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const {cassandraCreate,cassandraRead, cassandraUpdate} = require('../controllers/cassandraControllers')
+const {cassandraCreate,cassandraRead, cassandraUpdate, cassandraDelete} = require('../controllers/cassandraControllers')
 router.post('/create',cassandraCreate)
 router.get('/read',cassandraRead)
 router.put("/update", cassandraUpdate)
+router.delete('/delete/:id', cassandraDelete)
 //router.route('/update').put(casaandraUpdate)
 //router.route('/delete').delete(cassandraDelete)
 module.exports = router
