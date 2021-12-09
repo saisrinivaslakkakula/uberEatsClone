@@ -1,6 +1,6 @@
 import {USER_LOGIN_REQUEST,USER_LOGIN_SUCCESS,USER_LOGIN_FAIL, USER_LOGOUT, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_DETAILS_FAIL, USER_PROFILE_UPDATE_REQUEST, USER_PROFILE_UPDATE_SUCCESS, USER_PROFILE_UPDATE_FAIL, USER_ADD_FAV_REQUEST, USER_EDIT_FAV_SUCCESS, USER_EDIT_FAV_FAIL, USER_GET_FAV_REQUEST, USER_GET_FAV_SUCCESS, USER_GET_FAV_FAIL, USER_REMOVE_FAV_REQUEST} from '../constants/userConstants'
 import axios from 'axios'
-
+import {addUserQuery} from '../GraphQL/graphQLmutations'
 export const login = (email,password) => async(dispatch) =>{
     try {
         dispatch({
@@ -38,11 +38,13 @@ export const register = (firstName,lastName,email, password,phone,Street,City,St
             }
         }
         //console.log(image)
-        const {data} = await axios.post('/api/users/adduser',{firstName,lastName,email, password,phone,Street,City,State,Country,ZipCode,image},config)
-        //console.log(data)
+        const query = addUserQuery(firstName,lastName,email, password,phone,Street,City,State,Country,ZipCode,image)
+        console.log(query)
+        const {data} = await axios.post('/graphql',{query},config)
+        console.log(data.data.addUser)
          dispatch({
             type : USER_REGISTER_SUCCESS,
-            payload:data,
+            payload:data.data.addUser,
         })
         
         localStorage.setItem('userInfo',JSON.stringify(data)) 

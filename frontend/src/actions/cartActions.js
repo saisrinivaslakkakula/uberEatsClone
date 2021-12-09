@@ -1,5 +1,6 @@
 import { CART_ADD_ITEM_SUCCESS, CART_CHANGE_ITEM_FAIL, CART_CHANGE_ITEM_REQUEST, CART_CLEAR_REQUEST, CART_DELETE_ITEM_SUCCESS, PLACE_ORDER_FAIL, PLACE_ORDER_REQUEST, PLACE_ORDER_SUCCESS } from "../constants/cartConstants"
 import axios from "axios"
+import { addOrderquery } from "../GraphQL/graphQLmutations"
 export const addCartItem = (item) => async(dispatch,getState) =>{
     try {
         dispatch({
@@ -80,8 +81,10 @@ export const placeOrderAction = (dataObject) => async(dispatch,getState) =>{
             }
         }
         //console.log(dataObject)
-        const {data} = await axios.post('api/order/add',dataObject,config)
-        //console.log(data)
+        const query = addOrderquery(dataObject)
+        console.log(query)
+        const {data} = await axios.post('/api/order/add',dataObject,config)
+        console.log(data)
          dispatch({
             type : PLACE_ORDER_SUCCESS,
             payload:data,

@@ -18,6 +18,7 @@ const AdminHome = ({ history }) => {
             history.push("/business-login")
         }
         if (adminInfo && !restaurantInfo) {
+            //alert(adminInfo._id)
             dispatch(getRestaurantDetailsforAdmin(adminInfo._id))
             //restaurantInfo = adminLoginRes.restaurantInfo
         }

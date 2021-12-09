@@ -3,34 +3,7 @@ const generateToken = require('../utils/generateToken')
 const db = require('../dbCon')
 const bcrypt = require('bcryptjs')
 const User = require('../Models/userModel')
-const kafka = require('../kafka/client')
-const addUser = async (req, res) => {
-
-    /*kafka.make_request('add_user',req.body,(err,results)=>{
-        if(err)
-        {
-            res.status(500).json({
-                error:err
-            })
-
-        }
-        if(results.error){
-            
-            res.status(500).json({
-                error:results.error
-            })
-        }
-        else{
-            console.log(results)
-            res.status(201).json(
-                {
-                    results
-                }
-            )
-        }
-    })
-*/
-    
+const addUser = async (req, res) => { 
     const { firstName, lastName, email, phone, password, Street, City, State, Country, ZipCode, image } = req.body
     const userExists = await User.findOne({ email })
     if (userExists) {

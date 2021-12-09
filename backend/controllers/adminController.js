@@ -67,6 +67,7 @@ const authAdmin = async (req, res) => {
 
 const getAdminProfile = async (req, res) => {
     if (req.userAuth) {
+        console.log(req.userId)
         const admin = await Admin.findById(req.userId)
         if (admin) {
             res.json({

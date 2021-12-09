@@ -7,6 +7,7 @@ import { register } from '../actions/userActions'
 import { Modal, Button } from 'react-bootstrap'
 import ReactCrop from 'react-image-crop'
 import axios from 'axios'
+import {countryNames} from '../constants/countryNames'
 
 const SignUpScreen = ({ location, history }) => {
     const [firstName, setFirstName] = useState('')
@@ -41,9 +42,11 @@ const SignUpScreen = ({ location, history }) => {
     });
 
     const setCountries = async ()=>{
-        const countriesAPIResult = await axios.get("https://restcountries.eu/rest/v2/all")
-        const {data} = countriesAPIResult
-        setCountriesData(data)
+        //const countriesAPIResult = await axios.get("https://restcountries.eu/rest/v2/all")
+        //const countryNames = ["India","China"]
+        console.log(countryNames)
+        setCountriesData(countryNames)
+       
     }
 
     const getCroppedImg = async (e) => {

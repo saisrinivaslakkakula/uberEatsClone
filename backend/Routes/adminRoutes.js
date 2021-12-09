@@ -5,7 +5,7 @@ const {addAdmin,authAdmin,getAdminProfile,updateAdminProfile} = require('../cont
 const {updateMenuItem,deleteMenuItem}  = require('../controllers/restaurantController')
 router.post('/register',addAdmin)
 router.post('/login',authAdmin)
-router.route('/profile').get(protect,getAdminProfile).put(protect,updateAdminProfile)
+router.route('/profile').get(getAdminProfile).put(updateAdminProfile)
 router.route('/updateMenuItem').put(protect,updateMenuItem)
 router.route('/deleteMenuItem/:rest_id/:item_id').delete(protect,deleteMenuItem)
 module.exports = router

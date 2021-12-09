@@ -1,4 +1,4 @@
-export const countryNames = [ 
+ export const countryNames = [ 
     {"name": "Afghanistan", "code": "AF"}, 
     {"name": "land Islands", "code": "AX"}, 
     {"name": "Albania", "code": "AL"}, 

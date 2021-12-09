@@ -1,5 +1,7 @@
 import { REST_LOGOUT, REST_REGISTER_REQUEST, REST_REGISTER_SUCCESS, REST_REGISTER_FAIL, REST_DETAILS_REQUEST, REST_DETAILS_SUCCESS, REST_DETAILS_FAIL, REST_PROFILE_UPDATE_REQUEST, REST_PROFILE_UPDATE_SUCCESS, REST_PROFILE_UPDATE_FAIL, REST_ALL_DETAILS_REQUEST, REST_ALL_DETAILS_SUCCESS, REST_ALL_DETAILS_FAIL, REST_SEARCH_REQUEST, REST_FILTER_BY_TYPE, REST_FILTER_BY_MODE, REST_FILTER_REQUEST, REST_SEARCH_BY_LOC_REQUEST} from '../constants//restaurantConstants'
 import axios from 'axios'
+import { addRestaurantQuery } from '../GraphQL/graphQLmutations'
+import { getAllRestaurantsQuery, getARestaurantByID } from '../GraphQL/graphQLQueries'
 
 
 export const register = (rest_name, rest_type, rest_category, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode,rest_open_day_from,rest_open_day_to,rest_open_time_from,rest_open_time_to,rest_desc,rest_main_photo,checked) => async(dispatch,getState) =>{
@@ -15,18 +17,19 @@ export const register = (rest_name, rest_type, rest_category, rest_email, rest_p
                 Authorization: `Bearer ${adminInfo.token}`,
             }
         }
-        //console.log(rest_main_photo)
-        console.log(adminInfo)
         const admId= adminInfo._id
+        const query = addRestaurantQuery(rest_name, rest_type, rest_category, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode,rest_open_day_from,rest_open_day_to,rest_open_time_from,rest_open_time_to,rest_desc,rest_main_photo,admId,checked)
+        //console.log(rest_main_photo)
+        console.log(query)
+       
         console.log(adminInfo)
-        const {data} = await axios.post('/api/restaurant/add',{rest_name, rest_type, rest_category, rest_email, rest_phone, rest_street, rest_city, rest_state, rest_country, rest_zipcode,rest_open_day_from,rest_open_day_to,rest_open_time_from,rest_open_time_to,rest_desc,rest_main_photo,checked,admId},config)
-        
-        
+        const {data} = await axios.post('/graphql',{query},config)
+        console.log(data)
          dispatch({
             type : REST_REGISTER_SUCCESS,
-            payload:data,
+            payload:data.data.addRestaurant,
         })
-        localStorage.setItem('restaurantInfo',JSON.stringify(data)) 
+        localStorage.setItem('restaurantInfo',JSON.stringify(data.data.addRestaurant)) 
         
     } catch (error) {
 
@@ -78,8 +81,12 @@ export const getRestaurantDetails = (id) => async(dispatch,getState) =>{
             type:REST_DETAILS_REQUEST
         })
      
-    
+        const query = getARestaurantByID(id)
+        console.log(query)
+        //const {data} = await axios.post('/graphql',{query})
         const {data} = await axios.get(`/api/restaurant/profile/${id}`)
+        //console.log(data.data.getrestaurantByID)
+       // const {data} = await axios.get(`/api/restaurant/profile/${id}`)
         //console.log(menuData.data)
         const payloadObject = {
             ...data,
@@ -107,9 +114,10 @@ export const getAllRestaurants = () => async(dispatch,getState) =>{
         dispatch({
             type:REST_ALL_DETAILS_REQUEST
         })
-     
-        const {data} = await axios.get(`/api/restaurant/`)
-        //console.log(data)
+        const query = getAllRestaurantsQuery()
+        //const {data} = await axios.get(`/api/restaurant/`)
+        const {data} = await axios.get(`/grapgql`,query)
+        console.log(data)
          dispatch({
             type : REST_ALL_DETAILS_SUCCESS,
             payload:data,
@@ -171,7 +179,7 @@ export const getsearchRestaurantResults = (keyWord) => async(dispatch,getState) 
 
 export const filterData = (filters) => async(dispatch,getState)=>{
     const {data} = await axios.get(`/api/restaurant/`)
-        
+
          dispatch({
             type : REST_ALL_DETAILS_SUCCESS,
             payload:data,
@@ -247,8 +255,9 @@ export const getRestaurantDetailsforAdmin = (admin_id) => async(dispatch,getStat
                 'Content-Type':'application/json',
             }
         }
-        //console.log("ADMIN:"+admin_id)
+        console.log("ADMIN:"+admin_id)
         const {data} = await axios.post(`/api/restaurant/profileadm`,{admin_id},config)
+        
          dispatch({
             type : REST_DETAILS_SUCCESS,
             payload:data,

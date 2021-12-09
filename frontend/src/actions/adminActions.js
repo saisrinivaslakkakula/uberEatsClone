@@ -1,6 +1,6 @@
 import {ADMIN_LOGIN_REQUEST,ADMIN_LOGIN_SUCCESS,ADMIN_LOGIN_FAIL, ADMIN_LOGOUT, ADMIN_REGISTER_REQUEST, ADMIN_REGISTER_SUCCESS, ADMIN_REGISTER_FAIL, ADMIN_DETAILS_REQUEST, ADMIN_DETAILS_SUCCESS, ADMIN_DETAILS_FAIL, ADMIN_PROFILE_UPDATE_REQUEST, ADMIN_PROFILE_UPDATE_SUCCESS, ADMIN_PROFILE_UPDATE_FAIL, ADMIN_GET_ALL_ORDER_DETAILS_REQUEST, ADMIN_GET_ALL_ORDER_DETAILS_SUCCESS, ADMIN_CHANGE_ORDER_STATUS_REQUEST, ADMIN_CHANGE_ORDER_STATUS_SUCCESS, ADMIN_CHANGE_ORDER_STATUS_FAIL} from '../constants/adminConstants'
 import axios from 'axios'
-
+import {addAdminQuery,updateOrderQuery} from '../GraphQL/graphQLmutations'
 export const login = (email,password) => async(dispatch) =>{
     try {
         console.log(email)
@@ -12,6 +12,7 @@ export const login = (email,password) => async(dispatch) =>{
                 'Content-Type':'application/json'
             }
         }
+        
         const {data} = await axios.post('/api/admin/login',{email,password},config)
         console.log(data)
          dispatch({
@@ -38,14 +39,16 @@ export const register = (firstName,lastName,email, password,phone,image) => asyn
                 'Content-Type':'application/json'
             }
         }
-        const {data} = await axios.post('/api/admin/register',{firstName,lastName,email, password,phone,image},config)
-        //console.log(data)
+        const query = addAdminQuery(firstName,lastName,email, password,phone,image)
+        console.log(query)
+        const {data} = await axios.post('/graphql',{query},config)
+        console.log(data.data.addAdmin)
          dispatch({
             type : ADMIN_REGISTER_SUCCESS,
-            payload:data,
+            payload:data.data.addAdmin,
         })
         
-        localStorage.setItem('adminInfo',JSON.stringify(data)) 
+        localStorage.setItem('adminInfo',JSON.stringify(data.data.addAdmin)) 
         
     } catch (error) {
 
@@ -134,7 +137,10 @@ export const adminEditOrderStatusAction = (id,rest_id,status) => async(dispatch,
                 Authorization: `Bearer ${adminInfo.token}`,
             }
         }
-        const {data} = await axios.put(`/api/order/changeOrderStatus/${id}/${status}`,config)
+        //const {data} = await axios.put(`/api/order/changeOrderStatus/${id}/${status}`,config)
+        const query = updateOrderQuery(id,status)
+        console.log(query)
+        const {data} = await axios.post('/graphql',{query},config)
         console.log(data)
          dispatch({
             type : ADMIN_CHANGE_ORDER_STATUS_SUCCESS,

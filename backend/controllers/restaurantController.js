@@ -138,8 +138,9 @@ const getRestaurantProfile = async (req, res) => {
 
 const getRestaurantProfileforAdmin = async (req, res) => {
 
-    const admin_id = req.params.id
-    const restProfile = await Restaurant.findOne({ admin_id: admin_id })
+    const admin_id = req.body.admin_id
+    console.log(admin_id)
+    const restProfile = await Restaurant.findOne({ adminId: admin_id })
     if (restProfile) {
         res.send(restProfile)
     }

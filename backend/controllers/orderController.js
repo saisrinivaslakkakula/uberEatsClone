@@ -7,7 +7,8 @@ const addOrder = async (req, res) => {
     //console.log("********")
     console.log(items_array)
     /* Delete this if fails ****/
-    if (!req.userAuth) {
+    req = true
+    if (!req) {
         res.status(404).json({
             message: " Not Authorized"
         })
