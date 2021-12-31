@@ -80,4 +80,4 @@ user data as favorites as a field in the user document.
 - User and restaurant address is simplified by adding main field as address and the
 document is subdivided into street, city, state etc.
 
-**credits** : *https://github.com/developer-junaid/Uber-Eats-Clone*
+**CSS credits** : *https://github.com/developer-junaid/Uber-Eats-Clone*
