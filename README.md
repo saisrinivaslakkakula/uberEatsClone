@@ -4,11 +4,12 @@ YouTube Link: https://www.youtube.com/watch?v=bb_aR_WvkOA
 GitHub Repo: https://github.com/saisrinivaslakkakula/uberEatsClone/tree/lab2-kafka
 
 ## Introduction:
-The purpose of the Lab is to design the system of online restaurant order management system
-(OMS). The order management system chosen for this lab is one of the famous food delivery
-applications called Uber Eats. The end goal of the Lab is to design the OMS system with 75% of
+The purpose of this project is to design the system of online restaurant order management system
+(OMS). The order management system chosen for this project is one of the famous food delivery
+applications called **Uber Eats**. The end goal of the project is to design the OMS system with 75% of
 estimated replica functionality of original application.
-System Design:
+
+## System Design:
 ## Persona:
 In the OMS System, there are 2 personae.
 1. User – Who places the order
@@ -79,3 +80,4 @@ user data as favorites as a field in the user document.
 - User and restaurant address is simplified by adding main field as address and the
 document is subdivided into street, city, state etc.
 
+**credits** : *https://github.com/developer-junaid/Uber-Eats-Clone*
