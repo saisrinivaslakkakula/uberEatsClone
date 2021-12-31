@@ -1,13 +1,8 @@
 # uberEatsClone
-Uber Eats Clone
- PDF To Markdown Converter
-Debug View
-Result View
-CMPE 273 – Lab 2 Report
-Sai Srinivas Lakkakula
 YouTube Link: https://www.youtube.com/watch?v=bb_aR_WvkOA
 GitHub Repo: https://github.com/saisrinivaslakkakula/uberEatsClone/tree/lab2-kafka
-Introduction:
+
+## Introduction:
 The purpose of the Lab is to design the system of online restaurant order management system
 (OMS). The order management system chosen for this lab is one of the famous food delivery
 applications called Uber Eats. The end goal of the Lab is to design the OMS system with 75% of
