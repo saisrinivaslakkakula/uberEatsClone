@@ -3,7 +3,7 @@ const generateToken = require('../utils/generateToken')
 const db = require('../dbCon')
 const bcrypt = require('bcryptjs')
 const User = require('../Models/userModel')
-const kafka = require('../kafka/client')
+//const kafka = require('../kafka/client')
 const addUser = async (req, res) => {
 
     /*kafka.make_request('add_user',req.body,(err,results)=>{

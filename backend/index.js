@@ -21,6 +21,23 @@ app.use(passport.initialize())
 //passport config
 require('./config/passport')(passport)
 
+
+if(process.env.ENV === 'production'){
+    //console.log(__dirname+"/frontend/build")
+    console.log("sqweq")
+    app.use(express.static(path.resolve(__dirname,'../','frontend','build')))
+    app.get('*',(req,res)=>{
+        console.log("sdasd")
+        res.sendFile(path.resolve(__dirname,'../','frontend','build','index.html'))
+    })
+}
+else{
+    console.log("sdasds")
+    app.get('/',(req,res)=>{
+       
+        res.send("API Running...")
+    })
+}
 //
 app.use('/api/users',userRoutes)
 app.use('/api/upload',uploadRoutes)
@@ -33,8 +50,6 @@ app.use(errorHandler)
 
 
 
-app.get('/',(req,res)=>{
-    res.send("API Running...")
-})
+
 
 app.listen(5001,console.log("Server Started on port 5001"))
