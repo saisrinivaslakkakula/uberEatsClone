@@ -1,0 +1,18 @@
+Index: frontend/src/App.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import Header from \"./components/Header\";\nimport Footer from \"./components/Footer\";\nimport {BrowserRouter as Router, Switch,Route} from 'react-router-dom'\nimport HomeScreen from \"./screens/HomeScreen\";\nimport LoginScreen from \"./screens/LoginScreen\";\nimport SignUpScreen from \"./screens/SignUpScreen\";\nimport AdminHome from \"./screens/adminHome\";\nimport Profile from \"./screens/Profile\";\nimport BusinessSignUp from \"./screens/BusinessSignUp\";\nimport ManageRestaurant from \"./screens/manageRestaurant\";\nimport AdminLogin from \"./screens/adminLogin\";\nimport AddBusiness from \"./screens/AddBusiness\";\nimport ManageMenu from \"./screens/ManageMenu\";\nimport AddMenuItem from \"./screens/AddMenuItem\";\nimport EditMenuItem from \"./screens/EditMenuItem\";\nimport RestDetails from \"./screens/RestDetails\";\nimport Cart from \"./screens/Cart\";\nimport MyOrders from \"./screens/MyOrders\";\nimport PrevoiuosOrdersForAdmin from \"./screens/PrevoiuosOrdersForAdmin\";\nimport MyFavourites from \"./screens/MyFavourites\";\nfunction App() {\n  return (\n    <div className=\"App\">\n      <Router>\n      <Header/>\n       <div className=\"container-fluid\">\n          <Route path='/' component={HomeScreen} exact/>\n          <Route path='/login' component={LoginScreen}/>\n          <Route path='/business-signup' component={BusinessSignUp}/>\n          <Route path='/business-login' component={AdminLogin}/>\n          <Route path='/addBusiness' component={AddBusiness}/>\n          <Route path='/adminHome' component={AdminHome}/>\n          <Route path='/manageRestaurant' component={ManageRestaurant}/>\n          <Route path='/signup' component={SignUpScreen}/>\n          <Route path='/profile' component={Profile}/>\n          <Route path='/manageMenu' component={ManageMenu}/>\n          <Route path='/addMenuItem' component={AddMenuItem}/>\n          <Route path='/editMenuItem/:rest_id/:item_id' component={EditMenuItem}/>\n          <Route path='/restDetails/:id' component={RestDetails}/>\n          <Route path='/cart' component={Cart}/>\n          <Route path='/myOrders' component={MyOrders}/>\n          <Route path='/myFavourites' component={MyFavourites}/>\n          <Route path='/previousOrders' component={PrevoiuosOrdersForAdmin}/>\n          \n       </div> \n      <Footer/>\n      </Router>\n    </div>\n  );\n}\n\nexport default App;\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/App.js b/frontend/src/App.js
+--- a/frontend/src/App.js	(revision db3893e3b7bdfa61238dad1c91cff6790524cec4)
++++ b/frontend/src/App.js	(date 1652840811000)
+@@ -18,6 +18,7 @@
+ import MyOrders from "./screens/MyOrders";
+ import PrevoiuosOrdersForAdmin from "./screens/PrevoiuosOrdersForAdmin";
+ import MyFavourites from "./screens/MyFavourites";
++// for push
+ function App() {
+   return (
+     <div className="App">
