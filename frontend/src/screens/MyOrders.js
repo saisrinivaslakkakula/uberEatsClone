@@ -30,7 +30,7 @@ const MyOrders = ({ history, location }) => {
     }, [history, userInfo, redirect])
 
     const showModal = async (x) => {
-        const config = {
+       /* const config = {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${userInfo.token}`,
@@ -49,9 +49,10 @@ const MyOrders = ({ history, location }) => {
             order_details: orderDetails.result
 
         }
-        //console.log(dataObj)
-        setOrderData(dataObj)
-        console.log(orderData)
+        //console.log(dataObj)*/
+        console.log(x)
+        setOrderData(x)
+        
         setModalShow(true)
     }
 
@@ -68,6 +69,7 @@ const MyOrders = ({ history, location }) => {
                 }
             }
             const { data } = await axios.get(`/api/order/getOrderByCustomer/${cust_id}`, config)
+            console.log(data)
             setMyOrders(data.result)
         }
 
@@ -96,7 +98,7 @@ const MyOrders = ({ history, location }) => {
                         <>
                             <div className="row">
                                 <div className="col-md-3" style={{ textTransform: 'capitalize' }}>
-                                    {allRestaurants && allRestaurants.result.find(y => y.rest_id === x.rest_id) && allRestaurants.result.find(y => y.rest_id === x.rest_id).rest_name}
+                                    {allRestaurants && allRestaurants.result.find(y => y._id === x._id) && allRestaurants.result.find(y => y._id === x._id).rest_name}
                                 </div>
                                 <div className="col-md-3">
                                     {x.order_date.substring(0, 10)}
@@ -127,7 +129,7 @@ const MyOrders = ({ history, location }) => {
                                             <div className="row menuItemModal">
                                                 <div className="col-7">
                                                     <div className="row">
-                                                        {orderData.order_details.map(x => <p>{x.item_name}  ({x.item_quantity})</p>)}
+                                                        {orderData.order_details.map(x => <p>{x.item_name}  ({x.item_qty})</p>)}
                                                     </div>
                                                     <hr></hr>
                                                     <div className="row">

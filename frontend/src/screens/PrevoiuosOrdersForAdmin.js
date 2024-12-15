@@ -38,7 +38,7 @@ const PrevoiuosOrdersForAdmin = ({ history }) => {
             const restDetails = localStorage.getItem('restaurantInfo')
             const restDetailsJson = JSON.parse(restDetails)
             setRestID(restDetailsJson.rest_id)
-            dispatch(getAdminOrderDetailsAction(restDetailsJson.rest_id))
+            dispatch(getAdminOrderDetailsAction(restDetailsJson._id))
         }
 
         //dispatch(getMenuDetails(rest_id))
@@ -85,7 +85,7 @@ const PrevoiuosOrdersForAdmin = ({ history }) => {
                             (
                                 adminOrdersRes.result.map(x => (
                                     <tr >
-                                        <td >{x.order_id}</td>
+                                        <td >{x._id}</td>
 
                                         <td>{x.order_date.substring(0, 10)}</td>
                                         <td>{x.order_total}</td>
@@ -114,7 +114,7 @@ const PrevoiuosOrdersForAdmin = ({ history }) => {
                                                         </select>
                                                     </div>
                                                     <div className="col-4 py-3">
-                                                        <button className="btn btn-dark" onClick={() => submitChangeRequest(x.order_id)}> Change</button>
+                                                        <button className="btn btn-dark" onClick={() => submitChangeRequest(x._id)}> Change</button>
                                                     </div>
                                                 </div>
 
@@ -122,7 +122,7 @@ const PrevoiuosOrdersForAdmin = ({ history }) => {
 
                                             :
                                             <td >
-                                                <button className="btn btn-success" onClick={() => changeStatus(x.order_id)}> Change</button>
+                                                <button className="btn btn-success" onClick={() => changeStatus(x._id)}> Change</button>
                                             </td>
                                         }
 

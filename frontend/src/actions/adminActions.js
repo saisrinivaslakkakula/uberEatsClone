@@ -121,6 +121,7 @@ export const getAdminOrderDetailsAction = (id) => async(dispatch,getState) =>{
 
 export const adminEditOrderStatusAction = (id,rest_id,status) => async(dispatch,getState) =>{
     try {
+        console.log(id+"|"+rest_id+"|"+status)
         dispatch({
             type:ADMIN_CHANGE_ORDER_STATUS_REQUEST
         })

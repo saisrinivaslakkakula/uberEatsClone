@@ -11,6 +11,6 @@ router.get('/profile/:id',getRestaurantProfile)
 router.get('/:id',getRestaurantsByLocation)
 router.post('/profileadm',getRestaurantProfileforAdmin)
 router.get('/menu/:id',getMenuByRestaurant)
-router.get('/menuItem/:id',getItemDetails)
+router.get('/menuItem/:rest_id/:item_id',getItemDetails)
 router.get('/',getAllRestaurants)
 module.exports = router

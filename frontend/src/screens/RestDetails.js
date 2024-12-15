@@ -106,7 +106,7 @@ const RestDetails = ({ match,history }) => {
                     <div className="row">
                        
                         {
-                            restaurantDetailsObject.menu.map(
+                            restaurantDetailsObject.rest_menu.map(
                                 x => <div className="col-md-4 my-2">
                                     <div className="menuItemCard" onClick={() => handleClick(x)}>
                                         <div className="row">

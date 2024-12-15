@@ -28,7 +28,7 @@ const EditMenuItem = ({ history, match,location }) => {
         }
         if (!menuItemDetails){
             
-            dispatch(getMenuItemByItemID(encodeURI(match.params.id)))
+            dispatch(getMenuItemByItemID(match.params.rest_id,match.params.item_id))
             
         }
             
@@ -49,7 +49,7 @@ const EditMenuItem = ({ history, match,location }) => {
     const submitHandler= (e)=>{
         //
         e.preventDefault()
-        dispatch(updateItem(match.params.id,itemName,itemPrice,itemCategory,itemType,image,itemDesc))
+        dispatch(updateItem(match.params.rest_id,match.params.item_id,itemName,itemPrice,itemCategory,itemType,image,itemDesc))
     }
     return (
         <div className="container update-profile">

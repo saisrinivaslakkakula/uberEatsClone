@@ -11,29 +11,45 @@ const adminRoutes = require('./Routes/adminRoutes')
 const restaurantRoutes = require('./Routes/restaurantRoutes')
 const orderRoutes = require('./Routes/orderRoutes')
 const {notFound,errorHandler} = require('./middleware/errorHandlerMiddleware')
+const passport = require('passport')
 
 dotenv.config()
-db.connect((err)=>{
-    if(err){
-        console.error(err.stack)
-        return
-    }
-    console.log("Connected To DB "+db.threadId)
-})
+db()
+//passport middleware
+
+app.use(passport.initialize())
+//passport config
+require('./config/passport')(passport)
+
+
+if(process.env.ENV === 'production'){
+    //console.log(__dirname+"/frontend/build")
+    console.log("sqweq")
+    app.use(express.static(path.resolve(__dirname,'../','frontend','build')))
+    app.get('*',(req,res)=>{
+        console.log("sdasd")
+        res.sendFile(path.resolve(__dirname,'../','frontend','build','index.html'))
+    })
+}
+else{
+    console.log("sdasds")
+    app.get('/',(req,res)=>{
+       
+        res.send("API Running...")
+    })
+}
+//
 app.use('/api/users',userRoutes)
 app.use('/api/upload',uploadRoutes)
 app.use('/api/admin',adminRoutes)
 app.use('/api/restaurant',restaurantRoutes)
 app.use('/api/order',orderRoutes)
 app.use('/uploads',express.static(path.join(__dirname,'../','/uploads')))
-
 app.use(notFound)
 app.use(errorHandler)
 
 
 
-app.get('/',(req,res)=>{
-    res.send("API Running...")
-})
 
-app.listen(5000,console.log("Server Started on port 5000"))
+
+app.listen(5001,console.log("Server Started on port 5001"))

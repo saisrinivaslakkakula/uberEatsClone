@@ -7,5 +7,5 @@ router.post('/register',addAdmin)
 router.post('/login',authAdmin)
 router.route('/profile').get(protect,getAdminProfile).put(protect,updateAdminProfile)
 router.route('/updateMenuItem').put(protect,updateMenuItem)
-router.route('/deleteMenuItem/:id/').delete(protect,deleteMenuItem)
+router.route('/deleteMenuItem/:rest_id/:item_id').delete(protect,deleteMenuItem)
 module.exports = router
